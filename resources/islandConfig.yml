@@ -1,0 +1,33 @@
+start_chest_content:
+  - "264:0"
+  - "265:0"
+  - "266:0"
+
+pvp: false
+visitor_limit: 3
+visitor_build: false
+visitor_destroy: false
+jump_break_plants: false
+
+tiers:
+  1:
+    name: "Tier I"
+    breakToUp: 100
+    blocks:
+      - "1:0:50"
+      - "3:0:40"
+      - "5:0:10"
+  2:
+    name: "Tier II"
+    breakToUp: 200
+    blocks:
+      - "1:0:50"
+      - "3:0:40"
+      - "5:0:10"
+  3:
+    name: "Tier IIi"
+    breakToUp: 300
+    blocks:
+      - "1:0:50"
+      - "3:0:40"
+      - "5:0:10"
