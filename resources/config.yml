@@ -1,0 +1,20 @@
+commands:
+  create: ""
+  go: ""
+  member: ""
+  info: ""
+  delete: ""
+  invite: ""
+  accept: ""
+  deny: ""
+  top: ""
+  help: ""
+  leave: "Permet de quitter l'île si on est pas le fondateur de l'île"
+  promote: "Permet de monter en grade un membre de son île"
+  kick: "Permet de kick un joueur de l'île"
+  visit: "Permet de visiter l'ile d'un joueur"
+  setspawn: "Permet de definir de le point de spawn de l'île"
+
+messages:
+  help-top: "§a---- Liste des commandes ----"
+  help-line: "§a/{COMMAND}: §f{DESCRIPTION}"
