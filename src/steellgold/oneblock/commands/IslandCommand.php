@@ -4,32 +4,54 @@ namespace steellgold\oneblock\commands;
 
 use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
+use steellgold\oneblock\commands\subs\IslandAcceptCommand;
+use steellgold\oneblock\commands\subs\IslandCreateCommand;
+use steellgold\oneblock\commands\subs\IslandDeleteCommand;
+use steellgold\oneblock\commands\subs\IslandDenyCommand;
+use steellgold\oneblock\commands\subs\IslandGoCommand;
+use steellgold\oneblock\commands\subs\IslandHelpCommand;
+use steellgold\oneblock\commands\subs\IslandInfoCommand;
+use steellgold\oneblock\commands\subs\IslandInviteCommand;
+use steellgold\oneblock\commands\subs\IslandKickCommand;
+use steellgold\oneblock\commands\subs\IslandLeaveCommand;
+use steellgold\oneblock\commands\subs\IslandMemberCommand;
+use steellgold\oneblock\commands\subs\IslandPromoteCommand;
+use steellgold\oneblock\commands\subs\IslandSetSpawnCommand;
+use steellgold\oneblock\commands\subs\IslandTopCommand;
+use steellgold\oneblock\commands\subs\IslandVisitCommand;
+use steellgold\oneblock\One;
+use steellgold\oneblock\provider\Text;
 
 class IslandCommand extends BaseCommand {
 
 	protected function prepare(): void {
-		$this->registerSubCommand(new IslandCreateCommand());
-		$this->registerSubCommand(new IslandGoCommand());
-		$this->registerSubCommand(new IslandMemberCommand());
-		$this->registerSubCommand(new IslandInfoCommand());
-		$this->registerSubCommand(new IslandDeleteCommand());
-		$this->registerSubCommand(new IslandInviteCommand());
-		$this->registerSubCommand(new IslandAcceptCommand());
-		$this->registerSubCommand(new IslandDenyCommand());
-		$this->registerSubCommand(new IslandTopCommand());
-		$this->registerSubCommand(new IslandHelpCommand());
-		$this->registerSubCommand(new IslandLeaveCommand());
-		$this->registerSubCommand(new IslandPromoteCommand());
-		$this->registerSubCommand(new IslandKickCommand());
-		$this->registerSubCommand(new IslandVisitCommand());
-		$this->registerSubCommand(new IslandSetSpawnCommand());
+		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create")));
+		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"),["join"]));
+		$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member")));
+		$this->registerSubCommand(new IslandInfoCommand("info", Text::getCommandDescription("info")));
+		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete")));
+		$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
+		$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
+		$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
+		$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top")));
+		$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help")));
+		$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave")));
+		$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote")));
+		$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick")));
+		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit")));
+		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn")));
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		$sender->sendMessage(self::getHelp());
 	}
 
-	public static function getHelp(){
-		return "";
+	public static function getHelp() : string {
+		$line = "";
+		$line .= Text::getMessage("help-top");
+		foreach ((new IslandCommand(One::getInstance(),"island"))->getSubCommands() as $subCommand) {
+			$line .= "\n".str_replace(["{COMMAND}","{DESCRIPTION}"],[$subCommand->getName(),$subCommand->getDescription()],Text::getMessage("help-line"));
+		}
+		return $line;
 	}
 }
