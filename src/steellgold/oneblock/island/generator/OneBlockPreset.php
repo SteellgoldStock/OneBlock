@@ -20,13 +20,12 @@ class OneBlockPreset extends IslandGenerator {
 
 	public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void {
 		if ($chunkX == 0 >> 4 and $chunkZ == -1 >> 4) {
-			$world->setBlockAt(0, 40, 0, VanillaBlocks::BEDROCK());
+			$world->setBlockAt(0, 40, 0, VanillaBlocks::CHEST());
 		}
 	}
 
 	public function populateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void {
 		if ($chunkX == 0 >> 4 and $chunkZ == -1 >> 4) {
-			$world->setBlockAt(0, 40, 0, VanillaBlocks::CHEST());
 			$block = $world->getBlockAt(0, 40, 0);
 			/** @var Chest $block */
 			foreach (SingleOne::getInstance()->getIslandConfig()->get("start_chest_content") as $item) {
