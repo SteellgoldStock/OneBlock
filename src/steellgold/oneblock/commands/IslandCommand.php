@@ -24,22 +24,27 @@ use steellgold\oneblock\provider\Text;
 
 class IslandCommand extends BaseCommand {
 
+	const HULK = false;
+
 	protected function prepare(): void {
-		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create")));
-		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"),["join"]));
-		$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member")));
-		$this->registerSubCommand(new IslandInfoCommand("info", Text::getCommandDescription("info")));
-		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete")));
-		$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
-		$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
-		$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
-		$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top")));
-		$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help")));
-		$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave")));
-		$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote")));
-		$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick")));
-		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit")));
-		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn")));
+		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create"))); # OK
+
+		if(self::HULK){
+			$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"),["join"]));
+			$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member")));
+			$this->registerSubCommand(new IslandInfoCommand("info", Text::getCommandDescription("info")));
+			$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete")));
+			$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
+			$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
+			$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
+			$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top")));
+			$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help")));
+			$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave")));
+			$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote")));
+			$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick")));
+			$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit")));
+			$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn")));
+		}
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {

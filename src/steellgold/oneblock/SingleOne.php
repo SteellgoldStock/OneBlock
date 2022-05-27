@@ -13,7 +13,7 @@ class SingleOne {
 
 	public function __construct() {
 		self::setInstance($this);
-		$this->config = new Config(Path::join(getcwd(), "plugin_data", "OneBlock", "islandConfig.yml"), Config::YAML);
+		$this->config = new Config(Path::join(getcwd(), "plugin_data", "OneBlock", "island.yml"), Config::YAML);
 	}
 
 	public function getIslandConfig() : Config {

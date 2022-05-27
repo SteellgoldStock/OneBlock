@@ -3,9 +3,15 @@
 namespace steellgold\oneblock\listeners;
 
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 
 class IslandListener implements Listener {
+
+	public function onJoin(PlayerJoinEvent $event){
+		
+	}
+
 	public function onMove(PlayerMoveEvent $event){
 		$player = $event->getPlayer();
 

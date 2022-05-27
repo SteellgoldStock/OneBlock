@@ -20,6 +20,9 @@ class One extends PluginBase {
 	/** @var Island[] $islands */
 	public array $islands = [];
 
+	/** @var array */
+	public array $sessions = [];
+
 	/**
 	 * @var One
 	 */
@@ -33,7 +36,7 @@ class One extends PluginBase {
 		if (!file_exists($this->getDataFolder() . "config.yml")) {
 			if(!is_dir($this->getDataFolder() . "islands")) mkdir($this->getDataFolder() . "islands");
 			$this->saveResource("config.yml",true);
-			$this->saveResource("islandConfig.yml",true);
+			$this->saveResource("island.yml",true);
 		}
 		$this->islandConfig = new Config($this->getDataFolder() . "islandConfig.yml", Config::YAML);
 
@@ -52,7 +55,7 @@ class One extends PluginBase {
 	}
 
 	public function getIslandConfig(): Config {
-		if (!$this->islandConfig) $this->islandConfig = new Config($this->getDataFolder() . "islandConfig.yml", Config::YAML);
+		if (!$this->islandConfig) $this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
 		return $this->islandConfig;
 	}
 

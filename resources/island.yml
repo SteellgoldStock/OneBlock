@@ -3,13 +3,26 @@ start_inventory:
   - "265:0:64"
   - "266:0"
 
-pvp: false
+# Join automatically at player island (if have an island) after joining the server
+auto_island: true
+
+# New members island settings
+clear_inventory_on_join: false
+clear_enderchest_on_join: false
+clear_xp_on_join: false
+give_start_inventory: false
+
+# Visitor settings
 visitor_limit: 3
 visitor_build: false
 visitor_destroy: false
-jump_break_plants: false
-clear_inventory_on_delete_island: true
 
+# Farming settings
+jump_break_plants: false
+
+# Island settings
+pvp: false
+clear_inventory_on_delete_island: true
 spawn:
   x: 0
   y: 40
