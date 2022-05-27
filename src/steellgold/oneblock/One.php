@@ -11,17 +11,14 @@ use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\instances\Tier;
 use steellgold\oneblock\island\generator\OneBlockPreset;
 use steellgold\oneblock\listeners\IslandListener;
+use steellgold\oneblock\provider\Manager;
 use steellgold\oneblock\provider\Text;
 
 class One extends PluginBase {
 
 	public array $tiers = [];
 
-	/** @var Island[] $islands */
-	public array $islands = [];
-
-	/** @var array */
-	public array $sessions = [];
+	public Manager $manager;
 
 	/**
 	 * @var One
@@ -30,15 +27,19 @@ class One extends PluginBase {
 
 	public Config $islandConfig;
 
-	protected function onEnable(): void {
-		self::$instance = $this;
-
+	protected function onLoad(): void {
 		if (!file_exists($this->getDataFolder() . "config.yml")) {
 			if(!is_dir($this->getDataFolder() . "islands")) mkdir($this->getDataFolder() . "islands");
 			$this->saveResource("config.yml",true);
 			$this->saveResource("island.yml",true);
 		}
-		$this->islandConfig = new Config($this->getDataFolder() . "islandConfig.yml", Config::YAML);
+
+		self::$instance = $this;
+		$this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
+	}
+
+	protected function onEnable(): void {
+		$this->manager = new Manager();
 
 		if(!PacketHooker::isRegistered()) {
 			PacketHooker::register($this);
@@ -54,9 +55,19 @@ class One extends PluginBase {
 		$this->getServer()->getPluginManager()->registerEvents(new IslandListener(), $this);
 	}
 
+	protected function onDisable(): void {
+		foreach ($this->manager->getSessions() as $session){
+			$session->closeSession();
+		}
+	}
+
 	public function getIslandConfig(): Config {
 		if (!$this->islandConfig) $this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
 		return $this->islandConfig;
+	}
+
+	public function getManager(): Manager {
+		return $this->manager;
 	}
 
 	/**

@@ -25,6 +25,7 @@ messages:
   island_deleted: "Votre île viens d'être supprimée avec succès"
   island_teleported: "Vous avez été téléporté à votre île"
   already_in_island: "Vous êtes déjà dans une île, veuillez la quité ou la supprimer avant de créer une nouvelle"
+  dont_have_island: "Vous n'avez pas d'île, veuillez en créer une, ou rejoindre celle d'un autre joueur à l'aide d'une invitation"
   island_doesnt_exist: "L'île §f{ISLAND} §an'existe pas"
 
   help-top: "§a---- Liste des commandes ----"

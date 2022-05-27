@@ -19,12 +19,12 @@ class Tier {
 
 	}
 
-	public static function fromStdClass(mixed $json_decode) : Tier {
+	public static function fromArray(array $array) : Tier {
 		return new Tier(
-			$json_decode->id,
-			$json_decode->name,
-			$json_decode->breakToUp,
-			$json_decode->blocks
+			$array["id"],
+			$array["name"],
+			$array["breakToUp"],
+			$array["blocks"]
 		);
 	}
 

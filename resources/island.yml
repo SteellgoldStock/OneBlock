@@ -28,6 +28,25 @@ spawn:
   y: 40
   z: 0
 
+# Available permissions:
+# break, place, chest_open
+# chest_interact, invite, promote
+# kick, setspawn, delete
+# lock, unlock
+ranks:
+  visitor:
+    name: "Visiteur"
+    permissions: []
+  member:
+    name: "Membre"
+    permissions: ["break", "place", "chest_open", "chest_interact"]
+  officer:
+    name: "Sous-chef"
+    permissions: ["invite", "setspawn", "kick", "promote", "lock", "unlock"]
+  leader:
+    name: "Chef"
+    permissions: "*"
+
 tiers:
   1:
     name: "Tier I"

@@ -6,25 +6,28 @@ use JsonException;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
 use pocketmine\world\Position;
+use pocketmine\world\World;
 use steellgold\oneblock\One;
+use steellgold\oneblock\utils\RankIds;
 
 class Island {
 
 	/**
 	 * @param string $id
-	 * @param Player $owner
+	 * @param string $owner
 	 * @param Player[] $members
-	 * @param Position $spawn
+	 * @param array $spawn
 	 * @param Tier $tier
 	 * @param bool $isPublic
+	 * @throws JsonException
 	 */
 	public function __construct(
-		public string   $id,
-		public Player   $owner,
-		public array    $members,
-		public Position $spawn,
-		public Tier     $tier,
-		public bool     $isPublic
+		public string $id,
+		public string $owner,
+		public array  $members,
+		public array  $spawn,
+		public Tier   $tier,
+		public bool   $isPublic
 	) {
 		$this->init();
 	}
@@ -35,34 +38,25 @@ class Island {
 	public function init(): void {
 		if (!file_exists(One::getInstance()->getDataFolder() . "islands/" . $this->id . ".json")) {
 			$island = new Config(One::getInstance()->getDataFolder() . "islands/" . $this->id . ".json", Config::JSON);
-			$island->set("owner", $this->owner->getName());
-			$island->set("members", json_encode($this->members));
-			$island->set("spawn", json_encode($this->spawn));
-			$island->set("tier", json_encode($this->tier));
+			$island->set("owner", $this->owner);
+			$island->set("members", $this->members);
+			$island->set("spawn", $this->spawn);
+			$island->set("tier", $this->tier);
 			$island->set("isPublic", $this->isPublic);
 			$island->save();
 			return;
 		}
 	}
 
-	public static function fromStdClass(\stdClass $class): Island {
-		return new Island(
-			$class->id,
-			One::getInstance()->getServer()->getPlayerExact($class->owner),
-			array_map(function(string $playerName){
-				return $playerName;
-			}, json_decode($class->members)),
-			Position::fromObject(json_decode($class->spawn), One::getInstance()->getServer()->getWorldManager()->getWorldByName($class->spawn->levelName)),
-			Tier::fromStdClass(json_decode($class->tier)),
-			$class->isPublic
-		);
+	public function getRankById(int $id) {
+		return One::getInstance()->getManager()->ranks[$id];
 	}
 
 	public function getId(): string {
 		return $this->id;
 	}
 
-	public function getOwner(): Player {
+	public function getOwner(): string {
 		return $this->owner;
 	}
 
@@ -70,19 +64,26 @@ class Island {
 		return $this->members;
 	}
 
+	public function getRank(string $player): Rank {
+		return $this->getRankById($this->members[$player] ?? 0);
+	}
+
 	public function setMembers(array $members): void {
 		$this->members = $members;
 	}
 
-	public function getSpawn(): Position {
-		return $this->spawn;
+	public function getSpawn(bool $high = false): Position {
+		return new Position($this->spawn["X"], $high ? $this->spawn["Y"] + 100 : $this->spawn["Y"], $this->spawn["Z"], $this->getWorld());
 	}
 
-	public function getHighSpawn(): Position {
-		return new Position($this->spawn->x, $this->spawn->y + 100, $this->spawn->z, $this->spawn->world);
+	public function getWorld(): World {
+		$wm = One::getInstance()->getServer()->getWorldManager();
+
+		if(!$wm->isWorldLoaded($this->id)) $wm->loadWorld($this->id);
+		return One::getInstance()->getServer()->getWorldManager()->getWorldByName($this->id);
 	}
 
-	public function setSpawn(Position $spawn): void {
+	public function setSpawn(array $spawn): void {
 		$this->spawn = $spawn;
 	}
 

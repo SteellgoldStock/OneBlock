@@ -4,6 +4,9 @@ namespace steellgold\oneblock\commands\subs;
 
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
+use pocketmine\player\Player;
+use steellgold\oneblock\One;
+use steellgold\oneblock\provider\Text;
 
 class IslandGoCommand extends BaseSubCommand {
 
@@ -12,6 +15,17 @@ class IslandGoCommand extends BaseSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-		// TODO: Implement onRun() method.
+		if(!$sender instanceof Player){
+			$sender->sendMessage("§cPlease run this command in-game.");
+			return;
+		}
+
+		$session = One::getInstance()->getManager()->getSession($sender);
+		if(!$session->hasIsland()){
+			$sender->sendMessage(Text::getMessage("dont_have_island",true));
+			return;
+		}
+
+		$sender->teleport($session->getIsland()->getSpawn());
 	}
 }

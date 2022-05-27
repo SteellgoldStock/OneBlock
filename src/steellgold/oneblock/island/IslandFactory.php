@@ -2,6 +2,7 @@
 
 namespace steellgold\oneblock\island;
 
+use JsonException;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
@@ -15,25 +16,34 @@ use steellgold\oneblock\island\generator\OneBlockPreset;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 use steellgold\oneblock\SingleOne;
+use steellgold\oneblock\utils\RankIds;
 
 class IslandFactory {
 
+	/**
+	 * @throws JsonException
+	 */
 	public static function createIsland(Player $owner, Tier $tier): void {
 		$spawn = One::getInstance()->getIslandConfig()->get("spawn");
 
 		$identifier = uniqid("island-");
-		One::getInstance()->islands[$identifier] = new Island(
+		self::createWorld($identifier);
+
+		One::getInstance()->getManager()->addIsland(new Island(
 			$identifier,
-			$owner,
-			[$owner->getName()],
-			new Position($spawn["x"], $spawn["y"], $spawn["z"], self::createWorld($identifier)),
+			$owner->getName(),
+			[$owner->getName() => RankIds::LEADER],
+			[
+				"X" => $spawn["x"],
+				"Y" => $spawn["y"],
+				"Z" => $spawn["z"],
+			],
 			$tier,
 			true
-		);
+		));
 
 		$owner->sendMessage(Text::getMessage("island_created"));
-
-		$owner->teleport(One::getInstance()->islands[$identifier]->getHighSpawn());
+		$owner->teleport(One::getInstance()->getManager()->getIsland($identifier)->getSpawn(true));
 		$owner->sendMessage(Text::getMessage("island_teleported"));
 
 		One::getInstance()->getScheduler()->scheduleDelayedTask(new class($owner, $identifier) extends Task{
@@ -53,7 +63,7 @@ class IslandFactory {
 					$item = explode(":", $items);
 					$tile->getInventory()->addItem(ItemFactory::getInstance()->get($item[0], $item[1], $item[2] ?? 1));
 				}
-				$this->player->teleport(One::getInstance()->islands[$this->identifier]->getSpawn());
+				$this->player->teleport(One::getInstance()->getManager()->getIsland($this->identifier)->getSpawn());
 			}
 		},20);
 	}
