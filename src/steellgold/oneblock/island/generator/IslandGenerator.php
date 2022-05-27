@@ -5,6 +5,8 @@ namespace steellgold\oneblock\island\generator;
 use pocketmine\math\Vector3;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\generator\Generator;
+use steellgold\oneblock\One;
+use steellgold\oneblock\SingleOne;
 
 abstract class IslandGenerator extends Generator {
 
@@ -12,8 +14,8 @@ abstract class IslandGenerator extends Generator {
 		return;
 	}
 
-	public abstract static function getWorldSpawn(): Vector3;
-
-	public abstract static function getDefaultBlockPosition(): Vector3;
-
+	public static function getWorldSpawn() : Vector3 {
+		$spawn = SingleOne::getInstance()->getIslandConfig()->get("spawn");
+		return new Vector3($spawn["x"], $spawn["y"], $spawn["z"]);
+	}
 }

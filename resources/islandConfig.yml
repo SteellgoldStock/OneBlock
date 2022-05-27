@@ -1,4 +1,4 @@
-start_chest_content:
+start_inventory:
   - "264:0"
   - "265:0:64"
   - "266:0"
@@ -8,6 +8,12 @@ visitor_limit: 3
 visitor_build: false
 visitor_destroy: false
 jump_break_plants: false
+clear_inventory_on_delete_island: true
+
+spawn:
+  x: 0
+  y: 40
+  z: 0
 
 tiers:
   1:

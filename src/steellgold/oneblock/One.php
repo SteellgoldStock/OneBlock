@@ -31,7 +31,7 @@ class One extends PluginBase {
 		self::$instance = $this;
 
 		if (!file_exists($this->getDataFolder() . "config.yml")) {
-			mkdir($this->getDataFolder() . "islands");
+			if(!is_dir($this->getDataFolder() . "islands")) mkdir($this->getDataFolder() . "islands");
 			$this->saveResource("config.yml",true);
 			$this->saveResource("islandConfig.yml",true);
 		}

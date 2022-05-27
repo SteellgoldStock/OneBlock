@@ -23,6 +23,7 @@ messages:
 
   island_created: "Votre île viens d'être crée avec succès"
   island_deleted: "Votre île viens d'être supprimée avec succès"
+  island_teleported: "Vous avez été téléporté à votre île"
   already_in_island: "Vous êtes déjà dans une île, veuillez la quité ou la supprimer avant de créer une nouvelle"
   island_doesnt_exist: "L'île §f{ISLAND} §an'existe pas"
 

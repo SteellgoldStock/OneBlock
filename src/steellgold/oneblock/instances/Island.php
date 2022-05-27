@@ -78,6 +78,10 @@ class Island {
 		return $this->spawn;
 	}
 
+	public function getHighSpawn(): Position {
+		return new Position($this->spawn->x, $this->spawn->y + 100, $this->spawn->z, $this->spawn->world);
+	}
+
 	public function setSpawn(Position $spawn): void {
 		$this->spawn = $spawn;
 	}
