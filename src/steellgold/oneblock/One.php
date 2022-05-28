@@ -15,9 +15,6 @@ use steellgold\oneblock\provider\Manager;
 use steellgold\oneblock\provider\Text;
 
 class One extends PluginBase {
-
-	public array $tiers = [];
-
 	public Manager $manager;
 
 	/**
@@ -43,10 +40,6 @@ class One extends PluginBase {
 
 		if(!PacketHooker::isRegistered()) {
 			PacketHooker::register($this);
-		}
-
-		foreach ($this->islandConfig->get("tiers") as $tierId => $tier){
-			$this->tiers[$tierId] = new Tier($tierId, $tier["name"], $tier["breakToUp"], $tier["blocks"]);
 		}
 
 		GeneratorManager::getInstance()->addGenerator(OneBlockPreset::class, "OneBlock",fn() => null, true);

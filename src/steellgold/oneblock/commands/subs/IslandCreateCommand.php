@@ -27,6 +27,6 @@ class IslandCreateCommand extends BaseSubCommand {
 			return;
 		}
 
-		IslandFactory::createIsland($sender, One::getInstance()->tiers[1]);
+		IslandFactory::createIsland($sender, One::getInstance()->getManager()->getTier());
 	}
 }

@@ -11,6 +11,7 @@ commands:
   help: "Affiche toutes les commandes du Plugin de OneBlock"
   leave: "Permet de quitter l'île si on est pas le fondateur de l'île"
   promote: "Permet de monter en grade un membre de son île"
+  demote: "Permet de dégrader un membre de son île"
   kick: "Permet de kick un joueur de l'île"
   visit: "Permet de visiter l'ile d'un joueur"
   setspawn: "Permet de definir de le point de spawn de l'île"
@@ -21,12 +22,31 @@ messages:
     success: "§a[§fOneBlock§a] "
     error: "§c[§fOneBlock§c] "
 
+  # Visitors
+  island_visit_teleported: "Vous venez d'être téléporté à l'île de {OWNER}, vous êtes actuellement en mode de jeu: §f{GAMEMODE}"
+  island_cant_visit: "L'île de §f{OWNER} §cest actuellement fermé au publique, demandez lui d'ouvrir l'île au publique pour pouvoir la visiter"
+  island_kick_to_locked: "L'île viens de fermé ces portes au publique, vous venez d'être téléporté sur votre île"
+  island_kick_locked: "L'île viens de fermé ces portes au publique, vous venez d'être téléporté autre part"
+  island_max_visitors: "Il y a actuellement trop de visiteurs §f({NOW}§l/§r§f{MAX}§f) §csur cette île, attendez que des joueurs partent, pour pouvoir la visiter"
+
+  # Player
+  player_not_found: "Le joueur §f{PLAYER} §cn'est actuellement pas connecté"
+  player_island_not_exist: "Le joueur §f{PLAYER} §cne possède ou n'est membre d'aucunes îles"
+
+  # Create
   island_created: "Votre île viens d'être crée avec succès"
   island_deleted: "Votre île viens d'être supprimée avec succès"
+
+  # Go
   island_teleported: "Vous avez été téléporté à votre île"
+
+  # Other Stuff
+  island_falled_reteleported: "Vous avez été téléporté à votre île suite à une chute dans le vide"
+
+  # Errors
   already_in_island: "Vous êtes déjà dans une île, veuillez la quité ou la supprimer avant de créer une nouvelle"
   dont_have_island: "Vous n'avez pas d'île, veuillez en créer une, ou rejoindre celle d'un autre joueur à l'aide d'une invitation"
-  island_doesnt_exist: "L'île §f{ISLAND} §an'existe pas"
 
+  # Help
   help-top: "§a---- Liste des commandes ----"
   help-line: "§a/is {COMMAND}: §f{DESCRIPTION}"

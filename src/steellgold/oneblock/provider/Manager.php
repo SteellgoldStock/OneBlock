@@ -3,6 +3,7 @@
 namespace steellgold\oneblock\provider;
 
 use JsonException;
+use pocketmine\block\BlockFactory;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
@@ -16,10 +17,16 @@ use Webmozart\PathUtil\Path;
 
 class Manager {
 
+	/** @var Island[] */
 	public array $islands = [];
 
+	/** @var Session[] */
 	public array $sessions = [];
 
+	/** @var Tier[] */
+	public array $tiers = [];
+
+	/** @var Rank[] */
 	public array $ranks = [];
 
 	public Config $player_data;
@@ -35,11 +42,26 @@ class Manager {
 					$world,
 					$config->get("owner"),
 					$config->get("members"),
+					[],
 					$config->get("spawn"),
 					Tier::fromArray($config->get("tier")),
+					$config->get("objective"),
 					$config->get("isPublic")
 				);
 			}
+		}
+
+		foreach (One::getInstance()->getIslandConfig()->get("tiers") as $tierId => $tier){
+			$blocks = [];
+			$i = 0;
+			foreach ($tier['blocks'] as $block){
+				$b = explode(':', $block);
+				$blocks[$i] = [
+					BlockFactory::getInstance()->get($b[0], $b[1]),
+					"chance" => $b[2]
+				];
+			}
+			$this->tiers[$tierId] = new Tier($tierId, $tier["name"], $tier["breakToUp"], $blocks);
 		}
 
 		$i = 0;
@@ -59,9 +81,9 @@ class Manager {
 		return $this->islands[$identifier] ?? null;
 	}
 
-	public function addIsland(Island $island): void {
+	public function addIsland(Island $island, bool $isReconnect = false): void {
 		$this->islands[$island->getId()] = $island;
-		$this->setIslandToPlayer($island->getOwner(), $island);
+		if(!$isReconnect) $this->setIslandToPlayer($island->getOwner(), $island);
 	}
 
 	public function setIslandToPlayer(string $player, Island $island): void {
@@ -71,16 +93,16 @@ class Manager {
 		$this->player_data->save();
 	}
 
-	public function islandExist(string $identifier): bool {
-		return array_key_exists($identifier,$this->islands);
+	public function islandFileExist(string $identifier) : bool {
+		return file_exists(One::getInstance()->getDataFolder() . "islands/" . $identifier . ".json");
 	}
 
 	public function hasIsland(string $player): bool {
-		return $this->islandExist($this->player_data->get($player));
+		return $this->islandFileExist($this->player_data->get($player));
 	}
 
 	public function getIslandIdentifierByPlayer(string $player): string {
-		if($this->islandExist($this->player_data->get($player))){
+		if($this->islandFileExist($this->player_data->get($player))){
 			return $this->player_data->get($player);
 		}
 		return "";
@@ -96,7 +118,7 @@ class Manager {
 	}
 
 	public function getSession(Player|CommandSender|string $player): ?Session {
-		// If you forget the ->getName() automatically returns the name of the player
+		// If forget the ->getName(), automatically returns the name of the player
 		if ($player instanceof Player or $player instanceof CommandSender) {
 			$player = $player->getName();
 		}
@@ -113,5 +135,13 @@ class Manager {
 
 	public function close(string $type, string $identifier) {
 		unset($this->$type[$identifier]);
+	}
+
+	public function getTiers() : array {
+		return $this->tiers;
+	}
+
+	public function getTier(int $id = 1) : Tier {
+		return $this->tiers[$id];
 	}
 }

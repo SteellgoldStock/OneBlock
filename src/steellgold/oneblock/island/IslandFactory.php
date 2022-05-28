@@ -7,6 +7,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
+use pocketmine\utils\Config;
 use pocketmine\world\Position;
 use pocketmine\world\World;
 use pocketmine\world\WorldCreationOptions;
@@ -16,6 +17,7 @@ use steellgold\oneblock\island\generator\OneBlockPreset;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 use steellgold\oneblock\SingleOne;
+use steellgold\oneblock\task\ChestPlaceTask;
 use steellgold\oneblock\utils\RankIds;
 
 class IslandFactory {
@@ -33,12 +35,14 @@ class IslandFactory {
 			$identifier,
 			$owner->getName(),
 			[$owner->getName() => RankIds::LEADER],
+			[],
 			[
 				"X" => $spawn["x"],
 				"Y" => $spawn["y"],
 				"Z" => $spawn["z"],
 			],
 			$tier,
+			0,
 			true
 		));
 
@@ -46,26 +50,27 @@ class IslandFactory {
 		$owner->teleport(One::getInstance()->getManager()->getIsland($identifier)->getSpawn(true));
 		$owner->sendMessage(Text::getMessage("island_teleported"));
 
-		One::getInstance()->getScheduler()->scheduleDelayedTask(new class($owner, $identifier) extends Task{
-			public function __construct(
-				public Player $player,
-				public string $identifier,
-			) {}
+		One::getInstance()->getScheduler()->scheduleDelayedTask(new ChestPlaceTask($owner,$identifier),20);
+	}
 
-			public function onRun() : void{
-				One::getInstance()->getServer()->getWorldManager()->loadWorld($this->identifier);
-				$world = One::getInstance()->getServer()->getWorldManager()->getWorldByName($this->identifier);
+	/**
+	 * @throws JsonException
+	 */
+	public static function restoreIsland(string $identifier): void {
+		if(One::getInstance()->getServer()->getWorldManager()->loadWorld($identifier)){
+			$file = new Config(One::getInstance()->getDataFolder() . "islands/" . $identifier . ".json", Config::JSON);
 
-				$chestPosition = SingleOne::getInstance()->getIslandConfig()->get("spawn");
-				$world->setBlock(new Position($chestPosition["x"], $chestPosition["y"] - 2, $chestPosition["z"], $world), VanillaBlocks::CHEST());
-				$tile = $world->getTile(new Position($chestPosition["x"], $chestPosition["y"] - 2, $chestPosition["z"], $world));
-				foreach(One::getInstance()->getIslandConfig()->get("start_inventory") as $items){
-					$item = explode(":", $items);
-					$tile->getInventory()->addItem(ItemFactory::getInstance()->get($item[0], $item[1], $item[2] ?? 1));
-				}
-				$this->player->teleport(One::getInstance()->getManager()->getIsland($this->identifier)->getSpawn());
-			}
-		},20);
+			One::getInstance()->getManager()->addIsland(new Island(
+				$identifier,
+				$file->get("owner"),
+				$file->get("members"),
+				[],
+				$file->get("spawn"),
+				Tier::fromArray($file->get("tier")),
+				$file->get("objective"),
+				$file->get("isPublic")
+			),true);
+		}
 	}
 
 	public static function createWorld(string $identifier) : World {

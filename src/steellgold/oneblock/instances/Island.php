@@ -16,8 +16,10 @@ class Island {
 	 * @param string $id
 	 * @param string $owner
 	 * @param Player[] $members
+	 * @param array $visitors
 	 * @param array $spawn
 	 * @param Tier $tier
+	 * @param int $objective
 	 * @param bool $isPublic
 	 * @throws JsonException
 	 */
@@ -25,8 +27,10 @@ class Island {
 		public string $id,
 		public string $owner,
 		public array  $members,
+		public array  $visitors,
 		public array  $spawn,
 		public Tier   $tier,
+		public int    $objective,
 		public bool   $isPublic
 	) {
 		$this->init();
@@ -40,16 +44,22 @@ class Island {
 			$island = new Config(One::getInstance()->getDataFolder() . "islands/" . $this->id . ".json", Config::JSON);
 			$island->set("owner", $this->owner);
 			$island->set("members", $this->members);
+			$island->set("visitors", []);
 			$island->set("spawn", $this->spawn);
 			$island->set("tier", $this->tier);
+			$island->set("objective", $this->objective);
 			$island->set("isPublic", $this->isPublic);
 			$island->save();
 			return;
 		}
 	}
 
-	public function getRankById(int $id) {
+	public function getRankById(int $id): Rank {
 		return One::getInstance()->getManager()->ranks[$id];
+	}
+
+	public function getRank(string $player): Rank {
+		return $this->getRankById($this->members[$player] ?? 0);
 	}
 
 	public function getId(): string {
@@ -64,12 +74,24 @@ class Island {
 		return $this->members;
 	}
 
-	public function getRank(string $player): Rank {
-		return $this->getRankById($this->members[$player] ?? 0);
-	}
-
 	public function setMembers(array $members): void {
 		$this->members = $members;
+	}
+
+	public function setVisitors(array $visitors): void {
+		$this->visitors = $visitors;
+	}
+
+	public function addVisitor(string $player): void {
+		$this->visitors[] = $player;
+	}
+
+	public function delVisitor(string $player): void {
+		$this->visitors = array_diff($this->visitors, [$player]);
+	}
+
+	public function getVisitors(): array {
+		return $this->visitors;
 	}
 
 	public function getSpawn(bool $high = false): Position {
@@ -79,7 +101,7 @@ class Island {
 	public function getWorld(): World {
 		$wm = One::getInstance()->getServer()->getWorldManager();
 
-		if(!$wm->isWorldLoaded($this->id)) $wm->loadWorld($this->id);
+		if (!$wm->isWorldLoaded($this->id)) $wm->loadWorld($this->id);
 		return One::getInstance()->getServer()->getWorldManager()->getWorldByName($this->id);
 	}
 
@@ -91,17 +113,29 @@ class Island {
 		return $this->tier;
 	}
 
-	public function addTier(): bool {
-		if (!key_exists(($this->tier->getId() + 1), One::getInstance()->tiers)) {
-			return false;
+	public function addTier(): string|bool {
+		if (!key_exists(($this->tier->getId() + 1), One::getInstance()->getManager()->tiers)) {
+			return "max";
 		}
 
-		$this->tier = One::getInstance()->tiers[$this->tier->getId() + 1];
-		return true;
+		if($this->getObjective() >= $this->getTier()->getBreakToUp()){
+			$this->setTier(One::getInstance()->getManager()->getTier($this->tier->getId() + 1));
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public function setTier(Tier $tier): void {
 		$this->tier = $tier;
+	}
+
+	public function getObjective(): int {
+		return $this->objective;
+	}
+
+	public function addToObjective(int $count = 1) {
+		$this->objective += $count;
 	}
 
 	public function isPublic(): bool {

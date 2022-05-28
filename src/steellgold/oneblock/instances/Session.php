@@ -68,13 +68,12 @@ class Session {
 	public function closeSession() : void {
 		One::getInstance()->getLogger()->info("Closing session for player " . $this->player->getName());
 		One::getInstance()->getManager()->close("sessions", $this->player->getName());
-		var_dump($this->island);
+
 		if($this->island !== null) {
 			$members = count(array_keys($this->island->getMembers()));
-			var_dump($members);
 			$i = 0;
 			foreach ($this->island->getMembers() as $member) {
-				if(Server::getInstance()->getPlayerByPrefix($member) instanceof Player) {
+				if(!Server::getInstance()->getPlayerByPrefix($member) instanceof Player) {
 					$i++;
 				}
 			}

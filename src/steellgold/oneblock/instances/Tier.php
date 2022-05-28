@@ -2,6 +2,8 @@
 
 namespace steellgold\oneblock\instances;
 
+use steellgold\oneblock\utils\Utils;
+
 class Tier {
 
 	/**
@@ -42,5 +44,9 @@ class Tier {
 
 	public function getBlocks(): array {
 		return $this->blocks;
+	}
+
+	public function getChanceBlock(){
+		return Utils::chancePercentage($this->getBlocks());
 	}
 }

@@ -5,6 +5,7 @@ start_inventory:
 
 # Join automatically at player island (if have an island) after joining the server
 auto_island: true
+respawn_in_island: true # If the player dies by any means then he will be deported back to the island
 
 # New members island settings
 clear_inventory_on_join: false
@@ -13,9 +14,11 @@ clear_xp_on_join: false
 give_start_inventory: false
 
 # Visitor settings
-visitor_limit: 3
+visitor_limit: 1
 visitor_build: false
 visitor_destroy: false
+visitor_gamemode: 3 # 0 = survival, 1 = creative, 2 = adventure (DEFAULT), 3 = spectator
+visitor_kick_no_members: true # If it is true then the visitor will be kicked if no island member is on the island
 
 # Farming settings
 jump_break_plants: false
@@ -23,10 +26,13 @@ jump_break_plants: false
 # Island settings
 pvp: false
 clear_inventory_on_delete_island: true
-spawn:
+
+spawn: # Y - 3 = Bedrock, Y - 2 = Be sure of your coordinates
   x: 0
   y: 40
   z: 0
+
+reteleport_at_y: 30
 
 # Available permissions:
 # break, place, chest_open
@@ -53,8 +59,8 @@ tiers:
     breakToUp: 100
     blocks:
       - "1:0:50"
-      - "3:0:40"
-      - "5:0:10"
+      - "3:0:20"
+      - "5:0:30"
   2:
     name: "Tier II"
     breakToUp: 200
