@@ -29,7 +29,8 @@ class IslandCommand extends BaseCommand {
 	protected function prepare(): void {
 		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create"))); # OK
 		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"),["join"])); # OK
-		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit")));
+		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit"))); # OK
+		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn")));
 
 		if(self::HULK){
 			$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member")));
@@ -44,7 +45,6 @@ class IslandCommand extends BaseCommand {
 			$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote")));
 			$this->registerSubCommand(new IslandDeleteCommand("demote", Text::getCommandDescription("demote")));
 			$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick")));
-			$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn")));
 		}
 	}
 

@@ -4,6 +4,7 @@ namespace steellgold\oneblock\commands\subs;
 
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
+use pocketmine\player\Player;
 
 class IslandSetSpawnCommand extends BaseSubCommand {
 
@@ -12,6 +13,8 @@ class IslandSetSpawnCommand extends BaseSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-		// TODO: Implement onRun() method.
+		if(!$sender instanceof Player){
+			return;
+		}
 	}
 }
