@@ -33,7 +33,6 @@ class IslandListener implements Listener {
 			if($island){
 				$is = One::getInstance()->getManager()->getIsland($identifier);
 				if($is instanceof Island){
-					var_dump(1);
 					$island = $is;
 				}else{
 					if(One::getInstance()->getManager()->islandFileExist($identifier)){
@@ -91,7 +90,8 @@ class IslandListener implements Listener {
 
 		$blocks = One::getInstance()->getManager()->getTier();
 		if($event->getBlock()->getPosition() == new Position(0, 38, 0, $player->getWorld())){
-			$session->getIsland()->addToObjective();
+			$session->getIsland()->addToObjective($player);
+			$player->sendTip("§f[§a+1§f]");
 			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($blocks->getChanceBlock()[0], $event->getBlock()->getPosition()),3);
 		}
 		// TODO: Block action if doesn't permission

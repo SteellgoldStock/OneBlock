@@ -79,6 +79,8 @@ class Session {
 			}
 
 			if($i == $members){
+				$this->island->save();
+
 				Server::getInstance()->getWorldManager()->unloadWorld($this->island->getWorld());
 				One::getInstance()->getLogger()->info("Closing island " . $this->island->getId());
 				One::getInstance()->getManager()->close("islands", $this->island->getId());

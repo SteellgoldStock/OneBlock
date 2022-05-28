@@ -21,15 +21,6 @@ class Tier {
 
 	}
 
-	public static function fromArray(array $array) : Tier {
-		return new Tier(
-			$array["id"],
-			$array["name"],
-			$array["breakToUp"],
-			$array["blocks"]
-		);
-	}
-
 	public function getId(): int {
 		return $this->id;
 	}

@@ -35,22 +35,6 @@ class Manager {
 	 * @throws JsonException
 	 */
 	public function __construct() {
-		foreach (scandir(One::getInstance()->getDataFolder() . "../../worlds/") as $world) {
-			if (str_starts_with($world, "island-")) {
-				$config = new Config(One::getInstance()->getDataFolder() . "islands/" . $world . ".json", Config::JSON);
-				$this->islands[$world] = new Island(
-					$world,
-					$config->get("owner"),
-					$config->get("members"),
-					[],
-					$config->get("spawn"),
-					Tier::fromArray($config->get("tier")),
-					$config->get("objective"),
-					$config->get("isPublic")
-				);
-			}
-		}
-
 		foreach (One::getInstance()->getIslandConfig()->get("tiers") as $tierId => $tier){
 			$blocks = [];
 			$i = 0;
@@ -62,6 +46,22 @@ class Manager {
 				];
 			}
 			$this->tiers[$tierId] = new Tier($tierId, $tier["name"], $tier["breakToUp"], $blocks);
+		}
+
+		foreach (scandir(One::getInstance()->getDataFolder() . "../../worlds/") as $world) {
+			if (str_starts_with($world, "island-")) {
+				$config = new Config(One::getInstance()->getDataFolder() . "islands/" . $world . ".json", Config::JSON);
+				$this->islands[$world] = new Island(
+					$world,
+					$config->get("owner"),
+					$config->get("members"),
+					[],
+					$config->get("spawn"),
+					$this->getTier($config->get("tier")),
+					$config->get("objective"),
+					$config->get("isPublic")
+				);
+			}
 		}
 
 		$i = 0;

@@ -34,6 +34,25 @@ spawn: # Y - 3 = Bedrock, Y - 2 = Be sure of your coordinates
 
 reteleport_at_y: 30
 
+# Avaible:
+# - message
+# - title
+# - tip
+# - popup
+# Avaible tags:
+# {UPPER} for the player be passed the next level
+# {TIER_LEVEL} for the level of tier (Tier ---> III)
+# {TIER_NAME} for the tier name
+tier_up:
+  type: title
+  title: "§a§lNOUVEAU TIER DÉBLOQUER"
+  subtitle: "§aVous avez atteint le §fniveau {TIER_LEVEL} §ade l'île !"
+  time: 40 # in milliseconds
+
+  # tip: "Niveau supérieur de l'île !"
+  # popup: "Niveau supérieur de l'île !"
+  # message: "Bravo à §f{UPPER}§a, il vient de faire passer l'île au §f{TIER_NAME} §a!"
+
 # Available permissions:
 # break, place, chest_open
 # chest_interact, invite, promote
@@ -69,7 +88,7 @@ tiers:
       - "3:0:40"
       - "5:0:10"
   3:
-    name: "Tier IIi"
+    name: "Tier III"
     breakToUp: 300
     blocks:
       - "1:0:50"

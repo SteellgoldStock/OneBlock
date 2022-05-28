@@ -8,6 +8,7 @@ use pocketmine\utils\Config;
 use pocketmine\world\Position;
 use pocketmine\world\World;
 use steellgold\oneblock\One;
+use steellgold\oneblock\provider\Text;
 use steellgold\oneblock\utils\RankIds;
 
 class Island {
@@ -46,7 +47,7 @@ class Island {
 			$island->set("members", $this->members);
 			$island->set("visitors", []);
 			$island->set("spawn", $this->spawn);
-			$island->set("tier", $this->tier);
+			$island->set("tier", json_encode($this->tier));
 			$island->set("objective", $this->objective);
 			$island->set("isPublic", $this->isPublic);
 			$island->save();
@@ -113,13 +114,17 @@ class Island {
 		return $this->tier;
 	}
 
-	public function addTier(): string|bool {
+	public function addTier(): bool|string {
 		if (!key_exists(($this->tier->getId() + 1), One::getInstance()->getManager()->tiers)) {
 			return "max";
 		}
 
+		$this->setTier(One::getInstance()->getManager()->getTier($this->tier->getId() + 1));
+		return true;
+	}
+
+	public function checkTier(): string|bool {
 		if($this->getObjective() >= $this->getTier()->getBreakToUp()){
-			$this->setTier(One::getInstance()->getManager()->getTier($this->tier->getId() + 1));
 			return true;
 		}else{
 			return false;
@@ -134,8 +139,54 @@ class Island {
 		return $this->objective;
 	}
 
-	public function addToObjective(int $count = 1) {
+	public function addToObjective(Player $player, int $count = 1): void {
 		$this->objective += $count;
+		var_dump($this->objective . "/" . $this->getTier()->getBreakToUp());
+		if($this->checkTier()){
+			$tier = $this->addTier();
+			var_dump($tier);
+			if($tier == "max"){
+				return;
+			}
+			$this->sendSuccess($player,One::getInstance()->getManager()->getTier($this->getTier()->getId() - 1));
+		}
+	}
+
+	private function sendSuccess(Player $player, Tier $tier): void {
+		$config = One::getInstance()->getIslandConfig()->get("tier_up");
+		var_dump(1);
+
+		$find = ["{UPPER}","TIER_LEVEL}","{TIER_NAME}"];
+		$replace = [$player->getName(),$tier->getId(),$tier->getName()];
+
+		switch ($config["type"]){
+			case "title":
+				foreach ($this->getMembers() as $member){
+					$player = One::getInstance()->getServer()->getPlayerExact($member);
+					if($player instanceof Player){
+						$player->sendTitle(str_replace($find,$replace,$config["title"]), str_replace($find,$replace,$config["subtitle"]), $config["time"]);
+					}
+				}
+				break;
+			case "tip":
+			case "popup":
+				foreach ($this->getMembers() as $member){
+					$player = One::getInstance()->getServer()->getPlayerExact($member);
+					if($player instanceof Player){
+						if($config["type"] == "tip") $player->sendTip(str_replace($find,$replace,$config["tip"]));
+						if($config["type"] == "popup") $player->sendTip(str_replace($find,$replace,$config["popup"]));
+					}
+				}
+				break;
+			case "message":
+				foreach ($this->getMembers() as $member){
+					$player = One::getInstance()->getServer()->getPlayerExact($member);
+					if($player instanceof Player){
+						$player->sendMessage(Text::getMessage("tier_up",false,$find,$replace,"message"));
+					}
+				}
+				break;
+		}
 	}
 
 	public function isPublic(): bool {
@@ -144,5 +195,17 @@ class Island {
 
 	public function setIsPublic(bool $isPublic): void {
 		$this->isPublic = $isPublic;
+	}
+
+	public function save() {
+		$island = new Config(One::getInstance()->getDataFolder() . "islands/" . $this->id . ".json", Config::JSON);
+		$island->set("owner", $this->owner);
+		$island->set("members", $this->members);
+		$island->set("visitors", $this->visitors);
+		$island->set("spawn", $this->spawn);
+		$island->set("tier", $this->tier->getId());
+		$island->set("objective", $this->objective);
+		$island->set("isPublic", $this->isPublic);
+		$island->save();
 	}
 }

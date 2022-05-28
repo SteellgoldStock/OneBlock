@@ -66,7 +66,7 @@ class IslandFactory {
 				$file->get("members"),
 				[],
 				$file->get("spawn"),
-				Tier::fromArray($file->get("tier")),
+				One::getInstance()->getManager()->getTier($file->get("tier")),
 				$file->get("objective"),
 				$file->get("isPublic")
 			),true);
