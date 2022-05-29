@@ -2,6 +2,7 @@
 
 namespace steellgold\oneblock\instances;
 
+use JsonException;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use steellgold\oneblock\One;
@@ -37,7 +38,18 @@ class Session {
 		return $this->rank;
 	}
 
+	/**
+	 * @throws JsonException
+	 */
 	public function setIsland(?Island $island): void {
+		$file = One::getInstance()->getManager()->player_data;
+		if($island === null) {
+			$file->set($this->player->getName(), null);
+		} else {
+			$file->set($this->player->getName(), $island->getId());
+		}
+		$file->save();
+
 		$this->island = $island;
 	}
 

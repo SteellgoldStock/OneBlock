@@ -47,11 +47,10 @@ class Island {
 			$island->set("members", $this->members);
 			$island->set("visitors", []);
 			$island->set("spawn", $this->spawn);
-			$island->set("tier", json_encode($this->tier));
+			$island->set("tier", $this->tier->getId());
 			$island->set("objective", $this->objective);
 			$island->set("isPublic", $this->isPublic);
 			$island->save();
-			return;
 		}
 	}
 
@@ -77,6 +76,14 @@ class Island {
 
 	public function setMembers(array $members): void {
 		$this->members = $members;
+	}
+
+	public function addMember(Player $player, int $rankId): void {
+		$this->members[$player->getName()] = $rankId;
+	}
+
+	public function delMember(string $player): void {
+		unset($this->members[$player]);
 	}
 
 	public function setVisitors(array $visitors): void {
@@ -123,10 +130,16 @@ class Island {
 		return true;
 	}
 
-	public function checkTier(): string|bool {
-		if($this->getObjective() >= $this->getTier()->getBreakToUp()){
+	public function isTierMax(): bool {
+		if (!key_exists(($this->tier->getId() + 1), One::getInstance()->getManager()->tiers)) {
 			return true;
-		}else{
+		} else return false;
+	}
+
+	public function checkTier(): string|bool {
+		if ($this->getObjective() >= $this->getTier()->getBreakToUp()) {
+			return true;
+		} else {
 			return false;
 		}
 	}
@@ -142,13 +155,13 @@ class Island {
 	public function addToObjective(Player $player, int $count = 1): void {
 		$this->objective += $count;
 		var_dump($this->objective . "/" . $this->getTier()->getBreakToUp());
-		if($this->checkTier()){
+		if ($this->checkTier()) {
 			$tier = $this->addTier();
 			var_dump($tier);
-			if($tier == "max"){
+			if ($tier == "max") {
 				return;
 			}
-			$this->sendSuccess($player,One::getInstance()->getManager()->getTier($this->getTier()->getId() - 1));
+			$this->sendSuccess($player, One::getInstance()->getManager()->getTier($this->getTier()->getId() - 1));
 		}
 	}
 
@@ -156,33 +169,33 @@ class Island {
 		$config = One::getInstance()->getIslandConfig()->get("tier_up");
 		var_dump(1);
 
-		$find = ["{UPPER}","TIER_LEVEL}","{TIER_NAME}"];
-		$replace = [$player->getName(),$tier->getId(),$tier->getName()];
+		$find = ["{UPPER}", "TIER_LEVEL}", "{TIER_NAME}"];
+		$replace = [$player->getName(), $tier->getId(), $tier->getName()];
 
-		switch ($config["type"]){
+		switch ($config["type"]) {
 			case "title":
-				foreach ($this->getMembers() as $member){
+				foreach ($this->getMembers() as $member) {
 					$player = One::getInstance()->getServer()->getPlayerExact($member);
-					if($player instanceof Player){
-						$player->sendTitle(str_replace($find,$replace,$config["title"]), str_replace($find,$replace,$config["subtitle"]), $config["time"]);
+					if ($player instanceof Player) {
+						$player->sendTitle(str_replace($find, $replace, $config["title"]), str_replace($find, $replace, $config["subtitle"]), $config["time"]);
 					}
 				}
 				break;
 			case "tip":
 			case "popup":
-				foreach ($this->getMembers() as $member){
+				foreach ($this->getMembers() as $member) {
 					$player = One::getInstance()->getServer()->getPlayerExact($member);
-					if($player instanceof Player){
-						if($config["type"] == "tip") $player->sendTip(str_replace($find,$replace,$config["tip"]));
-						if($config["type"] == "popup") $player->sendTip(str_replace($find,$replace,$config["popup"]));
+					if ($player instanceof Player) {
+						if ($config["type"] == "tip") $player->sendTip(str_replace($find, $replace, $config["tip"]));
+						if ($config["type"] == "popup") $player->sendTip(str_replace($find, $replace, $config["popup"]));
 					}
 				}
 				break;
 			case "message":
-				foreach ($this->getMembers() as $member){
+				foreach ($this->getMembers() as $member) {
 					$player = One::getInstance()->getServer()->getPlayerExact($member);
-					if($player instanceof Player){
-						$player->sendMessage(Text::getMessage("tier_up",false,$find,$replace,"message"));
+					if ($player instanceof Player) {
+						$player->sendMessage(Text::getMessage("tier_up", false, $find, $replace, "message"));
 					}
 				}
 				break;
@@ -207,5 +220,13 @@ class Island {
 		$island->set("objective", $this->objective);
 		$island->set("isPublic", $this->isPublic);
 		$island->save();
+	}
+
+	public function isMember(string $player) {
+		return key_exists($player, $this->members);
+	}
+
+	public function getPlayerRank(string $player) {
+		return $this->members[$player];
 	}
 }

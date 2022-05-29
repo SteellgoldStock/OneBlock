@@ -12,6 +12,7 @@ use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\instances\Rank;
 use steellgold\oneblock\instances\Session;
 use steellgold\oneblock\instances\Tier;
+use steellgold\oneblock\island\IslandFactory;
 use steellgold\oneblock\One;
 use Webmozart\PathUtil\Path;
 
@@ -35,10 +36,10 @@ class Manager {
 	 * @throws JsonException
 	 */
 	public function __construct() {
-		foreach (One::getInstance()->getIslandConfig()->get("tiers") as $tierId => $tier){
+		foreach (One::getInstance()->getIslandConfig()->get("tiers") as $tierId => $tier) {
 			$blocks = [];
 			$i = 0;
-			foreach ($tier['blocks'] as $block){
+			foreach ($tier['blocks'] as $block) {
 				$b = explode(':', $block);
 				$blocks[$i] = [
 					BlockFactory::getInstance()->get($b[0], $b[1]),
@@ -46,6 +47,7 @@ class Manager {
 				];
 			}
 			$this->tiers[$tierId] = new Tier($tierId, $tier["name"], $tier["breakToUp"], $blocks);
+			var_dump($tierId);
 		}
 
 		foreach (scandir(One::getInstance()->getDataFolder() . "../../worlds/") as $world) {
@@ -72,9 +74,27 @@ class Manager {
 		$this->player_data = new Config(One::getInstance()->getDataFolder() . "players.yml", Config::YAML);
 	}
 
+	public static function generateRandomString($length = 10): string {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
+
 	/** @return Island[] */
 	public function getIslands(): array {
 		return $this->islands;
+	}
+
+	public function getIslandsTop(): array {
+		$islands = [];
+		foreach ($this->islands as $key => $island) {
+			$islands[$island->getId()] = $island->getObjective();
+		}
+		return $islands;
 	}
 
 	public function getIsland(string $identifier): ?Island {
@@ -83,7 +103,7 @@ class Manager {
 
 	public function addIsland(Island $island, bool $isReconnect = false): void {
 		$this->islands[$island->getId()] = $island;
-		if(!$isReconnect) $this->setIslandToPlayer($island->getOwner(), $island);
+		if (!$isReconnect) $this->setIslandToPlayer($island->getOwner(), $island);
 	}
 
 	public function setIslandToPlayer(string $player, Island $island): void {
@@ -93,7 +113,7 @@ class Manager {
 		$this->player_data->save();
 	}
 
-	public function islandFileExist(string $identifier) : bool {
+	public function islandFileExist(string $identifier): bool {
 		return file_exists(One::getInstance()->getDataFolder() . "islands/" . $identifier . ".json");
 	}
 
@@ -102,7 +122,7 @@ class Manager {
 	}
 
 	public function getIslandIdentifierByPlayer(string $player): string {
-		if($this->islandFileExist($this->player_data->get($player))){
+		if ($this->islandFileExist($this->player_data->get($player))) {
 			return $this->player_data->get($player);
 		}
 		return "";
@@ -137,11 +157,18 @@ class Manager {
 		unset($this->$type[$identifier]);
 	}
 
-	public function getTiers() : array {
+	public function getTiers(): array {
 		return $this->tiers;
 	}
 
-	public function getTier(int $id = 1) : Tier {
+	public function getTier(int $id = 1): Tier {
 		return $this->tiers[$id];
+	}
+
+	/**
+	 * @return Rank[]
+	 */
+	public function getRanks(): array {
+		return $this->ranks;
 	}
 }

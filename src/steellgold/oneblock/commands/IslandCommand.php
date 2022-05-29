@@ -30,21 +30,23 @@ class IslandCommand extends BaseCommand {
 		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create"))); # OK
 		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"),["join"])); # OK
 		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit"))); # OK
-		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn")));
+		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn"))); # OK
+		$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top"))); # OK
+		$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick"))); # OK
 
 		if(self::HULK){
 			$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member")));
 			$this->registerSubCommand(new IslandInfoCommand("info", Text::getCommandDescription("info")));
-			$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete")));
+			$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"),["disband"]));
+
 			$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
 			$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
 			$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
-			$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top")));
+
 			$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help")));
 			$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave")));
 			$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote")));
 			$this->registerSubCommand(new IslandDeleteCommand("demote", Text::getCommandDescription("demote")));
-			$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick")));
 		}
 	}
 
@@ -53,8 +55,7 @@ class IslandCommand extends BaseCommand {
 	}
 
 	public static function getHelp() : string {
-		$line = "";
-		$line .= Text::getMessage("help-top");
+		$line = Text::getMessage("help-top");
 		foreach ((new IslandCommand(One::getInstance(),"island"))->getSubCommands() as $subCommand) {
 			$line .= "\n".str_replace(["{COMMAND}","{DESCRIPTION}"],[$subCommand->getName(),$subCommand->getDescription()],Text::getMessage("help-line"));
 		}

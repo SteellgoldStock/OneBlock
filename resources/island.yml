@@ -25,7 +25,6 @@ jump_break_plants: false
 
 # Island settings
 pvp: false
-clear_inventory_on_delete_island: true
 
 spawn: # Y - 3 = Bedrock, Y - 2 = Be sure of your coordinates
   x: 0

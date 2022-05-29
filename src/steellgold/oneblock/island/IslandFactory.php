@@ -50,14 +50,14 @@ class IslandFactory {
 		$owner->teleport(One::getInstance()->getManager()->getIsland($identifier)->getSpawn(true));
 		$owner->sendMessage(Text::getMessage("island_teleported"));
 
-		One::getInstance()->getScheduler()->scheduleDelayedTask(new ChestPlaceTask($owner,$identifier),20);
+		One::getInstance()->getScheduler()->scheduleDelayedTask(new ChestPlaceTask($owner, $identifier), 20);
 	}
 
 	/**
 	 * @throws JsonException
 	 */
 	public static function restoreIsland(string $identifier): void {
-		if(One::getInstance()->getServer()->getWorldManager()->loadWorld($identifier)){
+		if (One::getInstance()->getServer()->getWorldManager()->loadWorld($identifier)) {
 			$file = new Config(One::getInstance()->getDataFolder() . "islands/" . $identifier . ".json", Config::JSON);
 
 			One::getInstance()->getManager()->addIsland(new Island(
@@ -69,19 +69,19 @@ class IslandFactory {
 				One::getInstance()->getManager()->getTier($file->get("tier")),
 				$file->get("objective"),
 				$file->get("isPublic")
-			),true);
+			), true);
 		}
 	}
 
-	public static function createWorld(string $identifier) : World {
+	public static function createWorld(string $identifier): World {
 		$server = One::getInstance()->getServer()->getWorldManager();
-		$server->generateWorld($identifier,(new WorldCreationOptions())->setGeneratorClass(OneBlockPreset::class),false);
+		$server->generateWorld($identifier, (new WorldCreationOptions())->setGeneratorClass(OneBlockPreset::class), false);
 		$server->loadWorld($identifier);
-		$server->getWorldByName($identifier)->loadChunk(0,0);
+		$server->getWorldByName($identifier)->loadChunk(0, 0);
 		return $server->getWorldByName($identifier);
 	}
 
-	public static function getIsland(World $world) : ?Island {
+	public static function getIsland(World $world): ?Island {
 		return One::getInstance()->islands[$world->getFolderName()] ?? null;
 	}
 }

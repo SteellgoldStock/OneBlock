@@ -27,5 +27,27 @@ class IslandGoCommand extends BaseSubCommand {
 		}
 
 		$sender->teleport($session->getIsland()->getSpawn());
+		$message = str_replace(
+			["{ONWER}", "{X}", "{Y}", "{Z}"],
+			[
+				$session->getIsland()->getOwner(),
+				$session->getIsland()->getSpawn()->getX(),
+				$session->getIsland()->getSpawn()->getY(),
+				$session->getIsland()->getSpawn()->getZ()
+			],
+			One::getInstance()->getConfig()->get("messages")["island_teleport"]
+		);
+
+		switch (One::getInstance()->getConfig()->get("messages")["island_teleport_type"]){
+			case "tip":
+				$sender->sendTip($message);
+				break;
+			case "popup":
+				$sender->sendPopup($message);
+				break;
+			case "message":
+				$sender->sendMessage(One::getInstance()->getConfig()->get("messages")["prefix"]["success"] . $message);
+				break;
+		}
 	}
 }

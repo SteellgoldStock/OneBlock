@@ -10,11 +10,13 @@ use steellgold\oneblock\commands\IslandCommand;
 use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\instances\Tier;
 use steellgold\oneblock\island\generator\OneBlockPreset;
+use steellgold\oneblock\island\IslandFactory;
 use steellgold\oneblock\listeners\IslandListener;
 use steellgold\oneblock\provider\Manager;
 use steellgold\oneblock\provider\Text;
 
 class One extends PluginBase {
+
 	public Manager $manager;
 
 	/**
@@ -25,11 +27,10 @@ class One extends PluginBase {
 	public Config $islandConfig;
 
 	protected function onLoad(): void {
-		if (!file_exists($this->getDataFolder() . "config.yml")) {
-			if(!is_dir($this->getDataFolder() . "islands")) mkdir($this->getDataFolder() . "islands");
-			$this->saveResource("config.yml",true);
-			$this->saveResource("island.yml",true);
-		}
+		if (!is_dir($this->getDataFolder() . "islands")) mkdir($this->getDataFolder() . "islands");
+		if (!file_exists($this->getDataFolder() . "config.yml")) $this->saveResource("config.yml", true);
+		if (!file_exists($this->getDataFolder() . "island.yml")) $this->saveResource("island.yml", true);
+		GeneratorManager::getInstance()->addGenerator(OneBlockPreset::class, "OneBlock", fn() => null, true);
 
 		self::$instance = $this;
 		$this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
@@ -38,18 +39,16 @@ class One extends PluginBase {
 	protected function onEnable(): void {
 		$this->manager = new Manager();
 
-		if(!PacketHooker::isRegistered()) {
+		if (!PacketHooker::isRegistered()) {
 			PacketHooker::register($this);
 		}
-
-		GeneratorManager::getInstance()->addGenerator(OneBlockPreset::class, "OneBlock",fn() => null, true);
 
 		$this->getServer()->getCommandMap()->register("oneblock", new IslandCommand($this, "island", Text::getCommandDescription("default"), ["is"]));
 		$this->getServer()->getPluginManager()->registerEvents(new IslandListener(), $this);
 	}
 
 	protected function onDisable(): void {
-		foreach ($this->manager->getSessions() as $session){
+		foreach ($this->manager->getSessions() as $session) {
 			$session->closeSession();
 		}
 	}
@@ -66,7 +65,7 @@ class One extends PluginBase {
 	/**
 	 * @return One
 	 */
-	public static function getInstance() : One {
+	public static function getInstance(): One {
 		return self::$instance;
 	}
 }
