@@ -24,10 +24,7 @@ class IslandKickCommand extends BaseSubCommand {
 		}
 
 		$session = One::getInstance()->getManager()->getSession($sender);
-
 		if(!$session->getRank()->hasPermission("kick")){
-			$rank_name = "";
-
 			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank){
 				if($rank->hasPermission("kick")){
 					$rank_name = $rank->getName();
@@ -38,15 +35,16 @@ class IslandKickCommand extends BaseSubCommand {
 			return;
 		}
 
+		if(!$session->hasIsland()){
+			$sender->sendMessage(Text::getMessage("dont_have_island",true));
+			return;
+		}
+
 		if($sender->getName() === $args["player"]){
 			$sender->sendMessage(Text::getMessage("cant_kick_yourself",true));
 			return;
 		}
 
-		if(!$session->hasIsland()){
-			$sender->sendMessage(Text::getMessage("dont_have_island",true));
-			return;
-		}
 
 		if(!$session->getIsland()->isMember($args["player"])){
 			$sender->sendMessage(Text::getMessage("player_not_member",true, ["{PLAYER}"], [$args["player"]]));

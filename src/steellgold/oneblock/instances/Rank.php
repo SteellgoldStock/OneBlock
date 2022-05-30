@@ -7,12 +7,10 @@ class Rank {
 	/**
 	 * @param string $name
 	 * @param string|array $permissions
-	 * @param bool $leader
 	 */
 	public function __construct(
 		public string $name,
 		public string|array $permissions,
-		public bool $leader = false,
 	) {
 
 	}
@@ -26,11 +24,10 @@ class Rank {
 	}
 
 	public function hasPermission(string $permission) : bool {
-		if($this->leader) return true;
-		return in_array($permission, $this->permissions);
-	}
+		if($this->permissions == "*"){
+			return true;
+		}
 
-	public function isLeader(): bool {
-		return $this->leader;
+		return in_array($permission, $this->permissions);
 	}
 }

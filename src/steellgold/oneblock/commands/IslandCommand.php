@@ -33,17 +33,17 @@ class IslandCommand extends BaseCommand {
 		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn"))); # OK
 		$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top"))); # OK
 		$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick"))); # OK
+		$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help"))); # OK
+		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"),["disband"]));
 
 		if(self::HULK){
 			$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member")));
 			$this->registerSubCommand(new IslandInfoCommand("info", Text::getCommandDescription("info")));
-			$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"),["disband"]));
 
 			$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
 			$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
 			$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
 
-			$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help")));
 			$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave")));
 			$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote")));
 			$this->registerSubCommand(new IslandDeleteCommand("demote", Text::getCommandDescription("demote")));
@@ -57,7 +57,7 @@ class IslandCommand extends BaseCommand {
 	public static function getHelp() : string {
 		$line = Text::getMessage("help-top");
 		foreach ((new IslandCommand(One::getInstance(),"island"))->getSubCommands() as $subCommand) {
-			$line .= "\n".str_replace(["{COMMAND}","{DESCRIPTION}"],[$subCommand->getName(),$subCommand->getDescription()],Text::getMessage("help-line"));
+			$line .= "\n".str_replace(["{COMMAND}","{DESCRIPTION}"],[$subCommand->getName(),$subCommand->getDescription()],One::getInstance()->getConfig()->get("messages")["help-line"]);
 		}
 		return $line;
 	}
