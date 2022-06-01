@@ -26,14 +26,17 @@ class IslandDeleteCommand extends BaseSubCommand {
 		}
 
 		if (!$session->getIsland()->getRank($sender->getName())->hasPermission("delete")) {
-			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank){
-				if($rank->hasPermission("kick")){
+			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank) {
+				if ($rank->hasPermission("delete")) {
 					$rank_name = $rank->getName();
-					$sender->sendMessage(Text::getMessage("no_permission",true, ["{PERMISSION}", "{RANK_HAVE}", "{RANK_TO}"], ["kick", $session->getRank()->getName(), $rank_name]));
+					$sender->sendMessage(Text::getMessage("no_permission", true, ["{PERMISSION}", "{RANK_HAVE}", "{RANK_TO}"], ["delete", $session->getRank()->getName(), $rank_name]));
 					return;
 				}
 			}
 			return;
 		}
+
+		$session->getIsland()->delete();
+		$sender->sendMessage(Text::getMessage("island_deleted"));
 	}
 }

@@ -47,22 +47,23 @@ class Manager {
 				];
 			}
 			$this->tiers[$tierId] = new Tier($tierId, $tier["name"], $tier["breakToUp"], $blocks);
-			var_dump($tierId);
 		}
 
 		foreach (scandir(One::getInstance()->getDataFolder() . "../../worlds/") as $world) {
 			if (str_starts_with($world, "island-")) {
-				$config = new Config(One::getInstance()->getDataFolder() . "islands/" . $world . ".json", Config::JSON);
-				$this->islands[$world] = new Island(
-					$world,
-					$config->get("owner"),
-					$config->get("members"),
-					[],
-					$config->get("spawn"),
-					$this->getTier($config->get("tier")),
-					$config->get("objective"),
-					$config->get("isPublic")
-				);
+				if(file_exists(One::getInstance()->getDataFolder() . "islands/$world.json")){
+					$config = new Config(One::getInstance()->getDataFolder() . "islands/$world.json", Config::JSON);
+					$this->islands[$world] = new Island(
+						$world,
+						$config->get("owner"),
+						$config->get("members"),
+						[],
+						$config->get("spawn"),
+						$this->getTier($config->get("tier")),
+						$config->get("objective"),
+						$config->get("isPublic")
+					);
+				}
 			}
 		}
 

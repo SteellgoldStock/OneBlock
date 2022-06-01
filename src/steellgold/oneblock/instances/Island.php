@@ -222,6 +222,25 @@ class Island {
 		$island->save();
 	}
 
+	public function delete() {
+		$players = One::getInstance()->getManager()->player_data;
+		foreach ($this->getMembers() as $member => $rankID) {
+			$msess = One::getInstance()->getManager()->getSession($member);
+			if ($msess !== null) {
+				$msess->setIsland(null);
+				$msess->setIsInIsland(false);
+				$msess->setIsInVisit(false);
+			} else {
+				$players->set($member, null);
+				$players->save();
+			}
+		}
+
+		One::getInstance()->getServer()->getWorldManager()->unloadWorld($this->getWorld());
+		unlink(One::getInstance()->getDataFolder() . "islands/" . $this->id . ".json");
+		One::getInstance()->getManager()->close("islands", $this->id);
+	}
+
 	public function isMember(string $player) {
 		return key_exists($player, $this->members);
 	}

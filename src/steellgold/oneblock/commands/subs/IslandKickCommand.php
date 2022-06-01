@@ -62,9 +62,12 @@ class IslandKickCommand extends BaseSubCommand {
 		if($p instanceof Player){
 			$p_session = One::getInstance()->getManager()->getSession($p);
 			$p_session->setIsland(null);
-			$p_session->setIsInIsland(false);
+			if($p_session->isInIsland()){
+				$p_session->setIsInIsland(false);
 
-			$p->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
+				$p->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
+			}
+
 			$p->sendMessage(Text::getMessage("island_kicked",false, ["{OWNER}"], [$session->getIsland()->getOwner()]));
 		}else{
 			$file = One::getInstance()->getManager()->player_data;
