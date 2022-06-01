@@ -3,6 +3,8 @@
 namespace steellgold\oneblock\commands\subs;
 
 use CortexPE\Commando\BaseSubCommand;
+use dktapps\pmforms\MenuForm;
+use dktapps\pmforms\MenuOption;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use steellgold\oneblock\One;
@@ -36,7 +38,26 @@ class IslandDeleteCommand extends BaseSubCommand {
 			return;
 		}
 
-		$session->getIsland()->delete();
-		$sender->sendMessage(Text::getMessage("island_deleted"));
+		$sender->sendForm($this->getForm());
+	}
+
+	public function getForm(): MenuForm {
+		$config = One::getInstance()->getConfig()->get("messages");
+		return new MenuForm(
+			$config["island_delete_form_title"],
+			$config["island_delete_form_text"],
+			[
+				new MenuOption($config["island_delete_form_button_yes"]),
+				new MenuOption($config["island_delete_form_button_no"])
+			],
+			function (Player $player, int $selectedOption) : void {
+				$session = One::getInstance()->getManager()->getSession($player->getName());
+				if($session == null) return;
+				if($selectedOption == 0){
+					$session->getIsland()->delete();
+					$player->sendMessage(Text::getMessage("island_deleted"));
+				}
+			}
+		);
 	}
 }

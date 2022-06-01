@@ -31,7 +31,13 @@ messages:
 
   # Island
   island_created: "Votre île viens d'être crée avec succès"
+
   island_deleted: "Votre île viens d'être supprimée avec succès"
+  island_delete_form_title: "Supprimer votre île"
+  island_delete_form_text: "Vous êtes sur le point de supprimer votre île, êtes-vous sûr de vouloir le faire, l'action est §cirréversible§f !"
+  island_delete_form_button_yes: "Oui, je suis sûr"
+  island_delete_form_button_no: "Non, je ne veux pas"
+
   island_teleported: "Vous avez été téléporté à votre île"
   island_setspawn_success: "Vous avez définis le point d'apparition sur l'île de {OWNER} au coordonnées: §fX: {X}§a, §fY: {Y}§a, §fZ: {Z}"
 
