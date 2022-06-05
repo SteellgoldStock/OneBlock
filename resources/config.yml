@@ -49,6 +49,9 @@ messages:
   island_invited_denied: "Vous venez de refuser l'invitation de §f{OWNER} §aà rejoindre son île"
   island_invited_refused: "Le joueur §f{PLAYER} §aà refusé votre invitation pour rejoindre votre île"
 
+  island_owner_left: "Vous ne pouvez pas quitter votre propre ile, vous devez la supprimer la pour pouvoir en rejoindre ou créer une autre"
+  island_left: "Vous venez de quitter l'île de §f{OWNER}"
+
   # Avaible tags for teleport: {OWNER} {X} {Y} {Z}
   island_teleport: "Vous venez d'être téléporté !\n§aX: {X} | Y: {Y} | Z: {Z}"
   island_teleport_type: "tip" # message, popup

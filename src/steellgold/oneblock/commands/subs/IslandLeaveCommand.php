@@ -4,6 +4,9 @@ namespace steellgold\oneblock\commands\subs;
 
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
+use pocketmine\player\Player;
+use steellgold\oneblock\One;
+use steellgold\oneblock\provider\Text;
 
 class IslandLeaveCommand extends BaseSubCommand {
 
@@ -22,7 +25,14 @@ class IslandLeaveCommand extends BaseSubCommand {
 			return;
 		}
 
-		$session->closeSession();
+		if($session->getIsland()->getOwner() == $sender->getName()){
+			$sender->sendMessage(Text::getMessage("island_owner_left", true));
+			return;
+		}
+
+		$session->setIsInIsland(false);
+		$session->getIsland()->delMember($sender->getName());
+		$session->setIsland(null);
 		$sender->sendMessage(Text::getMessage("island_left"));
 	}
 }
