@@ -113,7 +113,11 @@ class IslandListener implements Listener {
 		$player = $event->getEntity();
 		$damager = $event->getDamager();
 		if($player instanceof Player and $damager instanceof Player){
-			if(str_starts_with("island-",$player->getWorld()->getFolderName()) and str_starts_with("island-",$damager->getWorld()->getFolderName())){
+			if(
+				str_starts_with($player->getWorld()->getFolderName(),"island-")
+				and
+				str_starts_with($damager->getWorld()->getFolderName(),"island-"))
+			{
 				$event->cancel();
 			}
 		}
