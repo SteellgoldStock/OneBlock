@@ -7,6 +7,7 @@ use pocketmine\command\CommandSender;
 use steellgold\oneblock\commands\subs\IslandAcceptCommand;
 use steellgold\oneblock\commands\subs\IslandCreateCommand;
 use steellgold\oneblock\commands\subs\IslandDeleteCommand;
+use steellgold\oneblock\commands\subs\IslandDemoteCommand;
 use steellgold\oneblock\commands\subs\IslandDenyCommand;
 use steellgold\oneblock\commands\subs\IslandGoCommand;
 use steellgold\oneblock\commands\subs\IslandHelpCommand;
@@ -35,7 +36,9 @@ class IslandCommand extends BaseCommand {
 		$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick"))); # OK
 		$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help"))); # OK
 		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"),["disband"])); # OK
-		$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave")));
+		$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave"))); # OK
+		$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote"))); # OK
+		$this->registerSubCommand(new IslandDemoteCommand("demote", Text::getCommandDescription("demote"))); # OK
 
 		if(self::HULK){
 			$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member")));
@@ -44,9 +47,6 @@ class IslandCommand extends BaseCommand {
 			$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
 			$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
 			$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
-
-			$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote")));
-			$this->registerSubCommand(new IslandDeleteCommand("demote", Text::getCommandDescription("demote")));
 		}
 	}
 

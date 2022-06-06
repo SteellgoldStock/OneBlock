@@ -16,9 +16,4 @@ class Text {
 		}
 		return One::getInstance()->getConfig()->get("messages")["prefix"][$error ? "error" : "success"] . str_replace($params,$replace,One::getInstance()->getConfig()->get("messages")[$identifier]) ?? "Message not found";
 	}
-
-	public static function getPrefix(bool $error = false){
-		$prefix = One::getInstance()->getConfig()->get("messages")["prefix"];
-		return $error ? $prefix['error'] : $prefix['success'];
-	}
 }

@@ -4,6 +4,7 @@ namespace steellgold\oneblock\instances;
 
 use JsonException;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\world\Position;
 use pocketmine\world\World;
@@ -16,7 +17,7 @@ class Island {
 	/**
 	 * @param string $id
 	 * @param string $owner
-	 * @param Player[] $members
+	 * @param string $members
 	 * @param array $visitors
 	 * @param array $spawn
 	 * @param Tier $tier
@@ -58,8 +59,21 @@ class Island {
 		return One::getInstance()->getManager()->ranks[$id];
 	}
 
-	public function getRank(string $player): Rank {
-		return $this->getRankById($this->members[$player] ?? 0);
+	public function getRank(string $player, bool $integer = false): int|Rank {
+		return $integer ? $this->members[$player] : $this->getRankById($this->members[$player] ?? 0);
+	}
+
+	public function setRank(string $player, int $rank, bool $updateSession = true): void {
+		$this->members[$player] = $rank;
+		$this->save();
+
+		if($updateSession){
+			$p = Server::getInstance()->getPlayerByPrefix($player);
+			if($p instanceof Player){
+				$session = One::getInstance()->getManager()->getSession($player);
+				$session->setRank($this->getRankById($rank));
+			}
+		}
 	}
 
 	public function getId(): string {

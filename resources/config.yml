@@ -60,6 +60,14 @@ messages:
   island_falled_reteleported: "Vous avez été téléporté à votre île suite à une chute dans le vide"
 
   # Errors
+  island_cant_promote: "Vous ne pouvez pas promouvoir le joueur §f{PLAYER}"
+  island_cant_demote: "Vous ne pouvez pas dégrader le joueur §f{PLAYER}"
+
+  island_promoted: "Vous venez de promouvoir le joueur §f{PLAYER} §aen §f{RANK}"
+  island_demoted: "Vous venez de dégrader le joueur §f{PLAYER} §aen §f{RANK}"
+  island_player_promoted: "Vous avez été promu en §f{RANK}"
+  island_player_demoted: "Vous avez été dégradé en §f{RANK}"
+
   cant_kick_yourself: "Vous ne pouvez pas vous expulser de votre île"
   already_in_island: "Vous êtes déjà dans une île, veuillez la quité ou la supprimer avant de créer une nouvelle"
   dont_have_island: "Vous n'avez pas d'île, veuillez en créer une, ou rejoindre celle d'un autre joueur à l'aide d'une invitation"

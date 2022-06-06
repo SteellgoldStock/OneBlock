@@ -5,6 +5,7 @@ namespace steellgold\oneblock\listeners;
 use JsonException;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityTrampleFarmlandEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
@@ -13,6 +14,7 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\player\GameMode;
+use pocketmine\player\Player;
 use pocketmine\world\Position;
 use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\instances\Session;
@@ -98,13 +100,23 @@ class IslandListener implements Listener {
 		if ($event->getBlock()->getPosition() == new Position(0, 38, 0, $player->getWorld())) {
 			$session->getIsland()->addToObjective($player);
 			$player->sendTip("§f[§a+1§f]");
-			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($blocks->getChanceBlock()[0], $event->getBlock()->getPosition()), 3);
+			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($blocks->getChanceBlock()[0], $event->getBlock()->getPosition()), 1);
 		}
 		// TODO: Block action if doesn't permission
 	}
 
 	public function onDeath(PlayerDeathEvent $event) {
 		// TODO: Respawn in island (if true in config)
+	}
+
+	public function onDamage(EntityDamageByEntityEvent $event){
+		$player = $event->getEntity();
+		$damager = $event->getDamager();
+		if($player instanceof Player and $damager instanceof Player){
+			if(str_starts_with("island-",$player->getWorld()->getFolderName()) and str_starts_with("island-",$damager->getWorld()->getFolderName())){
+				$event->cancel();
+			}
+		}
 	}
 
 	public function onMove(PlayerMoveEvent $event) {
