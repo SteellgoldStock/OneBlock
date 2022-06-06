@@ -45,6 +45,7 @@ class Manager {
 					BlockFactory::getInstance()->get($b[0], $b[1]),
 					"chance" => $b[2]
 				];
+				$i++;
 			}
 			$this->tiers[$tierId] = new Tier($tierId, $tier["name"], $tier["breakToUp"], $blocks);
 		}

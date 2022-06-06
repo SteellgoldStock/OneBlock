@@ -100,7 +100,9 @@ class IslandListener implements Listener {
 		if ($event->getBlock()->getPosition() == new Position(0, 38, 0, $player->getWorld())) {
 			$session->getIsland()->addToObjective($player);
 			$player->sendTip("§f[§a+1§f]");
-			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($blocks->getChanceBlock()[0], $event->getBlock()->getPosition()), 1);
+
+			$block = $blocks->getChanceBlock()[0];
+			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($block, $event->getBlock()->getPosition()), 1);
 		}
 		// TODO: Block action if doesn't permission
 	}

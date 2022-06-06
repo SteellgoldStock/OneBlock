@@ -168,10 +168,8 @@ class Island {
 
 	public function addToObjective(Player $player, int $count = 1): void {
 		$this->objective += $count;
-		var_dump($this->objective . "/" . $this->getTier()->getBreakToUp());
 		if ($this->checkTier()) {
 			$tier = $this->addTier();
-			var_dump($tier);
 			if ($tier == "max") {
 				return;
 			}
