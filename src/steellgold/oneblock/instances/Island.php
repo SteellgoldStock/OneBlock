@@ -99,6 +99,10 @@ class Island {
 		unset($this->members[$player]);
 	}
 
+	public function hasMember(string $name): bool {
+		return isset($this->members[$name]);
+	}
+
 	public function setVisitors(array $visitors): void {
 		$this->visitors = $visitors;
 	}

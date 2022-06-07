@@ -70,14 +70,40 @@ class IslandListener implements Listener {
 	}
 
 	public function onInteract(PlayerInteractEvent $event) {
-		// TODO: Block action if doesn't permission
+		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
+
+		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
+		if($island == null) return;
+		if(!$island->hasMember($event->getPlayer()->getName())){
+			$event->cancel();
+		}
 	}
 
 	public function onPlace(BlockPlaceEvent $event) {
-		// TODO: Block action if doesn't permission
+		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
+
+		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
+		if($island == null) return;
+		if(!$island->hasMember($event->getPlayer()->getName())){
+			$event->cancel();
+		}
 	}
 
-	public function onBreak(BlockBreakEvent $event) {
+
+	/**
+	 * @param BlockBreakEvent $event
+	 * @return void
+	 */
+	public function onBreak(BlockBreakEvent $event): void {
+		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
+
+		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
+		if($island == null) return;
+		if(!$island->hasMember($event->getPlayer()->getName())){
+			$event->cancel();
+			return;
+		}
+
 		$player = $event->getPlayer();
 		$session = One::getInstance()->getManager()->getSession($player->getName());
 		if ($session == null) {

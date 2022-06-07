@@ -15,10 +15,12 @@ use steellgold\oneblock\commands\subs\IslandInfoCommand;
 use steellgold\oneblock\commands\subs\IslandInviteCommand;
 use steellgold\oneblock\commands\subs\IslandKickCommand;
 use steellgold\oneblock\commands\subs\IslandLeaveCommand;
+use steellgold\oneblock\commands\subs\IslandLockCommand;
 use steellgold\oneblock\commands\subs\IslandMemberCommand;
 use steellgold\oneblock\commands\subs\IslandPromoteCommand;
 use steellgold\oneblock\commands\subs\IslandSetSpawnCommand;
 use steellgold\oneblock\commands\subs\IslandTopCommand;
+use steellgold\oneblock\commands\subs\IslandUnlockCommand;
 use steellgold\oneblock\commands\subs\IslandVisitCommand;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
@@ -41,6 +43,8 @@ class IslandCommand extends BaseCommand {
 		$this->registerSubCommand(new IslandDemoteCommand("demote", Text::getCommandDescription("demote"))); # OK
 		$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member"))); # OK
 		$this->registerSubCommand(new IslandInfoCommand("info", Text::getCommandDescription("info"))); # OK
+		$this->registerSubCommand(new IslandLockCommand("lock", Text::getCommandDescription("lock"))); # OK
+		$this->registerSubCommand(new IslandUnlockCommand("unlock", Text::getCommandDescription("unlock"))); # OK
 
 		if(self::HULK){
 			$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
@@ -54,7 +58,7 @@ class IslandCommand extends BaseCommand {
 	}
 
 	public static function getHelp() : string {
-		$line = Text::getMessage("help-top");
+		$line = One::getInstance()->getConfig()->get("messages")["help-top"];
 		foreach ((new IslandCommand(One::getInstance(),"island"))->getSubCommands() as $subCommand) {
 			$line .= "\n".str_replace(["{COMMAND}","{DESCRIPTION}"],[$subCommand->getName(),$subCommand->getDescription()],One::getInstance()->getConfig()->get("messages")["help-line"]);
 		}
