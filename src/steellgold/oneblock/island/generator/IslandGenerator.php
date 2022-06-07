@@ -5,7 +5,6 @@ namespace steellgold\oneblock\island\generator;
 use pocketmine\math\Vector3;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\generator\Generator;
-use steellgold\oneblock\One;
 use steellgold\oneblock\SingleOne;
 
 abstract class IslandGenerator extends Generator {

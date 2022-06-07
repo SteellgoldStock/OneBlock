@@ -10,7 +10,6 @@ use pocketmine\world\Position;
 use pocketmine\world\World;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
-use steellgold\oneblock\utils\RankIds;
 
 class Island {
 

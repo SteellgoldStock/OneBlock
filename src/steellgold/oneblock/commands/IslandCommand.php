@@ -39,11 +39,10 @@ class IslandCommand extends BaseCommand {
 		$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave"))); # OK
 		$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote"))); # OK
 		$this->registerSubCommand(new IslandDemoteCommand("demote", Text::getCommandDescription("demote"))); # OK
+		$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member"))); # OK
+		$this->registerSubCommand(new IslandInfoCommand("info", Text::getCommandDescription("info"))); # OK
 
 		if(self::HULK){
-			$this->registerSubCommand(new IslandMemberCommand("members", Text::getCommandDescription("member")));
-			$this->registerSubCommand(new IslandInfoCommand("info", Text::getCommandDescription("info")));
-
 			$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
 			$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
 			$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));

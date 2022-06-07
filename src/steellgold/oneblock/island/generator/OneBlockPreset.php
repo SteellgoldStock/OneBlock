@@ -3,7 +3,6 @@
 namespace steellgold\oneblock\island\generator;
 
 use pocketmine\block\VanillaBlocks;
-use pocketmine\math\Vector3;
 use pocketmine\world\ChunkManager;
 
 class OneBlockPreset extends IslandGenerator {

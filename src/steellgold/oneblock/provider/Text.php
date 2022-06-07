@@ -2,7 +2,6 @@
 
 namespace steellgold\oneblock\provider;
 
-use pocketmine\utils\Config;
 use steellgold\oneblock\One;
 
 class Text {

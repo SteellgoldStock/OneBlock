@@ -3,19 +3,11 @@
 namespace steellgold\oneblock;
 
 use CortexPE\Commando\PacketHooker;
-use customiesdevs\customies\block\CustomiesBlockFactory;
-use pocketmine\block\Block;
-use pocketmine\block\BlockBreakInfo;
-use pocketmine\block\BlockFactory;
-use pocketmine\inventory\CreativeInventory;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\world\generator\GeneratorManager;
 use steellgold\oneblock\commands\IslandCommand;
-use steellgold\oneblock\instances\Island;
-use steellgold\oneblock\instances\Tier;
 use steellgold\oneblock\island\generator\OneBlockPreset;
-use steellgold\oneblock\island\IslandFactory;
 use steellgold\oneblock\listeners\IslandListener;
 use steellgold\oneblock\provider\Manager;
 use steellgold\oneblock\provider\Text;
@@ -30,12 +22,6 @@ class One extends PluginBase {
 	public static One $instance;
 
 	public Config $islandConfig;
-
-	public function getDefaultBlock() {
-		$config = $this->getIslandConfig();
-		$block = explode(':', $config->get("default-block"));
-		return BlockFactory::getInstance()->get($block[0], $block[1]);
-	}
 
 	protected function onLoad(): void {
 		if (!is_dir($this->getDataFolder() . "islands")) mkdir($this->getDataFolder() . "islands");

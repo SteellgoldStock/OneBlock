@@ -3,7 +3,6 @@
 namespace steellgold\oneblock\task;
 
 use pocketmine\block\Block;
-use pocketmine\scheduler\CancelTaskException;
 use pocketmine\scheduler\Task;
 use pocketmine\world\Position;
 

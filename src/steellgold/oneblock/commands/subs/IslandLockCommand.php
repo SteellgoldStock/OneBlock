@@ -5,6 +5,7 @@ namespace steellgold\oneblock\commands\subs;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use steellgold\oneblock\instances\Rank;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 
@@ -26,8 +27,20 @@ class IslandLockCommand extends BaseSubCommand {
 			return;
 		}
 
-		if(!$session->getIsland()->getRank($sender->getName())->hasPermission("lock")){
-			$sender->sendMessage(Text::getMessage("no_permission",true));
+		if(!$session->getRank()->hasPermission("lock")){
+			$rank_name = "";
+
+			/**
+			 * @var int $rankId
+			 * @var Rank $rank
+			 */
+			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank){
+				if($rank->hasPermission("lock")){
+					$rank_name = $rank->getName();
+					$sender->sendMessage(Text::getMessage("no_permission",true, ["{PERMISSION}", "{RANK_HAVE}", "{RANK_TO}"], ["lock", $session->getRank()->getName(), $rank_name]));
+					return;
+				}
+			}
 			return;
 		}
 
@@ -37,8 +50,8 @@ class IslandLockCommand extends BaseSubCommand {
 			return;
 		}
 
-		$island->setIsPublic(true);
-		$sender->sendMessage(Text::getMessage("island_locked",true));
+		$island->setIsPublic(false);
+		$sender->sendMessage(Text::getMessage("island_locked"));
 
 		foreach ($island->getVisitors() as $visitor) {
 			$visitor = One::getInstance()->getManager()->getSession($visitor);
@@ -46,14 +59,14 @@ class IslandLockCommand extends BaseSubCommand {
 			$visitor->setIsInVisit(false);
 
 			if($visitor->hasIsland()){
-				$visitor->getPlayer()->sendMessage(Text::getMessage("island_kick_to_locked",false));
+				$visitor->getPlayer()->sendMessage(Text::getMessage("island_kick_to_locked"));
 				$visitor->getPlayer()->teleport($visitor->getIsland()->getSpawn());
 				$visitor->setIsInIsland(true);
 				return;
 			}
 
 			$visitor->setIsInIsland(false);
-			$visitor->getPlayer()->sendMessage(Text::getMessage("island_kick_locked",false));
+			$visitor->getPlayer()->sendMessage(Text::getMessage("island_kick_locked"));
 			$visitor->getPlayer()->teleport(One::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
 		}
 	}

@@ -5,7 +5,6 @@ namespace steellgold\oneblock\commands\subs;
 use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
-use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\One;
 
 class IslandTopCommand extends BaseSubCommand {

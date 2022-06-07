@@ -7,7 +7,6 @@ use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use steellgold\oneblock\instances\Rank;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 

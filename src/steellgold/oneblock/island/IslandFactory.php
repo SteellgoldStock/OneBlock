@@ -3,12 +3,8 @@
 namespace steellgold\oneblock\island;
 
 use JsonException;
-use pocketmine\block\VanillaBlocks;
-use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
-use pocketmine\scheduler\Task;
 use pocketmine\utils\Config;
-use pocketmine\world\Position;
 use pocketmine\world\World;
 use pocketmine\world\WorldCreationOptions;
 use steellgold\oneblock\instances\Island;
@@ -16,7 +12,6 @@ use steellgold\oneblock\instances\Tier;
 use steellgold\oneblock\island\generator\OneBlockPreset;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
-use steellgold\oneblock\SingleOne;
 use steellgold\oneblock\task\ChestPlaceTask;
 use steellgold\oneblock\utils\RankIds;
 

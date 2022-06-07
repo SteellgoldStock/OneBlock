@@ -7,14 +7,11 @@ use pocketmine\block\BlockFactory;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
-use pocketmine\world\Position;
 use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\instances\Rank;
 use steellgold\oneblock\instances\Session;
 use steellgold\oneblock\instances\Tier;
-use steellgold\oneblock\island\IslandFactory;
 use steellgold\oneblock\One;
-use Webmozart\PathUtil\Path;
 
 class Manager {
 
