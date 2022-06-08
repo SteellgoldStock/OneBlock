@@ -48,8 +48,11 @@ class Manager {
 		}
 
 		foreach (scandir(One::getInstance()->getDataFolder() . "../../worlds/") as $world) {
+			var_dump($world);
 			if (str_starts_with($world, "island-")) {
+				var_dump("cc");
 				if(file_exists(One::getInstance()->getDataFolder() . "islands/$world.json")){
+					var_dump("ccc");
 					$config = new Config(One::getInstance()->getDataFolder() . "islands/$world.json", Config::JSON);
 					$this->islands[$world] = new Island(
 						$world,
@@ -67,7 +70,7 @@ class Manager {
 
 		$i = 0;
 		foreach (One::getInstance()->getIslandConfig()->get("ranks") as $rank) {
-			$this->ranks[$i] = new Rank($rank["name"], $rank["permissions"], $rank["permissions"] == "*");
+			$this->ranks[$i] = new Rank($rank["name"], $rank["permissions"]);
 			$i++;
 		}
 		$this->player_data = new Config(One::getInstance()->getDataFolder() . "players.yml", Config::YAML);

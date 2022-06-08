@@ -54,9 +54,11 @@ messages:
   island_invited: "Vous venez d'inviter le joueur §f{PLAYER} §aà rejoindre votre île"
   island_invited_by: "Vous venez d'être invité à rejoindre l'île de §f{OWNER}"
   island_invited_already: "Le joueur §f{PLAYER} §aa déjà une invitation pour rejoindre une île, attendez que celle-ci soit refusée ou expirée"
+  island_invited_accept: "Vous venez de rejoindre l'île de §f{OWNER} §abienvenue !"
   island_invited_accepted: "Vous venez de rejoindre l'île de §f{OWNER} §abienvenue !"
-  island_invited_denied: "Vous venez de refuser l'invitation de §f{OWNER} §aà rejoindre son île"
+  island_invited_deny: "Vous venez de refuser l'invitation de §f{INVITER} §aà rejoindre son île"
   island_invited_refused: "Le joueur §f{PLAYER} §aà refusé votre invitation pour rejoindre votre île"
+  island_expired: "Vous n'avez pas de nouvelle invitation pour rejoindre une île, §fou alors §celle a expiré"
 
   island_owner_left: "Vous ne pouvez pas quitter votre propre ile, vous devez la supprimer la pour pouvoir en rejoindre ou créer une autre"
   island_left: "Vous venez de quitter l'île de §f{OWNER}"
@@ -90,6 +92,8 @@ messages:
   player_island_already: "Le joueur §f{PLAYER} §cpossède déjà ou est déjà membre d'une ile"
 
   # Help
+  xp-tip: "§a+1 | Tier {TIER_LEVEL}\n§f{COUNT} blocs cassées"
+
   help-top: "§a---- Liste des commandes ----"
   help-line: "§a/is {COMMAND}: §f{DESCRIPTION}"
 

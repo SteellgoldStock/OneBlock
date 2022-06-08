@@ -107,7 +107,6 @@ class IslandListener implements Listener {
 	 */
 	public function onBreak(BlockBreakEvent $event): void {
 		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
-
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
 		if($island == null) return;
 		if(!$island->hasMember($event->getPlayer()->getName())){
@@ -136,7 +135,11 @@ class IslandListener implements Listener {
 		$blocks = One::getInstance()->getManager()->getTier();
 		if ($event->getBlock()->getPosition() == new Position(0, 38, 0, $player->getWorld())) {
 			$session->getIsland()->addToObjective($player);
-			$player->sendTip("§f[§a+1§f]");
+			$player->sendTip(str_replace(
+				["{TIER_LEVEL}","{COUNT}"],
+				[$island->getTier()->getId(),$island->getObjective()],
+				One::getInstance()->getConfig()->get("messages")["xp-tip"] ?? "§a+1 | Tier {TIER_LEVEL}\n§f{COUNT} blocks breaked"
+			));
 
 			$block = $blocks->getChanceBlock()[0];
 			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($block, $event->getBlock()->getPosition()), 1);

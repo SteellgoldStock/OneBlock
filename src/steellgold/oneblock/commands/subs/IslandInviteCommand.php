@@ -54,9 +54,9 @@ class IslandInviteCommand extends BaseSubCommand {
 			return;
 		}
 
-		if($player_session->invite($session->getIsland())){
+		if($player_session->addInvite($session->getIsland(),$sender)){
 			$sender->sendMessage(Text::getMessage("island_invited",false, ["{PLAYER}"], [$player->getName()]));
-			$player->sendMessage(Text::getMessage("island_invited_by",false, ["{PLAYER}"], [$session->getIsland()->getOwner()]));
+			if($player->isOnline()) $player->sendMessage(Text::getMessage("island_invited_by",false, ["{PLAYER}"], [$session->getIsland()->getOwner()]));
 		}else{
 			$sender->sendMessage(Text::getMessage("island_invited_already",true, ["{PLAYER}"], [$player->getName()]));
 		}

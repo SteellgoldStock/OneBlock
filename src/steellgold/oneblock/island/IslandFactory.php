@@ -77,6 +77,6 @@ class IslandFactory {
 	}
 
 	public static function getIsland(World $world): ?Island {
-		return One::getInstance()->islands[$world->getFolderName()] ?? null;
+		return One::getInstance()->getManager()->islands[$world->getFolderName()] ?? null;
 	}
 }
