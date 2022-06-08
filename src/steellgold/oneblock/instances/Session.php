@@ -15,6 +15,7 @@ class Session {
 	 * @param Rank|null $rank
 	 * @param bool $isInIsland
 	 * @param bool $isInVisit
+	 * @param array $current_invite
 	 */
 	public function __construct(
 		private Player $player,
@@ -22,6 +23,7 @@ class Session {
 		private ?Rank $rank,
 		private bool $isInIsland = false,
 		private bool $isInVisit = false,
+		private array $current_invite = []
 	) {
 
 	}
@@ -98,5 +100,25 @@ class Session {
 				One::getInstance()->getManager()->close("islands", $this->island->getId());
 			}
 		}
+	}
+
+	public function invite(Island $island): bool {
+		if($this->current_invite["expire"] < time()) {
+			return false;
+		}
+
+		$this->current_invite = [
+			"id" => $island->getId(),
+			"expire" => time() + One::getInstance()->getConfig()->get("invite-time")
+		];
+		return true;
+	}
+
+	public function acceptInvitation() : bool {
+		return true;
+	}
+
+	public function denyInvitation() : bool {
+		return true;
 	}
 }

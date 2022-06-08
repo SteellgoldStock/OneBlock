@@ -50,8 +50,10 @@ messages:
 
   island_kick_success: "Vous venez d'expulser le joueur §f{PLAYER} §ade votre île"
   island_kicked: "Vous venez d'être expulsé de l'île de §f{OWNER}"
+
   island_invited: "Vous venez d'inviter le joueur §f{PLAYER} §aà rejoindre votre île"
-  island_invited_already: "Le joueur §f{PLAYER} §aa déjà une invitation pour rejoindre votre île en attente"
+  island_invited_by: "Vous venez d'être invité à rejoindre l'île de §f{OWNER}"
+  island_invited_already: "Le joueur §f{PLAYER} §aa déjà une invitation pour rejoindre une île, attendez que celle-ci soit refusée ou expirée"
   island_invited_accepted: "Vous venez de rejoindre l'île de §f{OWNER} §abienvenue !"
   island_invited_denied: "Vous venez de refuser l'invitation de §f{OWNER} §aà rejoindre son île"
   island_invited_refused: "Le joueur §f{PLAYER} §aà refusé votre invitation pour rejoindre votre île"
@@ -85,6 +87,7 @@ messages:
   kick_failed: "Le joueur §f{PLAYER} §ca un plus grand grade que vous dans une île, vous ne pouvez pas le kick"
   player_not_member: "Le joueur §f{PLAYER} §cn'est pas membre de votre île"
   player_island_not_exist: "Le joueur §f{PLAYER} §cne possède ou n'est membre d'aucunes îles"
+  player_island_already: "Le joueur §f{PLAYER} §cpossède déjà ou est déjà membre d'une ile"
 
   # Help
   help-top: "§a---- Liste des commandes ----"

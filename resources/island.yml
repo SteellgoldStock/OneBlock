@@ -30,6 +30,7 @@ spawn: # Y - 3 = Bedrock, Y - 2 = Be sure of your coordinates
   y: 40
   z: 0
 
+invitation_expiration_time: 30 # In seconds
 reteleport_at_y: 30
 
 # Avaible:
