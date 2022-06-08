@@ -11,10 +11,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandAcceptCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		// TODO: Implement prepare() method.
-	}
-
 	/**
 	 * @throws JsonException
 	 */
@@ -46,5 +42,9 @@ class IslandAcceptCommand extends BaseSubCommand {
 				$sender->sendMessage(Text::getMessage("island_expired", true));
 			}
 		}
+	}
+
+	protected function prepare(): void {
+		// TODO: Implement prepare() method.
 	}
 }

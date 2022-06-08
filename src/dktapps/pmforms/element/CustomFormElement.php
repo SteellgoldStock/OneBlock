@@ -42,22 +42,10 @@ abstract class CustomFormElement implements \JsonSerializable {
 	}
 
 	/**
-	 * Returns the type of element.
-	 */
-	abstract public function getType(): string;
-
-	/**
 	 * Returns the element's name. This is used to identify the element in code.
 	 */
 	public function getName(): string {
 		return $this->name;
-	}
-
-	/**
-	 * Returns the element's label. Usually this is used to explain to the user what a control does.
-	 */
-	public function getText(): string {
-		return $this->text;
 	}
 
 	/**
@@ -86,4 +74,16 @@ abstract class CustomFormElement implements \JsonSerializable {
 	 * @return mixed[]
 	 */
 	abstract protected function serializeElementData(): array;
+
+	/**
+	 * Returns the type of element.
+	 */
+	abstract public function getType(): string;
+
+	/**
+	 * Returns the element's label. Usually this is used to explain to the user what a control does.
+	 */
+	public function getText(): string {
+		return $this->text;
+	}
 }

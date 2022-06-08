@@ -59,6 +59,13 @@ abstract class BaseArgument {
 	abstract public function getNetworkType(): int;
 
 	/**
+	 * @return bool
+	 */
+	public function isOptional(): bool {
+		return $this->optional;
+	}
+
+	/**
 	 * @param string $testString
 	 * @param CommandSender $sender
 	 *
@@ -79,13 +86,6 @@ abstract class BaseArgument {
 	 */
 	public function getName(): string {
 		return $this->name;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isOptional(): bool {
-		return $this->optional;
 	}
 
 	/**

@@ -12,10 +12,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandKickCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		$this->registerArgument(0, new TargetArgument("player", false));
-	}
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
 			$sender->sendMessage("§cPlease run this command in-game.");
@@ -73,5 +69,9 @@ class IslandKickCommand extends BaseSubCommand {
 			$file->set($args["player"], null);
 			$file->save();
 		}
+	}
+
+	protected function prepare(): void {
+		$this->registerArgument(0, new TargetArgument("player", false));
 	}
 }

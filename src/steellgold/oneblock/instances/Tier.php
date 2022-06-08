@@ -33,12 +33,12 @@ class Tier {
 		return $this->breakToUp;
 	}
 
-	public function getBlocks(): array {
-		return $this->blocks;
-	}
-
 	public function getChanceBlock() {
 		var_dump($this->blocks);
 		return Utils::chancePercentage($this->getBlocks());
+	}
+
+	public function getBlocks(): array {
+		return $this->blocks;
 	}
 }

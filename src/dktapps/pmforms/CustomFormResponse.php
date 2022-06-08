@@ -47,6 +47,12 @@ class CustomFormResponse {
 		return $this->data[$name];
 	}
 
+	private function checkExists(string $name): void {
+		if (!isset($this->data[$name])) {
+			throw new \InvalidArgumentException("Value \"$name\" not found");
+		}
+	}
+
 	public function getString(string $name): string {
 		$this->checkExists($name);
 		return $this->data[$name];
@@ -68,11 +74,5 @@ class CustomFormResponse {
 	 */
 	public function getAll(): array {
 		return $this->data;
-	}
-
-	private function checkExists(string $name): void {
-		if (!isset($this->data[$name])) {
-			throw new \InvalidArgumentException("Value \"$name\" not found");
-		}
 	}
 }

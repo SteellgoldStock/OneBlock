@@ -11,10 +11,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandSetSpawnCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		// TODO: Implement prepare() method.
-	}
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
 			return;
@@ -59,5 +55,9 @@ class IslandSetSpawnCommand extends BaseSubCommand {
 			"Z" => $sender->getPosition()->getZ(),
 		]);
 		$sender->sendMessage(Text::getMessage("island_setspawn_success", false, ["{OWNER}", "{X}", "{Y}", "{Z}"], [$session->getIsland()->getOwner(), $sender->getPosition()->getX(), $sender->getPosition()->getY(), $sender->getPosition()->getZ()]));
+	}
+
+	protected function prepare(): void {
+		// TODO: Implement prepare() method.
 	}
 }

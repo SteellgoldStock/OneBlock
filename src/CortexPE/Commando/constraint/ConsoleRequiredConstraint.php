@@ -40,11 +40,11 @@ class ConsoleRequiredConstraint extends BaseConstraint {
 		return $this->isVisibleTo($sender);
 	}
 
-	public function onFailure(CommandSender $sender, string $aliasUsed, array $args): void {
-		$sender->sendMessage(TextFormat::RED . "This command must be executed from a server console."); // f*ck off grammar police
-	}
-
 	public function isVisibleTo(CommandSender $sender): bool {
 		return !($sender instanceof Player);
+	}
+
+	public function onFailure(CommandSender $sender, string $aliasUsed, array $args): void {
+		$sender->sendMessage(TextFormat::RED . "This command must be executed from a server console."); // f*ck off grammar police
 	}
 }

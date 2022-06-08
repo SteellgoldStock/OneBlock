@@ -43,6 +43,15 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 	use ArgumentableTrait;
 
 	/** @var string */
+	protected string $usageMessage;
+
+	/** @var CommandSender */
+	protected CommandSender $currentSender;
+
+	/** @var BaseCommand */
+	protected BaseCommand $parent;
+
+	/** @var string */
 	private string $name;
 
 	/** @var string[] */
@@ -51,17 +60,8 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 	/** @var string */
 	private string $description;
 
-	/** @var string */
-	protected string $usageMessage;
-
 	/** @var string|null */
 	private ?string $permission = null;
-
-	/** @var CommandSender */
-	protected CommandSender $currentSender;
-
-	/** @var BaseCommand */
-	protected BaseCommand $parent;
 
 	/** @var BaseConstraint[] */
 	private array $constraints = [];
@@ -77,13 +77,6 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 	}
 
 	abstract public function onRun(CommandSender $sender, string $aliasUsed, array $args): void;
-
-	/**
-	 * @return string
-	 */
-	public function getName(): string {
-		return $this->name;
-	}
 
 	/**
 	 * @return string[]
@@ -157,6 +150,13 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 
 	public function sendUsage(): void {
 		$this->currentSender->sendMessage("/{$this->parent->getName()} $this->usageMessage");
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getName(): string {
+		return $this->name;
 	}
 
 	public function addConstraint(BaseConstraint $constraint): void {

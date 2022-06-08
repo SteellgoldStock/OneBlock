@@ -48,6 +48,18 @@ class IslandFactory {
 		One::getInstance()->getScheduler()->scheduleDelayedTask(new ChestPlaceTask($owner, $identifier), 20);
 	}
 
+	public static function createWorld(string $identifier): World {
+		$server = One::getInstance()->getServer()->getWorldManager();
+		$server->generateWorld($identifier, (new WorldCreationOptions())->setGeneratorClass(OneBlockPreset::class), false);
+		$server->loadWorld($identifier);
+		$server->getWorldByName($identifier)->loadChunk(0, 0);
+		return $server->getWorldByName($identifier);
+	}
+
+	public static function getIsland(World $world): ?Island {
+		return One::getInstance()->getManager()->islands[$world->getFolderName()] ?? null;
+	}
+
 	/**
 	 * @throws JsonException
 	 */
@@ -66,17 +78,5 @@ class IslandFactory {
 				$file->get("isPublic")
 			), true);
 		}
-	}
-
-	public static function createWorld(string $identifier): World {
-		$server = One::getInstance()->getServer()->getWorldManager();
-		$server->generateWorld($identifier, (new WorldCreationOptions())->setGeneratorClass(OneBlockPreset::class), false);
-		$server->loadWorld($identifier);
-		$server->getWorldByName($identifier)->loadChunk(0, 0);
-		return $server->getWorldByName($identifier);
-	}
-
-	public static function getIsland(World $world): ?Island {
-		return One::getInstance()->getManager()->islands[$world->getFolderName()] ?? null;
 	}
 }

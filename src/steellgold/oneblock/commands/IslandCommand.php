@@ -29,6 +29,18 @@ class IslandCommand extends BaseCommand {
 
 	const HULK = false;
 
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+		$sender->sendMessage(self::getHelp());
+	}
+
+	public static function getHelp(): string {
+		$line = One::getInstance()->getConfig()->get("messages")["help-top"];
+		foreach ((new IslandCommand(One::getInstance(), "island"))->getSubCommands() as $subCommand) {
+			$line .= "\n" . str_replace(["{COMMAND}", "{DESCRIPTION}"], [$subCommand->getName(), $subCommand->getDescription()], One::getInstance()->getConfig()->get("messages")["help-line"]);
+		}
+		return $line;
+	}
+
 	protected function prepare(): void {
 		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create"))); # OK
 		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"), ["join"])); # OK
@@ -51,17 +63,5 @@ class IslandCommand extends BaseCommand {
 			$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
 			$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
 		}
-	}
-
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-		$sender->sendMessage(self::getHelp());
-	}
-
-	public static function getHelp(): string {
-		$line = One::getInstance()->getConfig()->get("messages")["help-top"];
-		foreach ((new IslandCommand(One::getInstance(), "island"))->getSubCommands() as $subCommand) {
-			$line .= "\n" . str_replace(["{COMMAND}", "{DESCRIPTION}"], [$subCommand->getName(), $subCommand->getDescription()], One::getInstance()->getConfig()->get("messages")["help-line"]);
-		}
-		return $line;
 	}
 }

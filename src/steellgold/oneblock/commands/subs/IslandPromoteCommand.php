@@ -11,10 +11,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandPromoteCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		$this->registerArgument(0, new TargetArgument("player", false));
-	}
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
 			return;
@@ -56,5 +52,9 @@ class IslandPromoteCommand extends BaseSubCommand {
 		if ($p instanceof Player) {
 			$p->sendMessage(Text::getMessage("island_player_promoted", false, ["{RANK}"], [$ra->getName()]));
 		}
+	}
+
+	protected function prepare(): void {
+		$this->registerArgument(0, new TargetArgument("player", false));
 	}
 }

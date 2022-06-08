@@ -6,8 +6,6 @@ namespace muqsit\simplepackethandler\monitor;
 
 use Closure;
 use pocketmine\network\mcpe\NetworkSession;
-use pocketmine\network\mcpe\protocol\ClientboundPacket;
-use pocketmine\network\mcpe\protocol\ServerboundPacket;
 
 interface IPacketMonitor {
 

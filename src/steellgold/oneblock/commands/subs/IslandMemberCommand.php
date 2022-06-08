@@ -10,10 +10,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandMemberCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-
-	}
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
 			return;
@@ -31,5 +27,9 @@ class IslandMemberCommand extends BaseSubCommand {
 			$lines .= "\n" . str_replace(["{PLAYER}", "{RANK}"], [$member, $session->getIsland()->getRankById($rankID)->getName()], One::getInstance()->getConfig()->get("messages")["members-line"]);
 		}
 		$sender->sendMessage($lines);
+	}
+
+	protected function prepare(): void {
+
 	}
 }

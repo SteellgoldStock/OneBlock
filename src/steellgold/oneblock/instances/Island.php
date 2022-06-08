@@ -54,12 +54,28 @@ class Island {
 		}
 	}
 
-	public function getRankById(int $id): Rank {
-		return One::getInstance()->getManager()->ranks[$id];
+	public function getId(): string {
+		return $this->id;
+	}
+
+	public function save() {
+		$island = new Config(One::getInstance()->getDataFolder() . "islands/" . $this->id . ".json", Config::JSON);
+		$island->set("owner", $this->owner);
+		$island->set("members", $this->members);
+		$island->set("visitors", $this->visitors);
+		$island->set("spawn", $this->spawn);
+		$island->set("tier", $this->tier->getId());
+		$island->set("objective", $this->objective);
+		$island->set("isPublic", $this->isPublic);
+		$island->save();
 	}
 
 	public function getRank(string $player, bool $integer = false): int|Rank {
 		return $integer ? $this->members[$player] : $this->getRankById($this->members[$player] ?? 0);
+	}
+
+	public function getRankById(int $id): Rank {
+		return One::getInstance()->getManager()->ranks[$id];
 	}
 
 	public function setRank(string $player, int $rank, bool $updateSession = true): void {
@@ -75,16 +91,8 @@ class Island {
 		}
 	}
 
-	public function getId(): string {
-		return $this->id;
-	}
-
 	public function getOwner(): string {
 		return $this->owner;
-	}
-
-	public function getMembers(): array {
-		return $this->members;
 	}
 
 	public function setMembers(array $members): void {
@@ -134,6 +142,35 @@ class Island {
 		$this->spawn = $spawn;
 	}
 
+	public function isTierMax(): bool {
+		if (!key_exists(($this->tier->getId() + 1), One::getInstance()->getManager()->tiers)) {
+			return true;
+		} else return false;
+	}
+
+	public function addToObjective(Player $player, int $count = 1): void {
+		$this->objective += $count;
+		if ($this->checkTier()) {
+			$tier = $this->addTier();
+			if ($tier == "max") {
+				return;
+			}
+			$this->sendSuccess($player, One::getInstance()->getManager()->getTier($this->getTier()->getId() - 1));
+		}
+	}
+
+	public function checkTier(): string|bool {
+		if ($this->getObjective() >= $this->getTier()->getBreakToUp()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function getObjective(): int {
+		return $this->objective;
+	}
+
 	public function getTier(): Tier {
 		return $this->tier;
 	}
@@ -147,37 +184,8 @@ class Island {
 		return true;
 	}
 
-	public function isTierMax(): bool {
-		if (!key_exists(($this->tier->getId() + 1), One::getInstance()->getManager()->tiers)) {
-			return true;
-		} else return false;
-	}
-
-	public function checkTier(): string|bool {
-		if ($this->getObjective() >= $this->getTier()->getBreakToUp()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public function setTier(Tier $tier): void {
 		$this->tier = $tier;
-	}
-
-	public function getObjective(): int {
-		return $this->objective;
-	}
-
-	public function addToObjective(Player $player, int $count = 1): void {
-		$this->objective += $count;
-		if ($this->checkTier()) {
-			$tier = $this->addTier();
-			if ($tier == "max") {
-				return;
-			}
-			$this->sendSuccess($player, One::getInstance()->getManager()->getTier($this->getTier()->getId() - 1));
-		}
 	}
 
 	private function sendSuccess(Player $player, Tier $tier): void {
@@ -217,24 +225,16 @@ class Island {
 		}
 	}
 
+	public function getMembers(): array {
+		return $this->members;
+	}
+
 	public function isPublic(): bool {
 		return $this->isPublic;
 	}
 
 	public function setIsPublic(bool $isPublic): void {
 		$this->isPublic = $isPublic;
-	}
-
-	public function save() {
-		$island = new Config(One::getInstance()->getDataFolder() . "islands/" . $this->id . ".json", Config::JSON);
-		$island->set("owner", $this->owner);
-		$island->set("members", $this->members);
-		$island->set("visitors", $this->visitors);
-		$island->set("spawn", $this->spawn);
-		$island->set("tier", $this->tier->getId());
-		$island->set("objective", $this->objective);
-		$island->set("isPublic", $this->isPublic);
-		$island->save();
 	}
 
 	public function delete() {

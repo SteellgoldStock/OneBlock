@@ -9,12 +9,12 @@ use steellgold\oneblock\SingleOne;
 
 abstract class IslandGenerator extends Generator {
 
-	public function populateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void {
-		return;
-	}
-
 	public static function getWorldSpawn(): Vector3 {
 		$spawn = SingleOne::getInstance()->getIslandConfig()->get("spawn");
 		return new Vector3($spawn["x"], $spawn["y"], $spawn["z"]);
+	}
+
+	public function populateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void {
+		return;
 	}
 }

@@ -10,10 +10,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandGoCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		// TODO: Implement prepare() method.
-	}
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
 			$sender->sendMessage("§cPlease run this command in-game.");
@@ -49,5 +45,9 @@ class IslandGoCommand extends BaseSubCommand {
 				$sender->sendMessage(One::getInstance()->getConfig()->get("messages")["prefix"]["success"] . $message);
 				break;
 		}
+	}
+
+	protected function prepare(): void {
+		// TODO: Implement prepare() method.
 	}
 }

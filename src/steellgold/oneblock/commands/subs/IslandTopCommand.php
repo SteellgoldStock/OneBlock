@@ -9,10 +9,6 @@ use steellgold\oneblock\One;
 
 class IslandTopCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		$this->registerArgument(0, new IntegerArgument("page_number", true));
-	}
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		$array = $this->sort_array_of_array(One::getInstance()->getManager()->getIslandsTop());
 
@@ -68,5 +64,9 @@ class IslandTopCommand extends BaseSubCommand {
 
 		array_multisort($sortarray, SORT_DESC, $array);
 		return $array;
+	}
+
+	protected function prepare(): void {
+		$this->registerArgument(0, new IntegerArgument("page_number", true));
 	}
 }

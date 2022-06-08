@@ -40,10 +40,6 @@ class ServerSettingsForm extends CustomForm {
 		$this->icon = $icon;
 	}
 
-	public function hasIcon(): bool {
-		return $this->icon !== null;
-	}
-
 	public function getIcon(): ?FormIcon {
 		return $this->icon;
 	}
@@ -56,5 +52,9 @@ class ServerSettingsForm extends CustomForm {
 		}
 
 		return $data;
+	}
+
+	public function hasIcon(): bool {
+		return $this->icon !== null;
 	}
 }

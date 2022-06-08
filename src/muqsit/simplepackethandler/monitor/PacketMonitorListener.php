@@ -19,21 +19,6 @@ use pocketmine\Server;
 
 final class PacketMonitorListener implements IPacketMonitor, Listener {
 
-	/**
-	 * @param Closure $handler
-	 * @return int
-	 *
-	 * @phpstan-template TPacket of \pocketmine\network\mcpe\protocol\Packet
-	 * @phpstan-template UPacket of TPacket
-	 * @phpstan-param Closure(UPacket, NetworkSession) : void $handler
-	 * @phpstan-param class-string<TPacket> $class
-	 */
-	private static function getPidFromHandler(Closure $handler, string $class): int {
-		$classes = Utils::parseClosureSignature($handler, [$class, NetworkSession::class], "void");
-		assert(is_a($classes[0], DataPacket::class, true));
-		return $classes[0]::NETWORK_ID;
-	}
-
 	private ?Closure $incoming_event_handler = null;
 
 	private ?Closure $outgoing_event_handler = null;
@@ -73,6 +58,21 @@ final class PacketMonitorListener implements IPacketMonitor, Listener {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * @param Closure $handler
+	 * @return int
+	 *
+	 * @phpstan-template TPacket of \pocketmine\network\mcpe\protocol\Packet
+	 * @phpstan-template UPacket of TPacket
+	 * @phpstan-param Closure(UPacket, NetworkSession) : void $handler
+	 * @phpstan-param class-string<TPacket> $class
+	 */
+	private static function getPidFromHandler(Closure $handler, string $class): int {
+		$classes = Utils::parseClosureSignature($handler, [$class, NetworkSession::class], "void");
+		assert(is_a($classes[0], DataPacket::class, true));
+		return $classes[0]::NETWORK_ID;
 	}
 
 	public function monitorOutgoing(Closure $handler): IPacketMonitor {

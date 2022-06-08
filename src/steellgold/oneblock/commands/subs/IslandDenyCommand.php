@@ -11,10 +11,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandDenyCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		// TODO: Implement prepare() method.
-	}
-
 	/**
 	 * @throws JsonException
 	 */
@@ -42,5 +38,9 @@ class IslandDenyCommand extends BaseSubCommand {
 				$sender->sendMessage(Text::getMessage("island_expired", true));
 			}
 		}
+	}
+
+	protected function prepare(): void {
+		// TODO: Implement prepare() method.
 	}
 }

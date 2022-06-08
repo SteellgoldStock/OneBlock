@@ -51,11 +51,6 @@ trait ArgumentableTrait {
 	private array $requiredArgumentCount = [];
 
 	/**
-	 * This is where all the arguments, permissions, sub-commands, etc would be registered
-	 */
-	abstract protected function prepare(): void;
-
-	/**
 	 * @param int $position
 	 * @param BaseArgument $argument
 	 *
@@ -164,6 +159,10 @@ trait ArgumentableTrait {
 		return $return;
 	}
 
+	public function hasArguments(): bool {
+		return !empty($this->argumentList);
+	}
+
 	public function generateUsageMessage(): string {
 		$msg = $this->getName() . " ";
 		$args = [];
@@ -188,10 +187,6 @@ trait ArgumentableTrait {
 		return $msg;
 	}
 
-	public function hasArguments(): bool {
-		return !empty($this->argumentList);
-	}
-
 	public function hasRequiredArguments(): bool {
 		foreach ($this->argumentList as $arguments) {
 			foreach ($arguments as $argument) {
@@ -210,4 +205,9 @@ trait ArgumentableTrait {
 	public function getArgumentList(): array {
 		return $this->argumentList;
 	}
+
+	/**
+	 * This is where all the arguments, permissions, sub-commands, etc would be registered
+	 */
+	abstract protected function prepare(): void;
 }

@@ -14,14 +14,23 @@ use steellgold\oneblock\provider\Text;
 
 class One extends PluginBase {
 
-	public Manager $manager;
-
 	/**
 	 * @var One
 	 */
 	public static One $instance;
 
+	public Manager $manager;
+
 	public Config $islandConfig;
+
+	public function getIslandConfig(): Config {
+		if (!$this->islandConfig) $this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
+		return $this->islandConfig;
+	}
+
+	public function getManager(): Manager {
+		return $this->manager;
+	}
 
 	protected function onLoad(): void {
 		if (!is_dir($this->getDataFolder() . "islands")) mkdir($this->getDataFolder() . "islands");
@@ -31,6 +40,13 @@ class One extends PluginBase {
 
 		self::$instance = $this;
 		$this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
+	}
+
+	/**
+	 * @return One
+	 */
+	public static function getInstance(): One {
+		return self::$instance;
 	}
 
 	protected function onEnable(): void {
@@ -48,21 +64,5 @@ class One extends PluginBase {
 		foreach ($this->manager->getSessions() as $session) {
 			$session->closeSession();
 		}
-	}
-
-	public function getIslandConfig(): Config {
-		if (!$this->islandConfig) $this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
-		return $this->islandConfig;
-	}
-
-	public function getManager(): Manager {
-		return $this->manager;
-	}
-
-	/**
-	 * @return One
-	 */
-	public static function getInstance(): One {
-		return self::$instance;
 	}
 }

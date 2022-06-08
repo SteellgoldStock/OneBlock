@@ -7,15 +7,10 @@ use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\Server;
-use steellgold\oneblock\instances\Rank;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 
 class IslandInviteCommand extends BaseSubCommand {
-
-	protected function prepare(): void {
-		$this->registerArgument(0, new TargetArgument("player", false));
-	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
@@ -60,5 +55,9 @@ class IslandInviteCommand extends BaseSubCommand {
 		} else {
 			$sender->sendMessage(Text::getMessage("island_invited_already", true, ["{PLAYER}"], [$player->getName()]));
 		}
+	}
+
+	protected function prepare(): void {
+		$this->registerArgument(0, new TargetArgument("player", false));
 	}
 }

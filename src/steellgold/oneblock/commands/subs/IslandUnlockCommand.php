@@ -11,10 +11,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandUnlockCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-
-	}
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
 			$sender->sendMessage("§cPlease run this command in-game.");
@@ -69,5 +65,9 @@ class IslandUnlockCommand extends BaseSubCommand {
 			$visitor->getPlayer()->sendMessage(Text::getMessage("island_kick_locked", false));
 			$visitor->getPlayer()->teleport(One::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
 		}
+	}
+
+	protected function prepare(): void {
+
 	}
 }

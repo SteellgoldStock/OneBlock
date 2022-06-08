@@ -11,10 +11,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandLeaveCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		// TODO: Implement prepare() method.
-	}
-
 	/**
 	 * @throws JsonException
 	 */
@@ -38,5 +34,9 @@ class IslandLeaveCommand extends BaseSubCommand {
 		$session->getIsland()->delMember($sender->getName());
 		$session->setIsland(null);
 		$sender->sendMessage(Text::getMessage("island_left"));
+	}
+
+	protected function prepare(): void {
+		// TODO: Implement prepare() method.
 	}
 }

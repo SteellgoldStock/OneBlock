@@ -49,6 +49,10 @@ abstract class StringEnumArgument extends BaseArgument {
 		$this->parameterData->enum = new CommandEnum("", $this->getEnumValues());
 	}
 
+	public function getEnumValues(): array {
+		return array_keys(static::VALUES);
+	}
+
 	public function getNetworkType(): int {
 		// this will be disregarded by PM anyways because this will be considered as a string enum
 		return -1;
@@ -63,9 +67,5 @@ abstract class StringEnumArgument extends BaseArgument {
 
 	public function getValue(string $string) {
 		return static::VALUES[strtolower($string)];
-	}
-
-	public function getEnumValues(): array {
-		return array_keys(static::VALUES);
 	}
 }

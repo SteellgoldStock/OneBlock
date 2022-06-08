@@ -12,10 +12,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandInfoCommand extends BaseSubCommand {
 
-	protected function prepare(): void {
-		$this->registerArgument(0, new TextArgument("owner", true));
-	}
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
 			return;
@@ -54,5 +50,9 @@ class IslandInfoCommand extends BaseSubCommand {
 		if ($c == $i) {
 			$sender->sendMessage(Text::getMessage("player_not_found", true, ["{PLAYER}"], [$args["owner"]]));
 		}
+	}
+
+	protected function prepare(): void {
+		$this->registerArgument(0, new TextArgument("owner", true));
 	}
 }
