@@ -130,7 +130,6 @@ class IslandListener implements Listener {
 			$block = $blocks->getChanceBlock()[0];
 			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($block, $event->getBlock()->getPosition()), 1);
 		}
-		// TODO: Block action if doesn't permission
 	}
 
 	public function onDeath(PlayerDeathEvent $event) {
