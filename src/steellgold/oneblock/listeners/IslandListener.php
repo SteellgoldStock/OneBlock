@@ -10,6 +10,7 @@ use pocketmine\event\entity\EntityTrampleFarmlandEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -70,6 +71,16 @@ class IslandListener implements Listener {
 	}
 
 	public function onInteract(PlayerInteractEvent $event) {
+		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
+
+		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
+		if($island == null) return;
+		if(!$island->hasMember($event->getPlayer()->getName())){
+			$event->cancel();
+		}
+	}
+
+	public function onUse(PlayerItemUseEvent $event) {
 		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
 
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
