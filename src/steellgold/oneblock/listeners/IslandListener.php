@@ -132,10 +132,6 @@ class IslandListener implements Listener {
 		}
 	}
 
-	public function onDeath(PlayerDeathEvent $event) {
-		// TODO: Respawn in island (if true in config)
-	}
-
 	public function onDamage(EntityDamageByEntityEvent $event){
 		$player = $event->getEntity();
 		$damager = $event->getDamager();

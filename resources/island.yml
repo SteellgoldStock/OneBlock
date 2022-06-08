@@ -5,7 +5,6 @@ start_inventory:
 
 # Join automatically at player island (if have an island) after joining the server
 auto_island: true
-respawn_in_island: true # If the player dies by any means then he will be deported back to the island
 
 # New members island settings
 clear_inventory_on_join: false
