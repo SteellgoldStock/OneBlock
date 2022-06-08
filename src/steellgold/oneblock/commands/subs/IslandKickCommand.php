@@ -19,7 +19,7 @@ class IslandKickCommand extends BaseSubCommand {
 		}
 
 		$session = One::getInstance()->getManager()->getSession($sender);
-		if (!$session->getRank()->hasPermission("kick")) {
+		if (!$session->getIsland()->getRank($sender->getName())->hasPermission("kick")) {
 			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank) {
 				if ($rank->hasPermission("kick")) {
 					$rank_name = $rank->getName();

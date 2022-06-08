@@ -23,13 +23,7 @@ class IslandLockCommand extends BaseSubCommand {
 			return;
 		}
 
-		if (!$session->getRank()->hasPermission("lock")) {
-			$rank_name = "";
-
-			/**
-			 * @var int $rankId
-			 * @var Rank $rank
-			 */
+		if (!$session->getIsland()->getRank($sender->getName())->hasPermission("lock")) {
 			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank) {
 				if ($rank->hasPermission("lock")) {
 					$rank_name = $rank->getName();

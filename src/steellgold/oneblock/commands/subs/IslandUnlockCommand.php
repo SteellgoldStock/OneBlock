@@ -23,13 +23,7 @@ class IslandUnlockCommand extends BaseSubCommand {
 			return;
 		}
 
-		if (!$session->getRank()->hasPermission("unlock")) {
-			$rank_name = "";
-
-			/**
-			 * @var int $rankId
-			 * @var Rank $rank
-			 */
+		if (!$session->getIsland()->getRank($sender->getName())->hasPermission("unlock")) {
 			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank) {
 				if ($rank->hasPermission("unlock")) {
 					$rank_name = $rank->getName();

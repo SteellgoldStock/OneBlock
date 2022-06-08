@@ -17,13 +17,7 @@ class IslandSetSpawnCommand extends BaseSubCommand {
 		}
 
 		$session = One::getInstance()->getManager()->getSession($sender->getName());
-		if (!$session->getRank()->hasPermission("setspawn")) {
-			$rank_name = "";
-
-			/**
-			 * @var int $rankId
-			 * @var Rank $rank
-			 */
+		if (!$session->getIsland()->getRank($sender->getName())->hasPermission("setspawn")) {
 			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank) {
 				if ($rank->hasPermission("setspawn")) {
 					$rank_name = $rank->getName();

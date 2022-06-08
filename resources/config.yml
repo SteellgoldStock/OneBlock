@@ -91,6 +91,8 @@ messages:
   player_island_not_exist: "Le joueur §f{PLAYER} §cne possède ou n'est membre d'aucunes îles"
   player_island_already: "Le joueur §f{PLAYER} §cpossède déjà ou est déjà membre d'une ile"
 
+  timer_create: "Patientez encore §f{MINUTES} minutes §cet §f{SECONDS} secondes §cavant de pouvoir créer une nouvelle île"
+
   # Help
   xp-tip: "§a+1 | Tier {TIER_LEVEL}\n§f{COUNT} blocs cassées"
 

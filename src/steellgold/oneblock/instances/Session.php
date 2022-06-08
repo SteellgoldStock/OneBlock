@@ -25,9 +25,22 @@ class Session {
 		private bool    $isInIsland = false,
 		private bool    $isInVisit = false,
 		private array   $current_invite = [],
-		private ?Player $current_invite_player = null
+		private ?Player $current_invite_player = null,
+		private int $timer = 0
 	) {
 
+	}
+
+	public function setTimer(): void {
+		$this->timer = time() + One::getInstance()->getIslandConfig()->get("island_cooldown");
+	}
+
+	public function getTimer(): int {
+		return $this->timer;
+	}
+
+	public function isEndedTimer(): bool {
+		return time() >= $this->timer;
 	}
 
 	public function getPlayer(): Player {

@@ -51,6 +51,7 @@ class IslandDeleteCommand extends BaseSubCommand {
 				if ($session == null) return;
 				if ($selectedOption == 0) {
 					$session->getIsland()->delete();
+					$session->setTimer();
 					$player->sendMessage(Text::getMessage("island_deleted"));
 				}
 			}
