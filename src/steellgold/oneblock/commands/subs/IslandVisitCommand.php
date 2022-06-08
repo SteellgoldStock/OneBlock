@@ -29,8 +29,8 @@ class IslandVisitCommand extends BaseSubCommand {
 		$session = One::getInstance()->getManager()->getSession($args["player"]);
 		$vsession = One::getInstance()->getManager()->getSession($sender->getName());
 
-		if($session == null){
-			$sender->sendMessage(Text::getMessage("player_not_found",true,["{PLAYER}"],[$args["player"]]));
+		if ($session == null) {
+			$sender->sendMessage(Text::getMessage("player_not_found", true, ["{PLAYER}"], [$args["player"]]));
 			return;
 		}
 
@@ -59,7 +59,7 @@ class IslandVisitCommand extends BaseSubCommand {
 			3 => GameMode::SPECTATOR(),
 			default => GameMode::ADVENTURE()
 		});
-		$sender->sendMessage(Text::getMessage("island_visit_teleported", false, ["{OWNER}","{GAMEMODE}"], [$session->getIsland()->getOwner(), $sender->getGamemode()->getEnglishName()]));
+		$sender->sendMessage(Text::getMessage("island_visit_teleported", false, ["{OWNER}", "{GAMEMODE}"], [$session->getIsland()->getOwner(), $sender->getGamemode()->getEnglishName()]));
 		$sender->teleport($session->getIsland()->getSpawn());
 	}
 }

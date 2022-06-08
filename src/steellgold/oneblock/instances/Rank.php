@@ -9,7 +9,7 @@ class Rank {
 	 * @param string|array $permissions
 	 */
 	public function __construct(
-		public string $name,
+		public string       $name,
 		public string|array $permissions,
 	) {
 
@@ -19,12 +19,12 @@ class Rank {
 		return $this->name;
 	}
 
-	public function getPermissions() : string|array {
+	public function getPermissions(): string|array {
 		return $this->permissions;
 	}
 
-	public function hasPermission(string $permission) : bool {
-		if($this->permissions == "*"){
+	public function hasPermission(string $permission): bool {
+		if ($this->permissions == "*") {
 			return true;
 		}
 

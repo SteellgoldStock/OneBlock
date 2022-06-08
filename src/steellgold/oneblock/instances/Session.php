@@ -19,18 +19,18 @@ class Session {
 	 * @param Player|null $current_invite_player
 	 */
 	public function __construct(
-		private Player $player,
+		private Player  $player,
 		private ?Island $island,
-		private ?Rank $rank,
-		private bool $isInIsland = false,
-		private bool $isInVisit = false,
-		private array $current_invite = [],
+		private ?Rank   $rank,
+		private bool    $isInIsland = false,
+		private bool    $isInVisit = false,
+		private array   $current_invite = [],
 		private ?Player $current_invite_player = null
 	) {
 
 	}
 
-	public function getPlayer() : Player {
+	public function getPlayer(): Player {
 		return $this->player;
 	}
 
@@ -47,7 +47,7 @@ class Session {
 	 */
 	public function setIsland(?Island $island): void {
 		$file = One::getInstance()->getManager()->player_data;
-		if($island === null) {
+		if ($island === null) {
 			$file->set($this->player->getName(), null);
 		} else {
 			$file->set($this->player->getName(), $island->getId());
@@ -57,11 +57,11 @@ class Session {
 		$this->island = $island;
 	}
 
-	public function getIsland() : Island {
+	public function getIsland(): Island {
 		return $this->island;
 	}
 
-	public function isInIsland() : bool {
+	public function isInIsland(): bool {
 		return $this->isInIsland;
 	}
 
@@ -69,7 +69,7 @@ class Session {
 		$this->isInIsland = $isInIsland;
 	}
 
-	public function isInVisit() : bool {
+	public function isInVisit(): bool {
 		return $this->isInVisit;
 	}
 
@@ -77,24 +77,24 @@ class Session {
 		$this->isInVisit = $isInVisit;
 	}
 
-	public function hasIsland() : bool {
+	public function hasIsland(): bool {
 		return $this->island !== null;
 	}
 
-	public function closeSession() : void {
+	public function closeSession(): void {
 		One::getInstance()->getLogger()->info("Closing session for player " . $this->player->getName());
 		One::getInstance()->getManager()->close("sessions", $this->player->getName());
 
-		if($this->island !== null) {
+		if ($this->island !== null) {
 			$members = count(array_keys($this->island->getMembers()));
 			$i = 0;
 			foreach ($this->island->getMembers() as $member) {
-				if(!Server::getInstance()->getPlayerByPrefix($member) instanceof Player) {
+				if (!Server::getInstance()->getPlayerByPrefix($member) instanceof Player) {
 					$i++;
 				}
 			}
 
-			if($i == $members){
+			if ($i == $members) {
 				$this->island->save();
 
 				Server::getInstance()->getWorldManager()->unloadWorld($this->island->getWorld());
@@ -104,9 +104,9 @@ class Session {
 		}
 	}
 
-	public function hasInvitation() : bool {
-		if($this->current_invite == []) return false;
-		if(time() >= $this->current_invite["time"]){
+	public function hasInvitation(): bool {
+		if ($this->current_invite == []) return false;
+		if (time() >= $this->current_invite["time"]) {
 			return false;
 		}
 
@@ -121,7 +121,7 @@ class Session {
 	}
 
 	public function addInvite(Island $island, Player $inviter): bool {
-		if(time() >= $this->current_invite["expire"]) {
+		if (time() >= $this->current_invite["expire"]) {
 			return false;
 		}
 
@@ -133,16 +133,16 @@ class Session {
 		return true;
 	}
 
-	public function acceptInvitation() : bool {
-		if(time() >= $this->current_invite["expire"]) {
+	public function acceptInvitation(): bool {
+		if (time() >= $this->current_invite["expire"]) {
 			return false;
 		}
 
 		return true;
 	}
 
-	public function denyInvitation() : bool {
-		if(time() >= $this->current_invite["expire"]) {
+	public function denyInvitation(): bool {
+		if (time() >= $this->current_invite["expire"]) {
 			return false;
 		}
 

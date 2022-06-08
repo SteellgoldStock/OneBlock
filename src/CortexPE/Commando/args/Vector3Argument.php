@@ -34,12 +34,14 @@ use pocketmine\command\CommandSender;
 use pocketmine\entity\Entity;
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
+
 use function count;
 use function explode;
 use function preg_match;
 use function substr;
 
 class Vector3Argument extends BaseArgument {
+
 	public function getNetworkType(): int {
 		return AvailableCommandsPacket::ARG_TYPE_POSITION;
 	}
@@ -50,9 +52,9 @@ class Vector3Argument extends BaseArgument {
 
 	public function canParse(string $testString, CommandSender $sender): bool {
 		$coords = explode(" ", $testString);
-		if(count($coords) === 3) {
-			foreach($coords as $coord) {
-				if(!$this->isValidCoordinate($coord, $sender instanceof Vector3)) {
+		if (count($coords) === 3) {
+			foreach ($coords as $coord) {
+				if (!$this->isValidCoordinate($coord, $sender instanceof Vector3)) {
 					return false;
 				}
 			}
@@ -67,13 +69,13 @@ class Vector3Argument extends BaseArgument {
 		return (bool)preg_match("/^(?:" . ($locatable ? "(?:~-|~\+)?" : "") . "-?(?:\d+|\d*\.\d+))" . ($locatable ? "|~" : "") . "$/", $coordinate);
 	}
 
-	public function parse(string $argument, CommandSender $sender) : Vector3{
+	public function parse(string $argument, CommandSender $sender): Vector3 {
 		$coords = explode(" ", $argument);
 		$vals = [];
-		foreach($coords as $k => $coord){
+		foreach ($coords as $k => $coord) {
 			$offset = 0;
 			// if it's locatable and starts with ~- or ~+
-			if($sender instanceof Entity && preg_match("/^(?:~-|~\+)|~/", $coord)){
+			if ($sender instanceof Entity && preg_match("/^(?:~-|~\+)|~/", $coord)) {
 				// this will work with -n, +n and "" due to typecast later
 				$offset = substr($coord, 1);
 

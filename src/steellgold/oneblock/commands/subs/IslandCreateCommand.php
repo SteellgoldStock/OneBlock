@@ -16,14 +16,14 @@ class IslandCreateCommand extends BaseSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-		if(!$sender instanceof Player){
+		if (!$sender instanceof Player) {
 			$sender->sendMessage("§cPlease run this command in-game.");
 			return;
 		}
 
 		$session = One::getInstance()->getManager()->getSession($sender);
-		if($session->hasIsland()){
-			$sender->sendMessage(Text::getMessage("already_in_island",true));
+		if ($session->hasIsland()) {
+			$sender->sendMessage(Text::getMessage("already_in_island", true));
 			return;
 		}
 

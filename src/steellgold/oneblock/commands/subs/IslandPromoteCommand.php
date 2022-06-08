@@ -38,19 +38,19 @@ class IslandPromoteCommand extends BaseSubCommand {
 		}
 
 		if ($session->getIsland()->getOwner() == $args['player']) {
-			$sender->sendMessage(Text::getMessage("island_cant_promote", true, ["{PLAYER}"],[$args['player']]));
+			$sender->sendMessage(Text::getMessage("island_cant_promote", true, ["{PLAYER}"], [$args['player']]));
 			return;
 		}
 
 		if ($session->getIsland()->getRank($args['player'], true) == 2) {
-			$sender->sendMessage(Text::getMessage("island_cant_promote", true, ["{PLAYER}"],[$args['player']]));
+			$sender->sendMessage(Text::getMessage("island_cant_promote", true, ["{PLAYER}"], [$args['player']]));
 			return;
 		}
 
 		$rank = $session->getIsland()->getRank($args['player'], true);
 		$ra = $session->getIsland()->getRankById(($rank + 1));
 		$session->getIsland()->setRank($args['player'], ($rank + 1));
-		$sender->sendMessage(Text::getMessage("island_promoted", false, ["{PLAYER}","{RANK}"],[$sender->getName(),$ra->getName()]));
+		$sender->sendMessage(Text::getMessage("island_promoted", false, ["{PLAYER}", "{RANK}"], [$sender->getName(), $ra->getName()]));
 
 		$p = One::getInstance()->getServer()->getPlayerByPrefix($args['player']);
 		if ($p instanceof Player) {

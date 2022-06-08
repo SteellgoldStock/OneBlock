@@ -28,13 +28,15 @@ use pocketmine\form\FormValidationException;
 /**
  * Base class for UI elements which can be placed on custom forms.
  */
-abstract class CustomFormElement implements \JsonSerializable{
+abstract class CustomFormElement implements \JsonSerializable {
+
 	/** @var string */
 	private $name;
+
 	/** @var string */
 	private $text;
 
-	public function __construct(string $name, string $text){
+	public function __construct(string $name, string $text) {
 		$this->name = $name;
 		$this->text = $text;
 	}
@@ -42,19 +44,19 @@ abstract class CustomFormElement implements \JsonSerializable{
 	/**
 	 * Returns the type of element.
 	 */
-	abstract public function getType() : string;
+	abstract public function getType(): string;
 
 	/**
 	 * Returns the element's name. This is used to identify the element in code.
 	 */
-	public function getName() : string{
+	public function getName(): string {
 		return $this->name;
 	}
 
 	/**
 	 * Returns the element's label. Usually this is used to explain to the user what a control does.
 	 */
-	public function getText() : string{
+	public function getText(): string {
 		return $this->text;
 	}
 
@@ -65,13 +67,13 @@ abstract class CustomFormElement implements \JsonSerializable{
 	 * @param mixed $value
 	 * @throws FormValidationException
 	 */
-	abstract public function validateValue($value) : void;
+	abstract public function validateValue($value): void;
 
 	/**
 	 * Returns an array of properties which can be serialized to JSON for sending.
 	 * @return mixed[]
 	 */
-	final public function jsonSerialize() : array{
+	final public function jsonSerialize(): array {
 		$ret = $this->serializeElementData();
 		$ret["type"] = $this->getType();
 		$ret["text"] = $this->getText();
@@ -83,5 +85,5 @@ abstract class CustomFormElement implements \JsonSerializable{
 	 * Returns an array of extra data needed to serialize this element to JSON for showing to a player on a form.
 	 * @return mixed[]
 	 */
-	abstract protected function serializeElementData() : array;
+	abstract protected function serializeElementData(): array;
 }

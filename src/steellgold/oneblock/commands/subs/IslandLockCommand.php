@@ -16,28 +16,28 @@ class IslandLockCommand extends BaseSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-		if(!$sender instanceof Player){
+		if (!$sender instanceof Player) {
 			$sender->sendMessage("§cPlease run this command in-game.");
 			return;
 		}
 
 		$session = One::getInstance()->getManager()->getSession($sender);
-		if(!$session->hasIsland()){
-			$sender->sendMessage(Text::getMessage("dont_have_island",true));
+		if (!$session->hasIsland()) {
+			$sender->sendMessage(Text::getMessage("dont_have_island", true));
 			return;
 		}
 
-		if(!$session->getRank()->hasPermission("lock")){
+		if (!$session->getRank()->hasPermission("lock")) {
 			$rank_name = "";
 
 			/**
 			 * @var int $rankId
 			 * @var Rank $rank
 			 */
-			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank){
-				if($rank->hasPermission("lock")){
+			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank) {
+				if ($rank->hasPermission("lock")) {
 					$rank_name = $rank->getName();
-					$sender->sendMessage(Text::getMessage("no_permission",true, ["{PERMISSION}", "{RANK_HAVE}", "{RANK_TO}"], ["lock", $session->getRank()->getName(), $rank_name]));
+					$sender->sendMessage(Text::getMessage("no_permission", true, ["{PERMISSION}", "{RANK_HAVE}", "{RANK_TO}"], ["lock", $session->getRank()->getName(), $rank_name]));
 					return;
 				}
 			}
@@ -45,8 +45,8 @@ class IslandLockCommand extends BaseSubCommand {
 		}
 
 		$island = $session->getIsland();
-		if(!$island->isPublic()){
-			$sender->sendMessage(Text::getMessage("island_already_locked",true));
+		if (!$island->isPublic()) {
+			$sender->sendMessage(Text::getMessage("island_already_locked", true));
 			return;
 		}
 
@@ -58,7 +58,7 @@ class IslandLockCommand extends BaseSubCommand {
 
 			$visitor->setIsInVisit(false);
 
-			if($visitor->hasIsland()){
+			if ($visitor->hasIsland()) {
 				$visitor->getPlayer()->sendMessage(Text::getMessage("island_kick_to_locked"));
 				$visitor->getPlayer()->teleport($visitor->getIsland()->getSpawn());
 				$visitor->setIsInIsland(true);

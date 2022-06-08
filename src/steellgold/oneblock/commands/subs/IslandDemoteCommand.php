@@ -38,20 +38,20 @@ class IslandDemoteCommand extends BaseSubCommand {
 		}
 
 		if ($session->getIsland()->getOwner() == $args['player']) {
-			$sender->sendMessage(Text::getMessage("island_cant_demote", true, ["{PLAYER}"],[$args['player']]));
+			$sender->sendMessage(Text::getMessage("island_cant_demote", true, ["{PLAYER}"], [$args['player']]));
 			return;
 		}
 
 		$rank = $session->getIsland()->getRank($args['player'], true);
 		$ra = $session->getIsland()->getRankById(($rank - 1));
 		if ($rank == 1) {
-			$sender->sendMessage(Text::getMessage("island_cant_demote", true, ["{PLAYER}"],[$args['player']]));
+			$sender->sendMessage(Text::getMessage("island_cant_demote", true, ["{PLAYER}"], [$args['player']]));
 			return;
 		}
 
 		$session->getIsland()->setRank($args['player'], ($rank - 1));
 		$p = One::getInstance()->getServer()->getPlayerByPrefix($args['player']);
-		$sender->sendMessage(Text::getMessage("island_demoted", false, ["{PLAYER}","{RANK}"],[$sender->getName(),$ra->getName()]));
+		$sender->sendMessage(Text::getMessage("island_demoted", false, ["{PLAYER}", "{RANK}"], [$sender->getName(), $ra->getName()]));
 		if ($p instanceof Player) {
 			$p->sendMessage(Text::getMessage("island_player_demoted", false, ["{RANK}"], [$ra->getName()]));
 		}

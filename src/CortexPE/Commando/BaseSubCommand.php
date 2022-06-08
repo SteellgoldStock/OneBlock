@@ -35,24 +35,34 @@ use CortexPE\Commando\traits\ArgumentableTrait;
 use CortexPE\Commando\traits\IArgumentable;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
+
 use function explode;
 
 abstract class BaseSubCommand implements IArgumentable, IRunnable {
+
 	use ArgumentableTrait;
+
 	/** @var string */
 	private string $name;
+
 	/** @var string[] */
 	private array $aliases;
+
 	/** @var string */
 	private string $description;
+
 	/** @var string */
 	protected string $usageMessage;
+
 	/** @var string|null */
 	private ?string $permission = null;
+
 	/** @var CommandSender */
 	protected CommandSender $currentSender;
+
 	/** @var BaseCommand */
 	protected BaseCommand $parent;
+
 	/** @var BaseConstraint[] */
 	private array $constraints = [];
 
@@ -111,11 +121,11 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 	}
 
 	public function testPermissionSilent(CommandSender $sender): bool {
-		if(empty($this->permission)) {
+		if (empty($this->permission)) {
 			return true;
 		}
-		foreach(explode(";", $this->permission) as $permission) {
-			if($sender->hasPermission($permission)) {
+		foreach (explode(";", $this->permission) as $permission) {
+			if ($sender->hasPermission($permission)) {
 				return true;
 			}
 		}
@@ -145,20 +155,20 @@ abstract class BaseSubCommand implements IArgumentable, IRunnable {
 		$this->parent->sendError($errorCode, $args);
 	}
 
-	public function sendUsage():void {
+	public function sendUsage(): void {
 		$this->currentSender->sendMessage("/{$this->parent->getName()} $this->usageMessage");
 	}
 
-    public function addConstraint(BaseConstraint $constraint) : void {
-        $this->constraints[] = $constraint;
-    }
+	public function addConstraint(BaseConstraint $constraint): void {
+		$this->constraints[] = $constraint;
+	}
 
-    /**
-     * @return BaseConstraint[]
-     */
-    public function getConstraints(): array {
-        return $this->constraints;
-    }
+	/**
+	 * @return BaseConstraint[]
+	 */
+	public function getConstraints(): array {
+		return $this->constraints;
+	}
 
 	/**
 	 * @return Plugin

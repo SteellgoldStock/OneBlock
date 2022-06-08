@@ -4,6 +4,7 @@ namespace steellgold\oneblock\utils;
 
 # https://gist.github.com/Steellgold/ca717ffb1947e316862f000dcc24d9f9
 class Utils {
+
 	public static function chancePercentage(array $array = []): mixed {
 		$random = mt_rand(1, 100);
 

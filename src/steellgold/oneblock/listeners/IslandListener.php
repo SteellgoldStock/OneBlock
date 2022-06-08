@@ -8,7 +8,6 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityTrampleFarmlandEvent;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -67,35 +66,35 @@ class IslandListener implements Listener {
 
 	public function onPlayerTrample(EntityTrampleFarmlandEvent $event) {
 		$player = $event->getEntity();
-		if(str_starts_with($player->getWorld()->getFolderName(),"island-")) $event->cancel();
+		if (str_starts_with($player->getWorld()->getFolderName(), "island-")) $event->cancel();
 	}
 
 	public function onInteract(PlayerInteractEvent $event) {
-		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
+		if (!str_starts_with($event->getPlayer()->getWorld()->getFolderName(), "island-")) return;
 
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
-		if($island == null) return;
-		if(!$island->hasMember($event->getPlayer()->getName())){
+		if ($island == null) return;
+		if (!$island->hasMember($event->getPlayer()->getName())) {
 			$event->cancel();
 		}
 	}
 
 	public function onUse(PlayerItemUseEvent $event) {
-		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
+		if (!str_starts_with($event->getPlayer()->getWorld()->getFolderName(), "island-")) return;
 
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
-		if($island == null) return;
-		if(!$island->hasMember($event->getPlayer()->getName())){
+		if ($island == null) return;
+		if (!$island->hasMember($event->getPlayer()->getName())) {
 			$event->cancel();
 		}
 	}
 
 	public function onPlace(BlockPlaceEvent $event) {
-		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
+		if (!str_starts_with($event->getPlayer()->getWorld()->getFolderName(), "island-")) return;
 
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
-		if($island == null) return;
-		if(!$island->hasMember($event->getPlayer()->getName())){
+		if ($island == null) return;
+		if (!$island->hasMember($event->getPlayer()->getName())) {
 			$event->cancel();
 		}
 	}
@@ -106,10 +105,10 @@ class IslandListener implements Listener {
 	 * @return void
 	 */
 	public function onBreak(BlockBreakEvent $event): void {
-		if(!str_starts_with($event->getPlayer()->getWorld()->getFolderName(),"island-")) return;
+		if (!str_starts_with($event->getPlayer()->getWorld()->getFolderName(), "island-")) return;
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
-		if($island == null) return;
-		if(!$island->hasMember($event->getPlayer()->getName())){
+		if ($island == null) return;
+		if (!$island->hasMember($event->getPlayer()->getName())) {
 			$event->cancel();
 			return;
 		}
@@ -136,8 +135,8 @@ class IslandListener implements Listener {
 		if ($event->getBlock()->getPosition() == new Position(0, 38, 0, $player->getWorld())) {
 			$session->getIsland()->addToObjective($player);
 			$player->sendTip(str_replace(
-				["{TIER_LEVEL}","{COUNT}"],
-				[$island->getTier()->getId(),$island->getObjective()],
+				["{TIER_LEVEL}", "{COUNT}"],
+				[$island->getTier()->getId(), $island->getObjective()],
 				One::getInstance()->getConfig()->get("messages")["xp-tip"] ?? "§a+1 | Tier {TIER_LEVEL}\n§f{COUNT} blocks breaked"
 			));
 
@@ -146,15 +145,14 @@ class IslandListener implements Listener {
 		}
 	}
 
-	public function onDamage(EntityDamageByEntityEvent $event){
+	public function onDamage(EntityDamageByEntityEvent $event) {
 		$player = $event->getEntity();
 		$damager = $event->getDamager();
-		if($player instanceof Player and $damager instanceof Player){
-			if(
-				str_starts_with($player->getWorld()->getFolderName(),"island-")
+		if ($player instanceof Player and $damager instanceof Player) {
+			if (
+				str_starts_with($player->getWorld()->getFolderName(), "island-")
 				and
-				str_starts_with($damager->getWorld()->getFolderName(),"island-"))
-			{
+				str_starts_with($damager->getWorld()->getFolderName(), "island-")) {
 				$event->cancel();
 			}
 		}

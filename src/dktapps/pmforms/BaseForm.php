@@ -24,6 +24,7 @@ declare(strict_types=1);
 /**
  * API for Minecraft: Bedrock custom UI (forms)
  */
+
 namespace dktapps\pmforms;
 
 use pocketmine\form\Form;
@@ -31,19 +32,19 @@ use pocketmine\form\Form;
 /**
  * Base class for a custom form. Forms are serialized to JSON data to be sent to clients.
  */
-abstract class BaseForm implements Form{
+abstract class BaseForm implements Form {
 
 	/** @var string */
 	protected $title;
 
-	public function __construct(string $title){
+	public function __construct(string $title) {
 		$this->title = $title;
 	}
 
 	/**
 	 * Returns the text shown on the form title-bar.
 	 */
-	public function getTitle() : string{
+	public function getTitle(): string {
 		return $this->title;
 	}
 
@@ -51,7 +52,7 @@ abstract class BaseForm implements Form{
 	 * Serializes the form to JSON for sending to clients.
 	 * @return mixed[]
 	 */
-	final public function jsonSerialize() : array{
+	final public function jsonSerialize(): array {
 		$ret = $this->serializeFormData();
 		$ret["type"] = $this->getType();
 		$ret["title"] = $this->getTitle();
@@ -62,12 +63,12 @@ abstract class BaseForm implements Form{
 	/**
 	 * Returns the type used to show this form to clients
 	 */
-	abstract protected function getType() : string;
+	abstract protected function getType(): string;
 
 	/**
 	 * Serializes additional data needed to show this form to clients.
 	 * @return mixed[]
 	 */
-	abstract protected function serializeFormData() : array;
+	abstract protected function serializeFormData(): array;
 
 }

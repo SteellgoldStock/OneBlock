@@ -3,6 +3,7 @@
 namespace steellgold\oneblock\commands\subs;
 
 use CortexPE\Commando\BaseSubCommand;
+use JsonException;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use steellgold\oneblock\One;
@@ -14,6 +15,9 @@ class IslandLeaveCommand extends BaseSubCommand {
 		// TODO: Implement prepare() method.
 	}
 
+	/**
+	 * @throws JsonException
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) {
 			return;
@@ -25,7 +29,7 @@ class IslandLeaveCommand extends BaseSubCommand {
 			return;
 		}
 
-		if($session->getIsland()->getOwner() == $sender->getName()){
+		if ($session->getIsland()->getOwner() == $sender->getName()) {
 			$sender->sendMessage(Text::getMessage("island_owner_left", true));
 			return;
 		}

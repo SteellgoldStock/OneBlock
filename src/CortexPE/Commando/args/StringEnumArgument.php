@@ -32,6 +32,7 @@ namespace CortexPE\Commando\args;
 
 use pocketmine\command\CommandSender;
 use pocketmine\network\mcpe\protocol\types\command\CommandEnum;
+
 use function array_keys;
 use function array_map;
 use function implode;
@@ -39,6 +40,7 @@ use function preg_match;
 use function strtolower;
 
 abstract class StringEnumArgument extends BaseArgument {
+
 	protected const VALUES = [];
 
 	public function __construct(string $name, bool $optional = false) {

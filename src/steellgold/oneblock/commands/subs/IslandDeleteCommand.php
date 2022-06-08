@@ -50,10 +50,10 @@ class IslandDeleteCommand extends BaseSubCommand {
 				new MenuOption($config["island_delete_form_button_yes"]),
 				new MenuOption($config["island_delete_form_button_no"])
 			],
-			function (Player $player, int $selectedOption) : void {
+			function (Player $player, int $selectedOption): void {
 				$session = One::getInstance()->getManager()->getSession($player->getName());
-				if($session == null) return;
-				if($selectedOption == 0){
+				if ($session == null) return;
+				if ($selectedOption == 0) {
 					$session->getIsland()->delete();
 					$player->sendMessage(Text::getMessage("island_deleted"));
 				}

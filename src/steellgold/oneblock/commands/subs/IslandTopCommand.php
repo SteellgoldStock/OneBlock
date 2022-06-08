@@ -21,14 +21,14 @@ class IslandTopCommand extends BaseSubCommand {
 
 		$pageRequested = ($args["page_number"] ?? 0);
 
-		if(!key_exists($pageRequested, $nthPage)){
+		if (!key_exists($pageRequested, $nthPage)) {
 			$pageRequested = 0;
 		}
 
 		$top = One::getInstance()->getConfig()->get("messages")["top-top"];
-		if($pageRequested == 0){
+		if ($pageRequested == 0) {
 			$i = 1;
-		}else $i = ($pageRequested * 10) + 1;
+		} else $i = ($pageRequested * 10) + 1;
 
 		foreach ($nthPage[$pageRequested] as $x => $x_value) {
 			$island = One::getInstance()->getManager()->getIsland($x);
@@ -48,10 +48,10 @@ class IslandTopCommand extends BaseSubCommand {
 				$island->getTier()->getBreakToUp() ?? 0
 			];
 
-			if($island->isTierMax()){
-				$top .= "§r\n" . str_replace($find,$replace,One::getInstance()->getConfig()->get("messages")["top-line-maxed"]);
-			}else{
-				$top .= "§r\n" . str_replace($find,$replace,One::getInstance()->getConfig()->get("messages")["top-line"]);
+			if ($island->isTierMax()) {
+				$top .= "§r\n" . str_replace($find, $replace, One::getInstance()->getConfig()->get("messages")["top-line-maxed"]);
+			} else {
+				$top .= "§r\n" . str_replace($find, $replace, One::getInstance()->getConfig()->get("messages")["top-line"]);
 			}
 
 			$i++;

@@ -19,31 +19,31 @@ class IslandAcceptCommand extends BaseSubCommand {
 	 * @throws JsonException
 	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-		if(!$sender instanceof Player){
+		if (!$sender instanceof Player) {
 			$sender->sendMessage("§cPlease run this command in-game.");
 			return;
 		}
 
 		$session = One::getInstance()->getManager()->getSession($sender);
-		if($session->hasIsland()){
-			$sender->sendMessage(Text::getMessage("already_in_island",true));
+		if ($session->hasIsland()) {
+			$sender->sendMessage(Text::getMessage("already_in_island", true));
 			return;
 		}
 
-		if($session->hasInvitation()){
-			if($session->acceptInvitation()){
-				if($session->getInviter()->isOnline()){
-					$session->getInviter()->sendMessage(Text::getMessage("island_invited_refused",true, ["{PLAYER}"], [$sender->getName()]));
+		if ($session->hasInvitation()) {
+			if ($session->acceptInvitation()) {
+				if ($session->getInviter()->isOnline()) {
+					$session->getInviter()->sendMessage(Text::getMessage("island_invited_refused", true, ["{PLAYER}"], [$sender->getName()]));
 				}
 
 				$session->setIsland(One::getInstance()->getManager()->getIsland($session->getCurrentInvite()["id"]));
 				$session->setIsInIsland(false);
 				$session->setIsInVisit(false);
-				$sender->sendMessage(Text::getMessage("island_invited_accepted",true, ["{OWNER}"], []));
+				$sender->sendMessage(Text::getMessage("island_invited_accepted", true, ["{OWNER}"], []));
 
 				$session->removeInviteCache();
-			}else{
-				$sender->sendMessage(Text::getMessage("island_expired",true));
+			} else {
+				$sender->sendMessage(Text::getMessage("island_expired", true));
 			}
 		}
 	}

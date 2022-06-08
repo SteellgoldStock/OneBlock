@@ -31,13 +31,13 @@ class IslandCommand extends BaseCommand {
 
 	protected function prepare(): void {
 		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create"))); # OK
-		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"),["join"])); # OK
+		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"), ["join"])); # OK
 		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit"))); # OK
 		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn"))); # OK
 		$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top"))); # OK
 		$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick"))); # OK
 		$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help"))); # OK
-		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"),["disband"])); # OK
+		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"), ["disband"])); # OK
 		$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave"))); # OK
 		$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote"))); # OK
 		$this->registerSubCommand(new IslandDemoteCommand("demote", Text::getCommandDescription("demote"))); # OK
@@ -47,7 +47,7 @@ class IslandCommand extends BaseCommand {
 		$this->registerSubCommand(new IslandUnlockCommand("unlock", Text::getCommandDescription("unlock"))); # OK
 		$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
 
-		if(self::HULK){
+		if (self::HULK) {
 			$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
 			$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
 		}
@@ -57,10 +57,10 @@ class IslandCommand extends BaseCommand {
 		$sender->sendMessage(self::getHelp());
 	}
 
-	public static function getHelp() : string {
+	public static function getHelp(): string {
 		$line = One::getInstance()->getConfig()->get("messages")["help-top"];
-		foreach ((new IslandCommand(One::getInstance(),"island"))->getSubCommands() as $subCommand) {
-			$line .= "\n".str_replace(["{COMMAND}","{DESCRIPTION}"],[$subCommand->getName(),$subCommand->getDescription()],One::getInstance()->getConfig()->get("messages")["help-line"]);
+		foreach ((new IslandCommand(One::getInstance(), "island"))->getSubCommands() as $subCommand) {
+			$line .= "\n" . str_replace(["{COMMAND}", "{DESCRIPTION}"], [$subCommand->getName(), $subCommand->getDescription()], One::getInstance()->getConfig()->get("messages")["help-line"]);
 		}
 		return $line;
 	}

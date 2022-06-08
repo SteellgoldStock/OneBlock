@@ -32,9 +32,11 @@ namespace CortexPE\Commando\args;
 
 use pocketmine\command\CommandSender;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
+
 use function preg_match;
 
 class IntegerArgument extends BaseArgument {
+
 	public function getNetworkType(): int {
 		return AvailableCommandsPacket::ARG_TYPE_INT;
 	}
@@ -47,7 +49,7 @@ class IntegerArgument extends BaseArgument {
 		return (bool)preg_match("/^-?(?:\d+)$/", $testString);
 	}
 
-	public function parse(string $argument, CommandSender $sender) : int{
-		return (int) $argument;
+	public function parse(string $argument, CommandSender $sender): int {
+		return (int)$argument;
 	}
 }

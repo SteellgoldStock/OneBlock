@@ -51,7 +51,7 @@ class Manager {
 			var_dump($world);
 			if (str_starts_with($world, "island-")) {
 				var_dump("cc");
-				if(file_exists(One::getInstance()->getDataFolder() . "islands/$world.json")){
+				if (file_exists(One::getInstance()->getDataFolder() . "islands/$world.json")) {
 					var_dump("ccc");
 					$config = new Config(One::getInstance()->getDataFolder() . "islands/$world.json", Config::JSON);
 					$this->islands[$world] = new Island(
@@ -74,6 +74,10 @@ class Manager {
 			$i++;
 		}
 		$this->player_data = new Config(One::getInstance()->getDataFolder() . "players.yml", Config::YAML);
+	}
+
+	public function getTier(int $id = 1): Tier {
+		return $this->tiers[$id];
 	}
 
 	public static function generateRandomString($length = 10): string {
@@ -115,12 +119,20 @@ class Manager {
 		$this->player_data->save();
 	}
 
-	public function islandFileExist(string $identifier): bool {
-		return file_exists(One::getInstance()->getDataFolder() . "islands/" . $identifier . ".json");
+	public function getSession(Player|CommandSender|string $player): ?Session {
+		// If forget the ->getName(), automatically returns the name of the player
+		if ($player instanceof Player or $player instanceof CommandSender) {
+			$player = $player->getName();
+		}
+		return $this->sessions[$player] ?? null;
 	}
 
 	public function hasIsland(string $player): bool {
 		return $this->islandFileExist($this->player_data->get($player));
+	}
+
+	public function islandFileExist(string $identifier): bool {
+		return file_exists(One::getInstance()->getDataFolder() . "islands/" . $identifier . ".json");
 	}
 
 	public function getIslandIdentifierByPlayer(string $player): string {
@@ -139,14 +151,6 @@ class Manager {
 		return $this->sessions;
 	}
 
-	public function getSession(Player|CommandSender|string $player): ?Session {
-		// If forget the ->getName(), automatically returns the name of the player
-		if ($player instanceof Player or $player instanceof CommandSender) {
-			$player = $player->getName();
-		}
-		return $this->sessions[$player] ?? null;
-	}
-
 	public function addSession(Session $session): void {
 		$this->sessions[$session->getPlayer()->getName()] = $session;
 	}
@@ -161,10 +165,6 @@ class Manager {
 
 	public function getTiers(): array {
 		return $this->tiers;
-	}
-
-	public function getTier(int $id = 1): Tier {
-		return $this->tiers[$id];
 	}
 
 	/**

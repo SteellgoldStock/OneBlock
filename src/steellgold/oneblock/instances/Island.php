@@ -66,9 +66,9 @@ class Island {
 		$this->members[$player] = $rank;
 		$this->save();
 
-		if($updateSession){
+		if ($updateSession) {
 			$p = Server::getInstance()->getPlayerByPrefix($player);
-			if($p instanceof Player){
+			if ($p instanceof Player) {
 				$session = One::getInstance()->getManager()->getSession($player);
 				$session->setRank($this->getRankById($rank));
 			}

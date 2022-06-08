@@ -26,7 +26,8 @@ namespace dktapps\pmforms;
 /**
  * @phpstan-type ResponseData array<string, mixed>
  */
-class CustomFormResponse{
+class CustomFormResponse {
+
 	/**
 	 * @var mixed[]
 	 * @phpstan-var ResponseData
@@ -37,26 +38,26 @@ class CustomFormResponse{
 	 * @param mixed[] $data
 	 * @phpstan-param ResponseData $data
 	 */
-	public function __construct(array $data){
+	public function __construct(array $data) {
 		$this->data = $data;
 	}
 
-	public function getInt(string $name) : int{
+	public function getInt(string $name): int {
 		$this->checkExists($name);
 		return $this->data[$name];
 	}
 
-	public function getString(string $name) : string{
+	public function getString(string $name): string {
 		$this->checkExists($name);
 		return $this->data[$name];
 	}
 
-	public function getFloat(string $name) : float{
+	public function getFloat(string $name): float {
 		$this->checkExists($name);
 		return $this->data[$name];
 	}
 
-	public function getBool(string $name) : bool{
+	public function getBool(string $name): bool {
 		$this->checkExists($name);
 		return $this->data[$name];
 	}
@@ -65,12 +66,12 @@ class CustomFormResponse{
 	 * @return mixed[]
 	 * @phpstan-return ResponseData
 	 */
-	public function getAll() : array{
+	public function getAll(): array {
 		return $this->data;
 	}
 
-	private function checkExists(string $name) : void{
-		if(!isset($this->data[$name])){
+	private function checkExists(string $name): void {
+		if (!isset($this->data[$name])) {
 			throw new \InvalidArgumentException("Value \"$name\" not found");
 		}
 	}

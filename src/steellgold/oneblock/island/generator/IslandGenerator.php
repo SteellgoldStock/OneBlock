@@ -13,7 +13,7 @@ abstract class IslandGenerator extends Generator {
 		return;
 	}
 
-	public static function getWorldSpawn() : Vector3 {
+	public static function getWorldSpawn(): Vector3 {
 		$spawn = SingleOne::getInstance()->getIslandConfig()->get("spawn");
 		return new Vector3($spawn["x"], $spawn["y"], $spawn["z"]);
 	}

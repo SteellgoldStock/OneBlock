@@ -6,12 +6,6 @@ start_inventory:
 # Join automatically at player island (if have an island) after joining the server
 auto_island: true
 
-# New members island settings
-clear_inventory_on_join: false
-clear_enderchest_on_join: false
-clear_xp_on_join: false
-give_start_inventory: false
-
 # Visitor settings
 visitor_limit: 1
 visitor_build: false
@@ -60,13 +54,13 @@ tier_up:
 ranks:
   visitor:
     name: "Visiteur"
-    permissions: []
+    permissions: [ ]
   member:
     name: "Membre"
-    permissions: ["break", "place", "chest_open", "chest_interact"]
+    permissions: [ "break", "place", "chest_open", "chest_interact" ]
   officer:
     name: "Sous-chef"
-    permissions: ["invite", "setspawn", "kick", "promote", "lock", "unlock"]
+    permissions: [ "invite", "setspawn", "kick", "promote", "lock", "unlock" ]
   leader:
     name: "Chef"
     permissions: "*"

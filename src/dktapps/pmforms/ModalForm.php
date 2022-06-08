@@ -26,6 +26,7 @@ namespace dktapps\pmforms;
 use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
 use pocketmine\utils\Utils;
+
 use function gettype;
 use function is_bool;
 
@@ -34,59 +35,62 @@ use function is_bool;
  *
  * @phpstan-type OnSubmit \Closure(Player $player, bool $choice) : void
  */
-class ModalForm extends BaseForm{
+class ModalForm extends BaseForm {
 
 	/** @var string */
 	private $content;
+
 	/**
 	 * @var \Closure
 	 * @phpstan-var OnSubmit
 	 */
 	private $onSubmit;
+
 	/** @var string */
 	private $button1;
+
 	/** @var string */
 	private $button2;
 
 	/**
-	 * @param string   $title Text to put on the title of the dialog.
-	 * @param string   $text Text to put in the body.
+	 * @param string $title Text to put on the title of the dialog.
+	 * @param string $text Text to put in the body.
 	 * @param \Closure $onSubmit signature `function(Player $player, bool $choice)`
-	 * @param string   $yesButtonText Text to show on the "Yes" button. Defaults to client-translated "Yes" string.
-	 * @param string   $noButtonText Text to show on the "No" button. Defaults to client-translated "No" string.
+	 * @param string $yesButtonText Text to show on the "Yes" button. Defaults to client-translated "Yes" string.
+	 * @param string $noButtonText Text to show on the "No" button. Defaults to client-translated "No" string.
 	 *
 	 * @phpstan-param OnSubmit $onSubmit
 	 */
-	public function __construct(string $title, string $text, \Closure $onSubmit, string $yesButtonText = "gui.yes", string $noButtonText = "gui.no"){
+	public function __construct(string $title, string $text, \Closure $onSubmit, string $yesButtonText = "gui.yes", string $noButtonText = "gui.no") {
 		parent::__construct($title);
 		$this->content = $text;
-		Utils::validateCallableSignature(function(Player $player, bool $choice) : void{}, $onSubmit);
+		Utils::validateCallableSignature(function (Player $player, bool $choice): void { }, $onSubmit);
 		$this->onSubmit = $onSubmit;
 		$this->button1 = $yesButtonText;
 		$this->button2 = $noButtonText;
 	}
 
-	public function getYesButtonText() : string{
+	public function getYesButtonText(): string {
 		return $this->button1;
 	}
 
-	public function getNoButtonText() : string{
+	public function getNoButtonText(): string {
 		return $this->button2;
 	}
 
-	final public function handleResponse(Player $player, $data) : void{
-		if(!is_bool($data)){
+	final public function handleResponse(Player $player, $data): void {
+		if (!is_bool($data)) {
 			throw new FormValidationException("Expected bool, got " . gettype($data));
 		}
 
 		($this->onSubmit)($player, $data);
 	}
 
-	protected function getType() : string{
+	protected function getType(): string {
 		return "modal";
 	}
 
-	protected function serializeFormData() : array{
+	protected function serializeFormData(): array {
 		return [
 			"content" => $this->content,
 			"button1" => $this->button1,

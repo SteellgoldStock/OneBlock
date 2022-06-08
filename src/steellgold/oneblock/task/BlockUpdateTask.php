@@ -9,7 +9,7 @@ use pocketmine\world\Position;
 class BlockUpdateTask extends Task {
 
 	public function __construct(
-		public Block $block,
+		public Block    $block,
 		public Position $position
 	) {
 

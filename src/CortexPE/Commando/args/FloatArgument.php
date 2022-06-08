@@ -32,9 +32,11 @@ namespace CortexPE\Commando\args;
 
 use pocketmine\command\CommandSender;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
+
 use function preg_match;
 
 class FloatArgument extends BaseArgument {
+
 	public function getNetworkType(): int {
 		return AvailableCommandsPacket::ARG_TYPE_FLOAT;
 	}
@@ -47,7 +49,7 @@ class FloatArgument extends BaseArgument {
 		return (bool)preg_match("/^-?(?:\d+|\d*\.\d+)$/", $testString);
 	}
 
-	public function parse(string $argument, CommandSender $sender) : float{
-		return (float) $argument;
+	public function parse(string $argument, CommandSender $sender): float {
+		return (float)$argument;
 	}
 }

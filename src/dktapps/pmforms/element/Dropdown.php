@@ -23,13 +23,13 @@ declare(strict_types=1);
 
 namespace dktapps\pmforms\element;
 
-class Dropdown extends BaseSelector{
+class Dropdown extends BaseSelector {
 
-	public function getType() : string{
+	public function getType(): string {
 		return "dropdown";
 	}
 
-	protected function serializeElementData() : array{
+	protected function serializeElementData(): array {
 		return [
 			"options" => $this->options,
 			"default" => $this->defaultOptionIndex

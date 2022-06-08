@@ -41,19 +41,20 @@ use CortexPE\Commando\constraint\BaseConstraint;
  * @package CortexPE\Commando
  */
 interface IRunnable {
-    public function getName(): string;
 
-    /**
-     * @return string[]
-     */
-    public function getAliases(): array;
+	public function getName(): string;
 
-    public function getUsageMessage():string;
+	/**
+	 * @return string[]
+	 */
+	public function getAliases(): array;
 
-    public function getPermission(); // f*ck. PM didn't declare a return type... reeee
+	public function getUsageMessage(): string;
 
-    /**
-     * @return BaseConstraint[]
-     */
-    public function getConstraints():array;
+	public function getPermission(); // f*ck. PM didn't declare a return type... reeee
+
+	/**
+	 * @return BaseConstraint[]
+	 */
+	public function getConstraints(): array;
 }

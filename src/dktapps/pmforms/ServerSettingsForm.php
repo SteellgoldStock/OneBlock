@@ -30,27 +30,28 @@ namespace dktapps\pmforms;
  * Passing this form to {@link Player::sendForm()} will not show a form with an icon nor set this form as the server
  * settings.
  */
-class ServerSettingsForm extends CustomForm{
+class ServerSettingsForm extends CustomForm {
+
 	/** @var FormIcon|null */
 	private $icon;
 
-	public function __construct(string $title, array $elements, ?FormIcon $icon, \Closure $onSubmit, ?\Closure $onClose = null){
+	public function __construct(string $title, array $elements, ?FormIcon $icon, \Closure $onSubmit, ?\Closure $onClose = null) {
 		parent::__construct($title, $elements, $onSubmit, $onClose);
 		$this->icon = $icon;
 	}
 
-	public function hasIcon() : bool{
+	public function hasIcon(): bool {
 		return $this->icon !== null;
 	}
 
-	public function getIcon() : ?FormIcon{
+	public function getIcon(): ?FormIcon {
 		return $this->icon;
 	}
 
-	protected function serializeFormData() : array{
+	protected function serializeFormData(): array {
 		$data = parent::serializeFormData();
 
-		if($this->hasIcon()){
+		if ($this->hasIcon()) {
 			$data["icon"] = $this->icon;
 		}
 
