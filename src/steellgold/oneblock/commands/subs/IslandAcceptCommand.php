@@ -6,6 +6,7 @@ use CortexPE\Commando\BaseSubCommand;
 use JsonException;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 
@@ -28,19 +29,22 @@ class IslandAcceptCommand extends BaseSubCommand {
 
 		if ($session->hasInvitation()) {
 			if ($session->acceptInvitation()) {
-				if ($session->getInviter()->isOnline()) {
-					$session->getInviter()->sendMessage(Text::getMessage("island_invited_refused", true, ["{PLAYER}"], [$sender->getName()]));
+				$session->setIsland(One::getInstance()->getManager()->getIsland($session->getCurrentInvite()["id"]));
+				$session->getIsland()->addMember($sender,1);
+				foreach ($session->getIsland()->getMembers() as $member => $rankId) {
+					$pmember = Server::getInstance()->getPlayerByPrefix($member);
+					if ($pmember->isOnline()) {
+						$pmember->sendMessage(Text::getMessage("island_invited_accepted", false, ["{PLAYER}"], [$sender->getName()]));
+					}
 				}
 
-				$session->setIsland(One::getInstance()->getManager()->getIsland($session->getCurrentInvite()["id"]));
-				$session->setIsInIsland(false);
-				$session->setIsInVisit(false);
-				$sender->sendMessage(Text::getMessage("island_invited_accepted", true, ["{OWNER}"], []));
-
+				$sender->sendMessage(Text::getMessage("island_invited_accepted", false, ["{OWNER}"], []));
 				$session->removeInviteCache();
 			} else {
 				$sender->sendMessage(Text::getMessage("island_expired", true));
 			}
+		}else{
+			$sender->sendMessage(Text::getMessage("island_expired", true));
 		}
 	}
 

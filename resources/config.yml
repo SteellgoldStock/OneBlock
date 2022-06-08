@@ -53,11 +53,11 @@ messages:
 
   island_invited: "Vous venez d'inviter le joueur §f{PLAYER} §aà rejoindre votre île"
   island_invited_by: "Vous venez d'être invité à rejoindre l'île de §f{OWNER}"
-  island_invited_already: "Le joueur §f{PLAYER} §aa déjà une invitation pour rejoindre une île, attendez que celle-ci soit refusée ou expirée"
+  island_invited_already: "Le joueur §f{PLAYER} §ca déjà une invitation pour rejoindre une île, attendez que celle-ci soit refusée ou expirée"
   island_invited_accept: "Vous venez de rejoindre l'île de §f{OWNER} §abienvenue !"
-  island_invited_accepted: "Vous venez de rejoindre l'île de §f{OWNER} §abienvenue !"
+  island_invited_accepted: "Le joueur §f{PLAYER} §aà rejoint l'île !"
   island_invited_deny: "Vous venez de refuser l'invitation de §f{INVITER} §aà rejoindre son île"
-  island_invited_refused: "Le joueur §f{PLAYER} §aà refusé votre invitation pour rejoindre votre île"
+  island_invited_refused: "Le joueur §f{PLAYER} §cà refusé votre invitation pour rejoindre votre île"
   island_expired: "Vous n'avez pas de nouvelle invitation pour rejoindre une île, §fou alors §celle a expiré"
 
   island_owner_left: "Vous ne pouvez pas quitter votre propre ile, vous devez la supprimer la pour pouvoir en rejoindre ou créer une autre"

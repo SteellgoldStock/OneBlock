@@ -27,8 +27,6 @@ use steellgold\oneblock\provider\Text;
 
 class IslandCommand extends BaseCommand {
 
-	const HULK = false;
-
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		$sender->sendMessage(self::getHelp());
 	}
@@ -58,10 +56,7 @@ class IslandCommand extends BaseCommand {
 		$this->registerSubCommand(new IslandLockCommand("lock", Text::getCommandDescription("lock"))); # OK
 		$this->registerSubCommand(new IslandUnlockCommand("unlock", Text::getCommandDescription("unlock"))); # OK
 		$this->registerSubCommand(new IslandInviteCommand("invite", Text::getCommandDescription("invite")));
-
-		if (self::HULK) {
-			$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
-			$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
-		}
+		$this->registerSubCommand(new IslandAcceptCommand("accept", Text::getCommandDescription("accept")));
+		$this->registerSubCommand(new IslandDenyCommand("deny", Text::getCommandDescription("deny")));
 	}
 }

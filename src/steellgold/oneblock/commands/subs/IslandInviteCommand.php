@@ -24,9 +24,7 @@ class IslandInviteCommand extends BaseSubCommand {
 			return;
 		}
 
-		if (!$session->getRank()->hasPermission("invite")) {
-			$rank_name = "";
-
+		if (!$session->getIsland()->getRank($sender->getName())->hasPermission("invite")) {
 			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank) {
 				if ($rank->hasPermission("invite")) {
 					$rank_name = $rank->getName();
@@ -44,14 +42,21 @@ class IslandInviteCommand extends BaseSubCommand {
 		}
 
 		$player_session = One::getInstance()->getManager()->getSession($player);
+		if(!$player_session->getPlayer()->isOnline()){
+			$sender->sendMessage(Text::getMessage("player_not_found", true, ["{PLAYER}"], [$args["player"]]));
+			return;
+		}
+
 		if ($player_session->hasIsland()) {
 			$sender->sendMessage(Text::getMessage("player_island_already", true, ["{PLAYER}"], [$player->getName()]));
 			return;
 		}
 
-		if ($player_session->addInvite($session->getIsland(), $sender)) {
+		$invite = $player_session->addInvite($session->getIsland(), $sender);
+		var_dump($invite);
+		if ($invite) {
 			$sender->sendMessage(Text::getMessage("island_invited", false, ["{PLAYER}"], [$player->getName()]));
-			if ($player->isOnline()) $player->sendMessage(Text::getMessage("island_invited_by", false, ["{PLAYER}"], [$session->getIsland()->getOwner()]));
+			if ($player->isOnline()) $player->sendMessage(Text::getMessage("island_invited_by", false, ["{OWNER}"], [$session->getIsland()->getOwner()]));
 		} else {
 			$sender->sendMessage(Text::getMessage("island_invited_already", true, ["{PLAYER}"], [$player->getName()]));
 		}

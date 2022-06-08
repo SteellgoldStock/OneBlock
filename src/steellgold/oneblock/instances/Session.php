@@ -105,11 +105,17 @@ class Session {
 	}
 
 	public function hasInvitation(): bool {
-		if ($this->current_invite == []) return false;
-		if (time() >= $this->current_invite["time"]) {
+		var_dump(0);
+		if ($this->current_invite == []){
 			return false;
 		}
 
+		var_dump(1);
+		if(time() >= $this->current_invite["expire"]) return false;
+
+		var_dump(2);
+		if($this->current_invite["expire"] >= time()) return true;
+		var_dump(3);
 		return true;
 	}
 
@@ -121,31 +127,23 @@ class Session {
 	}
 
 	public function addInvite(Island $island, Player $inviter): bool {
-		if (time() >= $this->current_invite["expire"]) {
-			return false;
-		}
+		if ($this->hasInvitation()) return false;
 
 		$this->current_invite_player = $inviter;
 		$this->current_invite = [
 			"id" => $island->getId(),
-			"expire" => time() + One::getInstance()->getConfig()->get("invite-time")
+			"expire" => time() + One::getInstance()->getIslandConfig()->get("invitation_expiration_time")
 		];
 		return true;
 	}
 
 	public function acceptInvitation(): bool {
-		if (time() >= $this->current_invite["expire"]) {
-			return false;
-		}
-
+		if (!$this->hasInvitation()) return false;
 		return true;
 	}
 
 	public function denyInvitation(): bool {
-		if (time() >= $this->current_invite["expire"]) {
-			return false;
-		}
-
+		if (!$this->hasInvitation()) return false;
 		return true;
 	}
 

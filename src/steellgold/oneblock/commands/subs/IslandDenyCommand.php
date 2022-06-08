@@ -37,6 +37,8 @@ class IslandDenyCommand extends BaseSubCommand {
 			} else {
 				$sender->sendMessage(Text::getMessage("island_expired", true));
 			}
+		}else{
+			$sender->sendMessage(Text::getMessage("island_expired", true));
 		}
 	}
 

@@ -58,7 +58,10 @@ class Island {
 		return $this->id;
 	}
 
-	public function save() {
+	/**
+	 * @throws JsonException
+	 */
+	public function save(): void {
 		$island = new Config(One::getInstance()->getDataFolder() . "islands/" . $this->id . ".json", Config::JSON);
 		$island->set("owner", $this->owner);
 		$island->set("members", $this->members);
@@ -95,10 +98,6 @@ class Island {
 		return $this->owner;
 	}
 
-	public function setMembers(array $members): void {
-		$this->members = $members;
-	}
-
 	public function addMember(Player $player, int $rankId): void {
 		$this->members[$player->getName()] = $rankId;
 	}
@@ -111,16 +110,8 @@ class Island {
 		return isset($this->members[$name]);
 	}
 
-	public function setVisitors(array $visitors): void {
-		$this->visitors = $visitors;
-	}
-
 	public function addVisitor(string $player): void {
 		$this->visitors[] = $player;
-	}
-
-	public function delVisitor(string $player): void {
-		$this->visitors = array_diff($this->visitors, [$player]);
 	}
 
 	public function getVisitors(): array {
