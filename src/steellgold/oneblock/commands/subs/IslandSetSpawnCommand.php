@@ -43,6 +43,7 @@ class IslandSetSpawnCommand extends BaseSubCommand {
 			return;
 		}
 
+		$sender->getWorld()->setSpawnLocation($sender->getPosition());
 		$session->getIsland()->setSpawn([
 			"X" => $sender->getPosition()->getX(),
 			"Y" => $sender->getPosition()->getY(),

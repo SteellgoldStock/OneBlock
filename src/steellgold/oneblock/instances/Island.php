@@ -181,7 +181,6 @@ class Island {
 
 	private function sendSuccess(Player $player, Tier $tier): void {
 		$config = One::getInstance()->getIslandConfig()->get("tier_up");
-		var_dump(1);
 
 		$find = ["{UPPER}", "TIER_LEVEL}", "{TIER_NAME}"];
 		$replace = [$player->getName(), $tier->getId(), $tier->getName()];

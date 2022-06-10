@@ -118,17 +118,13 @@ class Session {
 	}
 
 	public function hasInvitation(): bool {
-		var_dump(0);
 		if ($this->current_invite == []){
 			return false;
 		}
 
-		var_dump(1);
 		if(time() >= $this->current_invite["expire"]) return false;
 
-		var_dump(2);
 		if($this->current_invite["expire"] >= time()) return true;
-		var_dump(3);
 		return true;
 	}
 

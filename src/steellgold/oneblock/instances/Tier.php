@@ -34,7 +34,6 @@ class Tier {
 	}
 
 	public function getChanceBlock() {
-		var_dump($this->blocks);
 		return Utils::chancePercentage($this->getBlocks());
 	}
 

@@ -48,11 +48,8 @@ class Manager {
 		}
 
 		foreach (scandir(One::getInstance()->getDataFolder() . "../../worlds/") as $world) {
-			var_dump($world);
 			if (str_starts_with($world, "island-")) {
-				var_dump("cc");
 				if (file_exists(One::getInstance()->getDataFolder() . "islands/$world.json")) {
-					var_dump("ccc");
 					$config = new Config(One::getInstance()->getDataFolder() . "islands/$world.json", Config::JSON);
 					$this->islands[$world] = new Island(
 						$world,

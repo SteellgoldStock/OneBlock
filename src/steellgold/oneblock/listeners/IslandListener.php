@@ -3,9 +3,11 @@
 namespace steellgold\oneblock\listeners;
 
 use JsonException;
+use pocketmine\entity\object\ItemEntity;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\event\entity\EntityTrampleFarmlandEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -13,6 +15,8 @@ use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\item\Item;
+use pocketmine\item\ItemBlock;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\world\Position;
@@ -172,6 +176,20 @@ class IslandListener implements Listener {
 		if ($event->getPlayer()->getPosition()->getY() < One::getInstance()->getIslandConfig()->get("reteleport_at_y")) {
 			$player->teleport($island->getSpawn());
 			$player->sendMessage(Text::getMessage("island_falled_reteleported"));
+		}
+	}
+
+	public function onEntityMove(EntityMotionEvent $event) {
+		var_dump("1");
+		$entity = $event->getEntity();
+		if(!str_starts_with($entity->getWorld()->getFolderName(),"island-")) return;
+		var_dump("2");
+		if($entity instanceof ItemEntity) {
+			var_dump("4");
+			if($event->getVector()->getY() <= One::getInstance()->getIslandConfig()->get("reteleport_at_y")){
+				var_dump("5");
+				$entity->teleport($entity->getWorld()->getSafeSpawn());
+			}
 		}
 	}
 
