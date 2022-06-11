@@ -7,8 +7,11 @@ use pocketmine\entity\object\ItemEntity;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityDespawnEvent;
 use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\event\entity\EntityTrampleFarmlandEvent;
+use pocketmine\event\entity\ItemMergeEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemUseEvent;
@@ -179,17 +182,19 @@ class IslandListener implements Listener {
 		}
 	}
 
-	public function onEntityMove(EntityMotionEvent $event) {
-		var_dump("1");
+	public function itemVoid(EntityDamageEvent $event): void {
 		$entity = $event->getEntity();
-		if(!str_starts_with($entity->getWorld()->getFolderName(),"island-")) return;
-		var_dump("2");
-		if($entity instanceof ItemEntity) {
-			var_dump("4");
-			if($event->getVector()->getY() <= One::getInstance()->getIslandConfig()->get("reteleport_at_y")){
-				var_dump("5");
-				$entity->teleport($entity->getWorld()->getSafeSpawn());
-			}
+		$world = $entity->getWorld();
+
+		if($world == null) {
+			return;
+		}
+
+		if(!str_starts_with($world->getFolderName(),"island-")) return;
+
+		if($event->getCause() == EntityDamageEvent::CAUSE_VOID) {
+			$entity->teleport($world->getSpawnLocation());
+			$event->cancel();
 		}
 	}
 

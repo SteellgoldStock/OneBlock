@@ -41,13 +41,13 @@ class IslandCommand extends BaseCommand {
 
 	protected function prepare(): void {
 		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create"))); # OK
-		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"), ["join"])); # OK
+		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"))); # OK
 		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit"))); # OK
 		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn"))); # OK
 		$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top"))); # OK
 		$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick"))); # OK
 		$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help"))); # OK
-		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"), ["disband"])); # OK
+		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"))); # OK
 		$this->registerSubCommand(new IslandLeaveCommand("leave", Text::getCommandDescription("leave"))); # OK
 		$this->registerSubCommand(new IslandPromoteCommand("promote", Text::getCommandDescription("promote"))); # OK
 		$this->registerSubCommand(new IslandDemoteCommand("demote", Text::getCommandDescription("demote"))); # OK

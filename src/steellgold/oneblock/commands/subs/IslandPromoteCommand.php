@@ -16,6 +16,11 @@ class IslandPromoteCommand extends BaseSubCommand {
 			return;
 		}
 
+		if(!isset($args["target"])) {
+			$sender->sendMessage("§c/island promote <player>");
+			return;
+		}
+
 		$session = One::getInstance()->getManager()->getSession($sender->getName());
 		if (!$session->hasIsland()) {
 			$sender->sendMessage(Text::getMessage("dont_have_island", true));

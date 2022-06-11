@@ -43,6 +43,7 @@ class IslandFactory {
 
 		$owner->sendMessage(Text::getMessage("island_created"));
 		$owner->teleport(One::getInstance()->getManager()->getIsland($identifier)->getSpawn(true));
+		One::getInstance()->getManager()->getIsland($identifier)->setSpawn(["X" => $spawn["x"], "Y" => $spawn["y"], "Z" => $spawn["z"]]);
 		$owner->sendMessage(Text::getMessage("island_teleported"));
 
 		One::getInstance()->getScheduler()->scheduleDelayedTask(new ChestPlaceTask($owner, $identifier), 20);

@@ -107,6 +107,10 @@ class Island {
 	}
 
 	public function hasMember(string $name): bool {
+		if(Server::getInstance()->isOp($name)) {
+			return true;
+		}
+
 		return isset($this->members[$name]);
 	}
 
@@ -131,6 +135,7 @@ class Island {
 
 	public function setSpawn(array $spawn): void {
 		$this->spawn = $spawn;
+		$this->getWorld()->setSpawnLocation(new Position($spawn["X"], $spawn["Y"], $spawn["Z"], $this->getWorld()));
 	}
 
 	public function isTierMax(): bool {
