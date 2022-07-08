@@ -38,6 +38,7 @@ class IslandFactory {
 			],
 			$tier,
 			0,
+			0,
 			true
 		));
 
@@ -75,6 +76,7 @@ class IslandFactory {
 				[],
 				$file->get("spawn"),
 				One::getInstance()->getManager()->getTier($file->get("tier")),
+				$file->get("count"),
 				$file->get("objective"),
 				$file->get("isPublic")
 			), true);
