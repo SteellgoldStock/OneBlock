@@ -22,6 +22,7 @@ use pocketmine\item\Item;
 use pocketmine\item\ItemBlock;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use pocketmine\world\Position;
 use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\instances\Session;
@@ -37,6 +38,7 @@ class IslandListener implements Listener {
 	 */
 	public function onJoin(PlayerJoinEvent $event) {
 		$player = $event->getPlayer();
+		$player->setGamemode(GameMode::SURVIVAL());
 		if (!One::getInstance()->getManager()->hasSession($player->getName())) {
 			$identifier = One::getInstance()->getManager()->getIslandIdentifierByPlayer($player->getName());
 			$island = One::getInstance()->getManager()->hasIsland($player->getName());
@@ -59,15 +61,6 @@ class IslandListener implements Listener {
 				false,
 				false
 			));
-		}
-
-		$session = One::getInstance()->getManager()->getSession($player->getName());
-		if (One::getInstance()->getIslandConfig()->get("auto_island")) {
-			if ($session->hasIsland()) {
-				$island = $session->getIsland();
-				$session->setIsInIsland(true);
-				$player->teleport($island->getSpawn());
-			}
 		}
 	}
 
@@ -139,16 +132,19 @@ class IslandListener implements Listener {
 		}
 
 		$blocks = One::getInstance()->getManager()->getTier();
+
 		if ($event->getBlock()->getPosition() == new Position(0, 38, 0, $player->getWorld())) {
 			$session->getIsland()->addToObjective($player);
 			$player->sendTip(str_replace(
-				["{TIER_LEVEL}", "{COUNT}"],
-				[$island->getTier()->getId(), $island->getObjective()],
+				["{TIER_NAME}","{TIER_LEVEL}", "{COUNT}"],
+				[$island->getTier()->getName(), $island->getTier()->getId(), $island->getObjective()],
 				One::getInstance()->getConfig()->get("messages")["xp-tip"] ?? "§a+1 | Tier {TIER_LEVEL}\n§f{COUNT} blocks breaked"
 			));
 
 			$block = $blocks->getChanceBlock()[0];
 			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($block, $event->getBlock()->getPosition()), 1);
+
+
 		}
 	}
 
@@ -165,6 +161,29 @@ class IslandListener implements Listener {
 		}
 	}
 
+	public function onMoveCheckSessionVisit(PlayerMoveEvent $event) {
+		$player = $event->getPlayer();
+		$session = One::getInstance()->getManager()->getSession($player->getName());
+
+		if ($session == null) {
+			$player->kick("Player have don't valid session");
+			return;
+		}
+
+		if($session->isInIsland() or str_starts_with($player->getWorld()->getFolderName(), "island-")) {
+			if(str_starts_with($player->getWorld()->getFolderName(), "island-")){
+				$session->setIsInIsland(false);
+			}
+		}
+
+		if($session->isInVisit()){
+			if(!str_starts_with($player->getWorld()->getFolderName(),"island-")){
+				$session->setIsInVisit(false);
+				$player->setGamemode(GameMode::SURVIVAL());
+			}
+		}
+	}
+
 	public function onMove(PlayerMoveEvent $event) {
 		$player = $event->getPlayer();
 		$session = One::getInstance()->getManager()->getSession($player->getName());
@@ -177,6 +196,11 @@ class IslandListener implements Listener {
 
 		$island = One::getInstance()->getManager()->getIsland($player->getWorld()->getFolderName());
 		if ($event->getPlayer()->getPosition()->getY() < One::getInstance()->getIslandConfig()->get("reteleport_at_y")) {
+			if ($session->isInVisit()) {
+				$player->teleport(Server::getInstance()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
+				return;
+			}
+
 			$player->teleport($island->getSpawn());
 			$player->sendMessage(Text::getMessage("island_falled_reteleported"));
 		}
@@ -205,6 +229,7 @@ class IslandListener implements Listener {
 			$session = One::getInstance()->getManager()->getSession($player->getName());
 			$session->setIsInIsland(false);
 			$session->setIsInVisit(false);
+			$session->getPlayer()->setGamemode(GameMode::SURVIVAL());
 			One::getInstance()->getManager()->getSession($player->getName())->closeSession();
 		}
 	}
