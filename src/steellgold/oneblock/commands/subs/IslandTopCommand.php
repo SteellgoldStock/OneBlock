@@ -40,7 +40,7 @@ class IslandTopCommand extends BaseSubCommand {
 				$i,
 				$island->getOwner(),
 				$island->getTier()->getId(),
-				$island->getObjective(),
+				$island->getCount(),
 				$island->getTier()->getBreakToUp() ?? 0
 			];
 
