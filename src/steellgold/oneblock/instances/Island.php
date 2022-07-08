@@ -10,6 +10,7 @@ use pocketmine\world\Position;
 use pocketmine\world\World;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
+use xenialdan\apibossbar\BossBar;
 
 class Island {
 
@@ -39,6 +40,9 @@ class Island {
 		$this->init();
 	}
 
+	/** @var BossBar */
+	public static BossBar $bar;
+
 	/**
 	 * @throws JsonException
 	 */
@@ -55,6 +59,8 @@ class Island {
 			$island->set("isPublic", $this->isPublic);
 			$island->save();
 		}
+
+		self::$bar = new BossBar();
 	}
 
 	public function getId(): string {
