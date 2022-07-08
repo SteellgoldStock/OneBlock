@@ -196,7 +196,7 @@ class Island {
 		foreach ($this->getMembers() as $member => $rank) {
 			$mbr = Server::getInstance()->getPlayerByPrefix($member);
 			if ($mbr instanceof Player) {
-				$mbr->sendMessage(Text::getMessage("level-passed", false, ["{OLD_TIER_NAME}", "{NEW_TIER_NAME}"], [$old->getName(), $this->getTier()->getName()]));
+				$this->sendSuccess($mbr, $this->getTier(), $old);
 			}
 		}
 		return true;
@@ -280,6 +280,44 @@ class Island {
 			self::$bar->setTitle(str_replace("{OWNER}", $this->getOwner(), One::getInstance()->getConfig()->get("messages")["bb-title"]));
 			self::$bar->setSubTitle(str_replace(["{COUNT}", "{TIER_NAME}", "{MAX}"], [$this->getObjective(), $this->getTier()->getName(), $this->getTier()->getBreakToUp()], One::getInstance()->getConfig()->get("messages")["bb-subtitle"]));
 			self::$bar->setPercentage($this->getObjective() / $this->getTier()->getBreakToUp());
+		}
+	}
+
+	// other
+
+	private function sendSuccess(Player $player, Tier $tier, Tier $oldTier): void {
+		$config = One::getInstance()->getIslandConfig()->get("tier_up");
+
+		$find = ["{UPPER}", "{TIER_NAME}", "{OLD_TIER_NAME}"];
+		$replace = [$player->getName(), $tier->getId(), $oldTier->getName()];
+
+		switch ($config["type"]) {
+			case "title":
+				foreach ($this->getMembers() as $member => $rank) {
+					$player = One::getInstance()->getServer()->getPlayerExact($member);
+					if ($player instanceof Player) {
+						$player->sendTitle(str_replace($find, $replace, $config["title"]), str_replace($find, $replace, $config["subtitle"]));
+					}
+				}
+				break;
+			case "tip":
+			case "popup":
+				foreach ($this->getMembers() as $member => $rank) {
+					$player = One::getInstance()->getServer()->getPlayerExact($member);
+					if ($player instanceof Player) {
+						if ($config["type"] == "tip") $player->sendTip(str_replace($find, $replace, $config["tip"]));
+						if ($config["type"] == "popup") $player->sendTip(str_replace($find, $replace, $config["popup"]));
+					}
+				}
+				break;
+			case "message":
+				foreach ($this->getMembers() as $member => $rank) {
+					$player = One::getInstance()->getServer()->getPlayerExact($member);
+					if ($player instanceof Player) {
+						$player->sendMessage(Text::getMessage("tier_up", false, $find, $replace, "message"));
+					}
+				}
+				break;
 		}
 	}
 }
