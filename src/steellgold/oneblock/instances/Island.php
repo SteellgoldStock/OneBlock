@@ -37,7 +37,8 @@ class Island {
 		public int    $count,
 		public int    $objective,
 		public bool   $isPublic,
-		public int    $pts
+		public int    $pts,
+		public array  $blocksPoints
 	) {
 		$this->init();
 	}
@@ -326,6 +327,23 @@ class Island {
 	public function getPoints(): int {
 		return $this->pts;
 	}
+
+	public function addBlockPoint(string $xyz, mixed $idmeta) {
+		$this->blocksPoints[$xyz] = $idmeta;
+	}
+
+	public function removeBlockPoint(string $xyz): void {
+		unset($this->blocksPoints[$xyz]);
+	}
+
+	public function existBlockPoint(string $xyz): bool {
+		return key_exists($xyz, $this->blocksPoints);
+	}
+
+	public function getBlockPoints(): array {
+		return $this->blocksPoints;
+	}
+
 	/**
 	 * @param Config $island
 	 * @return void
