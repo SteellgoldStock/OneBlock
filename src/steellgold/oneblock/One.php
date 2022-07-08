@@ -60,7 +60,7 @@ class One extends PluginBase {
 
 		$this->getServer()->getCommandMap()->register("oneblock", new IslandCommand($this, "island", Text::getCommandDescription("default"), ["is"]));
 		$this->getServer()->getPluginManager()->registerEvents(new IslandListener(), $this);
-		$this->getScheduler()->scheduleRepeatingTask(new BossBarTask(), 20*3);
+		$this->getScheduler()->scheduleRepeatingTask(new BossBarTask(), 20 * $this->getConfig()->get("taskBossBarInterval", 10));
 	}
 
 	protected function onDisable(): void {

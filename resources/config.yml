@@ -1,3 +1,4 @@
+taskBossBarInterval: 10
 commands:
   create: "Permet de creer son île"
   go: "Permet de se téléporter à son île"
