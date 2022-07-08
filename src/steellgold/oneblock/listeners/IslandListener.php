@@ -25,6 +25,7 @@ use pocketmine\item\ItemBlock;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\Server;
+use pocketmine\utils\Config;
 use pocketmine\world\Position;
 use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\instances\Session;
@@ -36,8 +37,10 @@ use steellgold\oneblock\task\BlockUpdateTask;
 class IslandListener implements Listener {
 
 	private array $blocks;
+	private Config $blocksData;
 
 	public function __construct() {
+		$this->blocksData = new Config(One::getInstance()->getDataFolder() . "blocks.yml", Config::JSON);
 		foreach (One::getInstance()->getIslandConfig()->get("points") as $block => $points) {
 			$this->blocks[$block] = $points;
 		}
@@ -101,6 +104,9 @@ class IslandListener implements Listener {
 
 	public function onPlace(BlockPlaceEvent $event) {
 		if (!str_starts_with($event->getPlayer()->getWorld()->getFolderName(), "island-")) return;
+		$pos = $event->getBlock()->getPosition();
+		$xyz = $pos->getFloorX() . ":" . $pos->getFloorY() . ":" . $pos->getFloorZ();
+		var_dump($xyz);
 
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
 		if ($island == null) return;
@@ -108,8 +114,9 @@ class IslandListener implements Listener {
 			$event->cancel();
 		}
 
-		$idmeta = $event->getBlock()->getId() . ":" . $event->getBlock()->getMeta();
-		if (isset($this->blocks[$idmeta])) {
+		$idmeta = "{$event->getBlock()->getId()}:{$event->getBlock()->getMeta()}";
+		if (key_exists($idmeta,$this->blocks)) {
+			$island->addBlockPoint($xyz, $this->blocks[$idmeta]);
 			$event->getPlayer()->sendMessage($this->blocks[$idmeta] . " points gagnées");
 		}
 	}

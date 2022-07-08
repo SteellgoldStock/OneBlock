@@ -62,8 +62,8 @@ ranks:
     permissions: "*"
 
 points:
-  - "42:0": 2
-  - "57:0": 5
+  "42:0": 2
+  "57:0": 5
 
 tiers:
   1:

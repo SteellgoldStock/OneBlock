@@ -100,6 +100,7 @@ messages:
 
   # Help
   xp-tip: "§a+1 | {TIER_NAME}\n§f{COUNT} blocs cassées"
+  points-tip: "§a+{PTS_EARN} points"
 
   # Bossbar
   bb-title: "§aIle de {OWNER}"
