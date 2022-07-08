@@ -8,6 +8,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
+use steellgold\oneblock\commands\subs\IslandAdminCommand;
 use steellgold\oneblock\instances\Island;
 use steellgold\oneblock\instances\Rank;
 use steellgold\oneblock\instances\Session;

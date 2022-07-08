@@ -1,6 +1,7 @@
 taskBossBarInterval: 10
 
 commands:
+  admin: "Commande d'administration"
   create: "Permet de creer son île"
   go: "Permet de se téléporter à son île"
   members: "Permet de voir la liste des membres de son île et leur rank"

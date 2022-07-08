@@ -5,6 +5,7 @@ namespace steellgold\oneblock\commands;
 use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
 use steellgold\oneblock\commands\subs\IslandAcceptCommand;
+use steellgold\oneblock\commands\subs\IslandAdminCommand;
 use steellgold\oneblock\commands\subs\IslandCreateCommand;
 use steellgold\oneblock\commands\subs\IslandDeleteCommand;
 use steellgold\oneblock\commands\subs\IslandDemoteCommand;
@@ -41,6 +42,7 @@ class IslandCommand extends BaseCommand {
 	}
 
 	protected function prepare(): void {
+		$this->registerSubCommand(new IslandAdminCommand("admin", Text::getCommandDescription("admin"))); # OK
 		$this->registerSubCommand(new IslandCreateCommand("create", Text::getCommandDescription("create"))); # OK
 		$this->registerSubCommand(new IslandGoCommand("go", Text::getCommandDescription("go"))); # OK
 		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit"))); # OK
