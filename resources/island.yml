@@ -61,24 +61,28 @@ ranks:
     name: "Chef"
     permissions: "*"
 
+points:
+  - "42:0": 2
+  - "57:0": 5
+
 tiers:
   1:
     name: "Tier I"
-    breakToUp: 10
+    breakToUp: 100
     blocks:
       - "1:0:50"
       - "3:0:20"
       - "5:0:30"
   2:
     name: "Tier II"
-    breakToUp: 20
+    breakToUp: 200
     blocks:
       - "1:0:50"
       - "3:0:40"
       - "5:0:10"
   3:
     name: "Tier III"
-    breakToUp: 30
+    breakToUp: 300
     blocks:
       - "1:0:50"
       - "3:0:40"
