@@ -59,6 +59,7 @@ class Manager {
 						[],
 						$config->get("spawn"),
 						$this->getTier($config->get("tier")),
+						$config->get("count"),
 						$config->get("objective"),
 						$config->get("isPublic")
 					);
@@ -96,7 +97,7 @@ class Manager {
 	public function getIslandsTop(): array {
 		$islands = [];
 		foreach ($this->islands as $key => $island) {
-			$islands[$island->getId()] = $island->getObjective();
+			$islands[$island->getId()] = $island->getCount();
 		}
 		return $islands;
 	}
