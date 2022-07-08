@@ -38,7 +38,6 @@ tier_up:
   type: title
   title: "§a§lNOUVEAU TIER DÉBLOQUER"
   subtitle: "§aVous avez atteint le §fniveau {TIER_LEVEL} §ade l'île !"
-  time: 40 # in milliseconds
   # tip: "Niveau supérieur de l'île !"
   # popup: "Niveau supérieur de l'île !"
   # message: "Bravo à §f{UPPER}§a, il vient de faire passer l'île au §f{TIER_NAME} §a!"
