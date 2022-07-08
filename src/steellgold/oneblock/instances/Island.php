@@ -177,6 +177,7 @@ class Island {
 		}
 
 		$old = $this->tier;
+		$this->objective = 0;
 		$this->setTier(One::getInstance()->getManager()->getTier($this->tier->getId() + 1));
 		foreach ($this->getMembers() as $member => $rank) {
 			$mbr = Server::getInstance()->getPlayerByPrefix($member);
