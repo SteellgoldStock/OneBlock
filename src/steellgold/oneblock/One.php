@@ -26,7 +26,6 @@ class One extends PluginBase {
 	public Config $islandConfig;
 
 	public function getIslandConfig(): Config {
-		if (!$this->islandConfig) $this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
 		return $this->islandConfig;
 	}
 
