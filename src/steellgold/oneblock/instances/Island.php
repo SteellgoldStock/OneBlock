@@ -16,7 +16,7 @@ class Island {
 	/**
 	 * @param string $id
 	 * @param string $owner
-	 * @param string $members
+	 * @param array $members
 	 * @param array $visitors
 	 * @param array $spawn
 	 * @param Tier $tier
