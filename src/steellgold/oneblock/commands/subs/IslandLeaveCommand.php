@@ -5,6 +5,7 @@ namespace steellgold\oneblock\commands\subs;
 use CortexPE\Commando\BaseSubCommand;
 use JsonException;
 use pocketmine\command\CommandSender;
+use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
@@ -34,6 +35,7 @@ class IslandLeaveCommand extends BaseSubCommand {
 		$session->getIsland()->delMember($sender->getName());
 		$session->setIsland(null);
 		$sender->sendMessage(Text::getMessage("island_left"));
+		$session->getPlayer()->setGamemode(GameMode::SURVIVAL());
 	}
 
 	protected function prepare(): void {
