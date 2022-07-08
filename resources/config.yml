@@ -95,6 +95,7 @@ messages:
 
   # Help
   xp-tip: "§a+1 | {TIER_NAME}\n§f{COUNT} blocs cassées"
+  level-passed: "Votre niveau de l'île est passé de §f{OLD_TIER_NAME} §aà §f{NEW_TIER_NAME}"
 
   help-top: "§a---- Liste des commandes ----"
   help-line: "§a/is {COMMAND}: §f{DESCRIPTION}"
