@@ -4,6 +4,7 @@ namespace steellgold\oneblock\provider;
 
 use JsonException;
 use pocketmine\block\BlockFactory;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\Config;
@@ -37,6 +38,7 @@ class Manager {
 			$blocks = [];
 			$i = 0;
 			foreach ($tier['blocks'] as $block) {
+				var_dump($block);
 				$b = explode(':', $block);
 				$blocks[$i] = [
 					BlockFactory::getInstance()->get($b[0], $b[1]),
@@ -46,6 +48,8 @@ class Manager {
 			}
 			$this->tiers[$tierId] = new Tier($tierId, $tier["name"], $tier["breakToUp"], $blocks);
 		}
+
+		var_dump($this->tiers[6]);
 
 		foreach (scandir(One::getInstance()->getDataFolder() . "../../worlds/") as $world) {
 			if (str_starts_with($world, "island-")) {
