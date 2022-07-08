@@ -54,13 +54,7 @@ class Island {
 			$island->set("owner", $this->owner);
 			$island->set("members", $this->members);
 			$island->set("visitors", []);
-			$island->set("spawn", $this->spawn);
-			$island->set("tier", $this->tier->getId());
-			$island->set("count", $this->count);
-			$island->set("objective", $this->objective);
-			$island->set("isPublic", $this->isPublic);
-			$island->set("pts", $this->pts);
-			$island->save();
+			$this->extracted($island);
 		}
 
 		self::$bar = new BossBar();
@@ -78,13 +72,7 @@ class Island {
 		$island->set("owner", $this->owner);
 		$island->set("members", $this->members);
 		$island->set("visitors", $this->visitors);
-		$island->set("spawn", $this->spawn);
-		$island->set("tier", $this->tier->getId());
-		$island->set("count", $this->count);
-		$island->set("objective", $this->objective);
-		$island->set("isPublic", $this->isPublic);
-		$island->set("pts", $this->pts);
-		$island->save();
+		$this->extracted($island);
 	}
 
 	public function getRank(string $player, bool $integer = false): int|Rank {
@@ -337,5 +325,20 @@ class Island {
 
 	public function getPoints(): int {
 		return $this->pts;
+	}
+	/**
+	 * @param Config $island
+	 * @return void
+	 * @throws JsonException
+	 */
+	public function extracted(Config $island): void {
+		$island->set("spawn", $this->spawn);
+		$island->set("tier", $this->tier->getId());
+		$island->set("count", $this->count);
+		$island->set("objective", $this->objective);
+		$island->set("isPublic", $this->isPublic);
+		$island->set("pts", $this->pts);
+		$island->set("blocksPoints", $this->blocksPoints);
+		$island->save();
 	}
 }
