@@ -62,7 +62,8 @@ class Manager {
 						$config->get("count"),
 						$config->get("objective"),
 						$config->get("isPublic"),
-						$config->get("pts")
+						$config->get("pts"),
+						$config->get("blocksPoints")
 					);
 				}
 			}

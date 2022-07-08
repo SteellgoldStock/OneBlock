@@ -25,6 +25,7 @@ class Island {
 	 * @param int $objective
 	 * @param bool $isPublic
 	 * @param int $pts
+	 * @param array $blocksPoints
 	 * @throws JsonException
 	 */
 	public function __construct(
@@ -328,7 +329,7 @@ class Island {
 		return $this->pts;
 	}
 
-	public function addBlockPoint(string $xyz, mixed $idmeta) {
+	public function addBlockPoint(string $xyz, string $idmeta): void {
 		$this->blocksPoints[$xyz] = $idmeta;
 	}
 

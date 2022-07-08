@@ -40,7 +40,8 @@ class IslandFactory {
 			0,
 			0,
 			true,
-			0
+			0,
+			[]
 		));
 
 		$owner->sendMessage(Text::getMessage("island_created"));
@@ -80,7 +81,8 @@ class IslandFactory {
 				$file->get("count"),
 				$file->get("objective"),
 				$file->get("isPublic"),
-				$file->get("pts")
+				$file->get("pts"),
+				$file->get("blocksPoints")
 			), true);
 		}
 	}

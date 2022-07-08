@@ -37,6 +37,7 @@ use steellgold\oneblock\task\BlockUpdateTask;
 class IslandListener implements Listener {
 
 	private array $blocks;
+
 	private Config $blocksData;
 
 	public function __construct() {
@@ -115,9 +116,12 @@ class IslandListener implements Listener {
 		}
 
 		$idmeta = "{$event->getBlock()->getId()}:{$event->getBlock()->getMeta()}";
-		if (key_exists($idmeta,$this->blocks)) {
+		if (key_exists($idmeta, $this->blocks)) {
+
 			$island->addBlockPoint($xyz, $this->blocks[$idmeta]);
-			$event->getPlayer()->sendMessage($this->blocks[$idmeta] . " points gagnées");
+			$island->addPoints($this->blocks[$idmeta]);
+
+			$event->getPlayer()->sendTip(str_replace("{PTS_EARN}", $this->blocks[$idmeta], One::getInstance()->getConfig()->get("messages")["points-earn-tip"]));
 		}
 	}
 
@@ -150,6 +154,17 @@ class IslandListener implements Listener {
 
 		if ($session->isInVisit() and in_array($player->getName(), $island->getVisitors())) {
 			$event->cancel();
+			return;
+		}
+
+		$pos = $event->getBlock()->getPosition();
+		$xyz = $pos->getFloorX() . ":" . $pos->getFloorY() . ":" . $pos->getFloorZ();
+		$idmeta = "{$event->getBlock()->getId()}:{$event->getBlock()->getMeta()}";
+
+		if($island->existBlockPoint($xyz)){
+			$island->removeBlockPoint($xyz);
+			$island->removePoints($this->blocks[$idmeta]);
+			$player->sendTip(str_replace("{PTS_LOST}", $this->blocks[$idmeta], One::getInstance()->getConfig()->get("messages")["points-lost-tip"]));
 			return;
 		}
 
