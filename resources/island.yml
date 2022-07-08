@@ -66,21 +66,21 @@ ranks:
 tiers:
   1:
     name: "Tier I"
-    breakToUp: 100
+    breakToUp: 10
     blocks:
       - "1:0:50"
       - "3:0:20"
       - "5:0:30"
   2:
     name: "Tier II"
-    breakToUp: 200
+    breakToUp: 20
     blocks:
       - "1:0:50"
       - "3:0:40"
       - "5:0:10"
   3:
     name: "Tier III"
-    breakToUp: 300
+    breakToUp: 30
     blocks:
       - "1:0:50"
       - "3:0:40"

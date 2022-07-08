@@ -94,7 +94,7 @@ messages:
   timer_create: "Patientez encore §f{MINUTES} minutes §cet §f{SECONDS} secondes §cavant de pouvoir créer une nouvelle île"
 
   # Help
-  xp-tip: "§a+1 | Tier {TIER_LEVEL}\n§f{COUNT} blocs cassées"
+  xp-tip: "§a+1 | {TIER_NAME}\n§f{COUNT} blocs cassées"
 
   help-top: "§a---- Liste des commandes ----"
   help-line: "§a/is {COMMAND}: §f{DESCRIPTION}"
