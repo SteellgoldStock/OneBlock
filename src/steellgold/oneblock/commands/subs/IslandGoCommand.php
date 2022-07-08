@@ -4,6 +4,7 @@ namespace steellgold\oneblock\commands\subs;
 
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
+use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
@@ -23,6 +24,7 @@ class IslandGoCommand extends BaseSubCommand {
 		}
 
 		$sender->teleport($session->getIsland()->getSpawn());
+		$session->setIsInIsland(true);
 		$message = str_replace(
 			["{ONWER}", "{X}", "{Y}", "{Z}"],
 			[
@@ -34,6 +36,7 @@ class IslandGoCommand extends BaseSubCommand {
 			One::getInstance()->getConfig()->get("messages")["island_teleport"]
 		);
 
+		$session->getPlayer()->setGamemode(GameMode::SURVIVAL());
 		switch (One::getInstance()->getConfig()->get("messages")["island_teleport_type"]) {
 			case "tip":
 				$sender->sendTip($message);
