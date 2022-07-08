@@ -3,9 +3,6 @@ start_inventory:
   - "265:0:64"
   - "266:0"
 
-# Join automatically at player island (if have an island) after joining the server
-auto_island: true
-
 # Visitor settings
 visitor_limit: 1
 visitor_build: false
