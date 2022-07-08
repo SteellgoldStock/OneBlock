@@ -24,7 +24,9 @@ class IslandGoCommand extends BaseSubCommand {
 		}
 
 		$sender->teleport($session->getIsland()->getSpawn());
+		var_dump($session->isInIsland());
 		$session->setIsInIsland(true);
+		var_dump($session->isInIsland());
 		$message = str_replace(
 			["{ONWER}", "{X}", "{Y}", "{Z}"],
 			[
