@@ -133,7 +133,7 @@ class IslandListener implements Listener {
 
 		$blocks = $session->getIsland()->getTier();
 		if ($event->getBlock()->getPosition() == new Position(0, 38, 0, $player->getWorld())) {
-			$session->getIsland()->addToObjective($player);
+			$session->getIsland()->addToObjective();
 			$player->sendTip(str_replace(
 				["{TIER_NAME}", "{TIER_LEVEL}", "{COUNT}"],
 				[$island->getTier()->getName(), $island->getTier()->getId(), $island->getObjective()],
