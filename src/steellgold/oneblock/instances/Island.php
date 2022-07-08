@@ -20,6 +20,7 @@ class Island {
 	 * @param array $visitors
 	 * @param array $spawn
 	 * @param Tier $tier
+	 * @param int $count
 	 * @param int $objective
 	 * @param bool $isPublic
 	 * @throws JsonException
@@ -49,6 +50,7 @@ class Island {
 			$island->set("visitors", []);
 			$island->set("spawn", $this->spawn);
 			$island->set("tier", $this->tier->getId());
+			$island->set("count", $this->count);
 			$island->set("objective", $this->objective);
 			$island->set("isPublic", $this->isPublic);
 			$island->save();
@@ -69,6 +71,7 @@ class Island {
 		$island->set("visitors", $this->visitors);
 		$island->set("spawn", $this->spawn);
 		$island->set("tier", $this->tier->getId());
+		$island->set("count", $this->count);
 		$island->set("objective", $this->objective);
 		$island->set("isPublic", $this->isPublic);
 		$island->save();
