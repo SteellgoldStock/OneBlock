@@ -42,7 +42,7 @@ class IslandInviteCommand extends BaseSubCommand {
 		}
 
 		$player_session = One::getInstance()->getManager()->getSession($player);
-		if(!$player_session->getPlayer()->isOnline()){
+		if (!$player_session->getPlayer()->isOnline()) {
 			$sender->sendMessage(Text::getMessage("player_not_found", true, ["{PLAYER}"], [$args["player"]]));
 			return;
 		}

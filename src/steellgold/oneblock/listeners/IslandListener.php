@@ -136,7 +136,7 @@ class IslandListener implements Listener {
 		if ($event->getBlock()->getPosition() == new Position(0, 38, 0, $player->getWorld())) {
 			$session->getIsland()->addToObjective($player);
 			$player->sendTip(str_replace(
-				["{TIER_NAME}","{TIER_LEVEL}", "{COUNT}"],
+				["{TIER_NAME}", "{TIER_LEVEL}", "{COUNT}"],
 				[$island->getTier()->getName(), $island->getTier()->getId(), $island->getObjective()],
 				One::getInstance()->getConfig()->get("messages")["xp-tip"] ?? "§a+1 | Tier {TIER_LEVEL}\n§f{COUNT} blocks breaked"
 			));
@@ -169,14 +169,14 @@ class IslandListener implements Listener {
 			return;
 		}
 
-		if($session->isInIsland() or str_starts_with($player->getWorld()->getFolderName(), "island-")) {
-			if(str_starts_with($player->getWorld()->getFolderName(), "island-")){
+		if ($session->isInIsland() or str_starts_with($player->getWorld()->getFolderName(), "island-")) {
+			if (str_starts_with($player->getWorld()->getFolderName(), "island-")) {
 				$session->setIsInIsland(false);
 			}
 		}
 
-		if($session->isInVisit()){
-			if(!str_starts_with($player->getWorld()->getFolderName(),"island-")){
+		if ($session->isInVisit()) {
+			if (!str_starts_with($player->getWorld()->getFolderName(), "island-")) {
 				$session->setIsInVisit(false);
 				$player->setGamemode(GameMode::SURVIVAL());
 			}
@@ -209,13 +209,13 @@ class IslandListener implements Listener {
 		$entity = $event->getEntity();
 		$world = $entity->getWorld();
 
-		if($world == null) {
+		if ($world == null) {
 			return;
 		}
 
-		if(!str_starts_with($world->getFolderName(),"island-")) return;
+		if (!str_starts_with($world->getFolderName(), "island-")) return;
 
-		if($event->getCause() == EntityDamageEvent::CAUSE_VOID) {
+		if ($event->getCause() == EntityDamageEvent::CAUSE_VOID) {
 			$entity->teleport($world->getSpawnLocation());
 			$event->cancel();
 		}

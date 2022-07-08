@@ -30,7 +30,7 @@ class IslandAcceptCommand extends BaseSubCommand {
 		if ($session->hasInvitation()) {
 			if ($session->acceptInvitation()) {
 				$session->setIsland(One::getInstance()->getManager()->getIsland($session->getCurrentInvite()["id"]));
-				$session->getIsland()->addMember($sender,1);
+				$session->getIsland()->addMember($sender, 1);
 				foreach ($session->getIsland()->getMembers() as $member => $rankId) {
 					$pmember = Server::getInstance()->getPlayerByPrefix($member);
 					if ($pmember->isOnline()) {
@@ -43,7 +43,7 @@ class IslandAcceptCommand extends BaseSubCommand {
 			} else {
 				$sender->sendMessage(Text::getMessage("island_expired", true));
 			}
-		}else{
+		} else {
 			$sender->sendMessage(Text::getMessage("island_expired", true));
 		}
 	}

@@ -26,7 +26,7 @@ class Session {
 		private bool    $isInVisit = false,
 		private array   $current_invite = [],
 		private ?Player $current_invite_player = null,
-		private int $timer = 0
+		private int     $timer = 0
 	) {
 
 	}
@@ -118,13 +118,13 @@ class Session {
 	}
 
 	public function hasInvitation(): bool {
-		if ($this->current_invite == []){
+		if ($this->current_invite == []) {
 			return false;
 		}
 
-		if(time() >= $this->current_invite["expire"]) return false;
+		if (time() >= $this->current_invite["expire"]) return false;
 
-		if($this->current_invite["expire"] >= time()) return true;
+		if ($this->current_invite["expire"] >= time()) return true;
 		return true;
 	}
 

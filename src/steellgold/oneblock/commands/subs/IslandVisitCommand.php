@@ -26,7 +26,7 @@ class IslandVisitCommand extends BaseSubCommand {
 		if ($session == null) {
 			$config = new Config(One::getInstance()->getDataFolder() . "players.yml", Config::YAML);
 
-			if($config->exists($args["player"])) {
+			if ($config->exists($args["player"])) {
 				One::getInstance()->getServer()->getWorldManager()->loadWorld($config->get($args["player"]));
 				$world = One::getInstance()->getServer()->getWorldManager()->getWorldByName($config->get($args["player"]));
 				if ($world == null) {
@@ -40,7 +40,7 @@ class IslandVisitCommand extends BaseSubCommand {
 				$vsession->setIsInVisit(true);
 				$vsession->setIsInIsland(true);
 				return;
-			}else{
+			} else {
 				$sender->sendMessage(Text::getMessage("player_not_found", true, ["{PLAYER}"], [$args["player"]]));
 				return;
 			}

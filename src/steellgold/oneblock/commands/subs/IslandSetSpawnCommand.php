@@ -46,7 +46,7 @@ class IslandSetSpawnCommand extends BaseSubCommand {
 				"Z" => $sender->getPosition()->getZ(),
 			]);
 			$sender->sendMessage(Text::getMessage("island_setspawn_success", false, ["{OWNER}", "{X}", "{Y}", "{Z}"], [$session->getIsland()->getOwner(), $sender->getPosition()->getX(), $sender->getPosition()->getY(), $sender->getPosition()->getZ()]));
-		}else{
+		} else {
 			$sender->sendMessage(Text::getMessage("setspawn_not_in_island", true));
 			return;
 		}

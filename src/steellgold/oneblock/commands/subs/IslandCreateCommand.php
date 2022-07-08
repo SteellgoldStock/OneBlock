@@ -27,17 +27,17 @@ class IslandCreateCommand extends BaseSubCommand {
 			return;
 		}
 
-		if(
+		if (
 			$session->getTimer() == 0
-			OR
+			or
 			$session->isEndedTimer()
-		){
+		) {
 			IslandFactory::createIsland($sender, One::getInstance()->getManager()->getTier());
-		}else{
+		} else {
 			$time = $session->getTimer() - time();
 			$minutes = floor($time / 60);
 			$seconds = $time % 60;
-			$sender->sendMessage(Text::getMessage("timer_create", true, ["{MINUTES}","{SECONDS}"], [$minutes, $seconds]));
+			$sender->sendMessage(Text::getMessage("timer_create", true, ["{MINUTES}", "{SECONDS}"], [$minutes, $seconds]));
 		}
 	}
 

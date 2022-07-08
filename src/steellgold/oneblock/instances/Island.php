@@ -107,7 +107,7 @@ class Island {
 	}
 
 	public function hasMember(string $name): bool {
-		if(Server::getInstance()->isOp($name)) {
+		if (Server::getInstance()->isOp($name)) {
 			return true;
 		}
 
@@ -179,7 +179,7 @@ class Island {
 		$this->setTier(One::getInstance()->getManager()->getTier($this->tier->getId() + 1));
 		foreach ($this->getMembers() as $member => $rank) {
 			$mbr = Server::getInstance()->getPlayerByPrefix($member);
-			if($mbr instanceof Player) {
+			if ($mbr instanceof Player) {
 				$mbr->sendMessage(Text::getMessage("level-passed", false, ["{OLD_TIER_NAME}", "{NEW_TIER_NAME}"], [$old->getName(), $this->getTier()->getName()]));
 			}
 		}
@@ -189,7 +189,7 @@ class Island {
 	public function setTier(Tier $tier): void {
 		$this->tier = $tier;
 	}
-	
+
 	public function getMembers(): array {
 		return $this->members;
 	}
