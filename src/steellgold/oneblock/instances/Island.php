@@ -145,7 +145,8 @@ class Island {
 		} else return false;
 	}
 
-	public function addToObjective(Player $player, int $count = 1): void {
+	public function addToObjective(int $count = 1): void {
+		$this->count += $count;
 		$this->objective += $count;
 		if ($this->checkTier()) {
 			$tier = $this->addTier();
