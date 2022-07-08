@@ -31,6 +31,7 @@ class Island {
 		public array  $visitors,
 		public array  $spawn,
 		public Tier   $tier,
+		public int    $count,
 		public int    $objective,
 		public bool   $isPublic
 	) {
@@ -227,5 +228,43 @@ class Island {
 
 	public function getPlayerRank(string $player) {
 		return $this->members[$player];
+	}
+
+	// BOSSBAR
+
+	public function addBossbar(Player $player): void {
+		self::$bar->addPlayer($player);
+	}
+
+	public function removeBossbar(Player $player): void {
+		self::$bar->removePlayer($player);
+	}
+
+	public function haveBossbar(Player $player): bool {
+		return in_array($player, self::$bar->getPlayers());
+	}
+
+	public function updateBossbar(): void {
+		if($this->isTierMax()) {
+			if(count(self::$bar->getPlayers()) >= 1) self::$bar->removeAllPlayers();
+			return;
+		}
+
+		foreach ($this->getMembers() as $member => $rank) {
+			$p = Server::getInstance()->getPlayerByPrefix($member);
+			if ($p instanceof Player) {
+				if (!str_starts_with($p->getWorld()->getFolderName(), "island-")) {
+					$this->removeBossbar($p);
+				}else{
+					if(!$this->haveBossbar($p)){
+						$this->addBossbar($p);
+					}
+				}
+			}
+
+			self::$bar->setTitle(str_replace("{OWNER}", $this->getOwner(), One::getInstance()->getConfig()->get("messages")["bb-title"]));
+			self::$bar->setSubTitle(str_replace(["{COUNT}", "{TIER_NAME}", "{MAX}"], [$this->getObjective(), $this->getTier()->getName(), $this->getTier()->getBreakToUp()], One::getInstance()->getConfig()->get("messages")["bb-subtitle"]));
+			self::$bar->setPercentage($this->getObjective() / $this->getTier()->getBreakToUp());
+		}
 	}
 }
