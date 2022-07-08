@@ -163,6 +163,10 @@ class Island {
 		}
 	}
 
+	public function getCount(): int {
+		return $this->count;
+	}
+
 	public function getObjective(): int {
 		return $this->objective;
 	}
