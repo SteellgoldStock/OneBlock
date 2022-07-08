@@ -152,6 +152,8 @@ class Island {
 				return;
 			}
 			$this->sendSuccess($player, One::getInstance()->getManager()->getTier($this->getTier()->getId() - 1));
+		}else{
+			$player->sendMessage("Bravo!");
 		}
 	}
 
