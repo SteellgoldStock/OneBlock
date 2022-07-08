@@ -11,6 +11,8 @@ use steellgold\oneblock\island\generator\OneBlockPreset;
 use steellgold\oneblock\listeners\IslandListener;
 use steellgold\oneblock\provider\Manager;
 use steellgold\oneblock\provider\Text;
+use steellgold\oneblock\task\BossBarTask;
+use xenialdan\apibossbar\PacketListener;
 
 class One extends PluginBase {
 
@@ -50,6 +52,7 @@ class One extends PluginBase {
 	}
 
 	protected function onEnable(): void {
+		PacketListener::register();
 		$this->manager = new Manager();
 
 		if (!PacketHooker::isRegistered()) {
@@ -58,6 +61,7 @@ class One extends PluginBase {
 
 		$this->getServer()->getCommandMap()->register("oneblock", new IslandCommand($this, "island", Text::getCommandDescription("default"), ["is"]));
 		$this->getServer()->getPluginManager()->registerEvents(new IslandListener(), $this);
+		$this->getScheduler()->scheduleRepeatingTask(new BossBarTask(), 20*3);
 	}
 
 	protected function onDisable(): void {
