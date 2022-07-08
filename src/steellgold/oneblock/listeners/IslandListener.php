@@ -142,9 +142,8 @@ class IslandListener implements Listener {
 			));
 
 			$block = $blocks->getChanceBlock()[0];
+			var_dump($block->getName());
 			One::getInstance()->getScheduler()->scheduleDelayedTask(new BlockUpdateTask($block, $event->getBlock()->getPosition()), 1);
-
-
 		}
 	}
 
