@@ -33,23 +33,23 @@ class IslandSetSpawnCommand extends BaseSubCommand {
 			return;
 		}
 
-		if (!$session->isInIsland()) {
-			$sender->sendMessage(Text::getMessage("setspawn_not_in_island", true));
-			return;
-		}
-
 		if ($session->isInVisit()) {
 			$sender->sendMessage(Text::getMessage("commands_visit", true));
 			return;
 		}
 
-		$sender->getWorld()->setSpawnLocation($sender->getPosition());
-		$session->getIsland()->setSpawn([
-			"X" => $sender->getPosition()->getX(),
-			"Y" => $sender->getPosition()->getY(),
-			"Z" => $sender->getPosition()->getZ(),
-		]);
-		$sender->sendMessage(Text::getMessage("island_setspawn_success", false, ["{OWNER}", "{X}", "{Y}", "{Z}"], [$session->getIsland()->getOwner(), $sender->getPosition()->getX(), $sender->getPosition()->getY(), $sender->getPosition()->getZ()]));
+		if ($session->isInIsland()) {
+			$sender->getWorld()->setSpawnLocation($sender->getPosition());
+			$session->getIsland()->setSpawn([
+				"X" => $sender->getPosition()->getX(),
+				"Y" => $sender->getPosition()->getY(),
+				"Z" => $sender->getPosition()->getZ(),
+			]);
+			$sender->sendMessage(Text::getMessage("island_setspawn_success", false, ["{OWNER}", "{X}", "{Y}", "{Z}"], [$session->getIsland()->getOwner(), $sender->getPosition()->getX(), $sender->getPosition()->getY(), $sender->getPosition()->getZ()]));
+		}else{
+			$sender->sendMessage(Text::getMessage("setspawn_not_in_island", true));
+			return;
+		}
 	}
 
 	protected function prepare(): void {
