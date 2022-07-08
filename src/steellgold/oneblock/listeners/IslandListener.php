@@ -3,6 +3,8 @@
 namespace steellgold\oneblock\listeners;
 
 use JsonException;
+use pocketmine\block\Block;
+use pocketmine\block\BlockFactory;
 use pocketmine\entity\object\ItemEntity;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -32,6 +34,15 @@ use steellgold\oneblock\provider\Text;
 use steellgold\oneblock\task\BlockUpdateTask;
 
 class IslandListener implements Listener {
+
+	private array $blocks;
+
+	public function __construct() {
+		foreach (One::getInstance()->getIslandConfig()->get("points") as $block => $points) {
+			var_dump("a");
+			$this->blocks[$block] = $points;
+		}
+	}
 
 	/**
 	 * @throws JsonException
@@ -93,9 +104,19 @@ class IslandListener implements Listener {
 		if (!str_starts_with($event->getPlayer()->getWorld()->getFolderName(), "island-")) return;
 
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
+		var_dump("aa");
 		if ($island == null) return;
+		var_dump("bb");
 		if (!$island->hasMember($event->getPlayer()->getName())) {
 			$event->cancel();
+		}
+
+		var_dump("dd");
+		$idmeta = $event->getBlock()->getId() . ":" . $event->getBlock()->getMeta();
+		var_dump($this->blocks);
+		if (isset($this->blocks[$idmeta])) {
+			var_dump($this->blocks[$idmeta]);
+			$event->getPlayer()->sendMessage($this->blocks[$idmeta] . " points gagnées");
 		}
 	}
 

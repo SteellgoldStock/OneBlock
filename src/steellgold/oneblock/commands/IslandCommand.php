@@ -20,6 +20,7 @@ use steellgold\oneblock\commands\subs\IslandMemberCommand;
 use steellgold\oneblock\commands\subs\IslandPromoteCommand;
 use steellgold\oneblock\commands\subs\IslandSetSpawnCommand;
 use steellgold\oneblock\commands\subs\IslandTopCommand;
+use steellgold\oneblock\commands\subs\IslandTopPointsCommand;
 use steellgold\oneblock\commands\subs\IslandUnlockCommand;
 use steellgold\oneblock\commands\subs\IslandVisitCommand;
 use steellgold\oneblock\One;
@@ -45,6 +46,7 @@ class IslandCommand extends BaseCommand {
 		$this->registerSubCommand(new IslandVisitCommand("visit", Text::getCommandDescription("visit"))); # OK
 		$this->registerSubCommand(new IslandSetSpawnCommand("setspawn", Text::getCommandDescription("setspawn"))); # OK
 		$this->registerSubCommand(new IslandTopCommand("top", Text::getCommandDescription("top"))); # OK
+		$this->registerSubCommand(new IslandTopPointsCommand("toppoints", Text::getCommandDescription("toppoints"))); # OK
 		$this->registerSubCommand(new IslandKickCommand("kick", Text::getCommandDescription("kick"))); # OK
 		$this->registerSubCommand(new IslandHelpCommand("help", Text::getCommandDescription("help"))); # OK
 		$this->registerSubCommand(new IslandDeleteCommand("delete", Text::getCommandDescription("delete"))); # OK

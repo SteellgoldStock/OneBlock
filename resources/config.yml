@@ -1,4 +1,5 @@
 taskBossBarInterval: 10
+
 commands:
   create: "Permet de creer son île"
   go: "Permet de se téléporter à son île"
@@ -9,6 +10,7 @@ commands:
   accept: "Permet de rejoindre l'île dans lasquelle on à été inviter"
   deny: "Permet de refuser l'invitation"
   top: "Affiche l'île avec le plus grand level de tiers"
+  toppoints: "Affiche l'île avec le plus grand nombre de points"
   help: "Affiche toutes les commandes du Plugin de OneBlock"
   leave: "Permet de quitter l'île si on est pas le fondateur de l'île"
   promote: "Permet de monter en grade un membre de son île"
@@ -17,6 +19,8 @@ commands:
   visit: "Permet de visiter l'ile d'un joueur"
   setspawn: "Permet de definir de le point de spawn de l'île"
   default: "Commande de l'ile"
+  lock: "Permet de verrouiller l'île, elle ne peut plus être visitée"
+  unlock: "Permet de déverrouiller l'île, acceptez que les joueurs la visite"
 
 messages:
   prefix:
@@ -110,6 +114,9 @@ messages:
   top-top: "§a---- Classement des îles ----"
   top-line-maxed: "#{ID} | Ile de {OWNER} avec un Tier de niveau maximum et {BLOCKS_BREAKED} blocs cassés"
   top-line: "#{ID} | Ile de {OWNER} avec un Tier {TIER_LEVEL} avec {BLOCKS_BREAKED} blocs cassés sur {TIER_BLOCKS_TO_BREAK}"
+
+  points-top-top: "§a---- Classement des îles (par points) ----"
+  points-top-line: "#{ID} | Ile de {OWNER} avec {POINTS} points"
 
   # Top
   # Tags avaibles:

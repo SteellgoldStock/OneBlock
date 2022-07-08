@@ -24,6 +24,7 @@ class Island {
 	 * @param int $count
 	 * @param int $objective
 	 * @param bool $isPublic
+	 * @param int $pts
 	 * @throws JsonException
 	 */
 	public function __construct(
@@ -35,7 +36,8 @@ class Island {
 		public Tier   $tier,
 		public int    $count,
 		public int    $objective,
-		public bool   $isPublic
+		public bool   $isPublic,
+		public int    $pts
 	) {
 		$this->init();
 	}
@@ -57,6 +59,7 @@ class Island {
 			$island->set("count", $this->count);
 			$island->set("objective", $this->objective);
 			$island->set("isPublic", $this->isPublic);
+			$island->set("pts", $this->pts);
 			$island->save();
 		}
 
@@ -80,6 +83,7 @@ class Island {
 		$island->set("count", $this->count);
 		$island->set("objective", $this->objective);
 		$island->set("isPublic", $this->isPublic);
+		$island->set("pts", $this->pts);
 		$island->save();
 	}
 
@@ -260,8 +264,8 @@ class Island {
 	}
 
 	public function updateBossbar(): void {
-		if($this->isTierMax()) {
-			if(count(self::$bar->getPlayers()) >= 1) self::$bar->removeAllPlayers();
+		if ($this->isTierMax()) {
+			if (count(self::$bar->getPlayers()) >= 1) self::$bar->removeAllPlayers();
 			return;
 		}
 
@@ -270,8 +274,8 @@ class Island {
 			if ($p instanceof Player) {
 				if (!str_starts_with($p->getWorld()->getFolderName(), "island-")) {
 					$this->removeBossbar($p);
-				}else{
-					if(!$this->haveBossbar($p)){
+				} else {
+					if (!$this->haveBossbar($p)) {
 						$this->addBossbar($p);
 					}
 				}
@@ -319,5 +323,19 @@ class Island {
 				}
 				break;
 		}
+	}
+
+	# POINTS
+
+	public function addPoints(int $points = 1): void {
+		$this->pts += $points;
+	}
+
+	public function removePoints(int $points = 1): void {
+		$this->pts -= $points;
+	}
+
+	public function getPoints(): int {
+		return $this->pts;
 	}
 }

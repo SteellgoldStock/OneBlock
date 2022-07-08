@@ -61,7 +61,8 @@ class Manager {
 						$this->getTier($config->get("tier")),
 						$config->get("count"),
 						$config->get("objective"),
-						$config->get("isPublic")
+						$config->get("isPublic"),
+						$config->get("pts")
 					);
 				}
 			}

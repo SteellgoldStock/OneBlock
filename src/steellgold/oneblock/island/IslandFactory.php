@@ -39,7 +39,8 @@ class IslandFactory {
 			$tier,
 			0,
 			0,
-			true
+			true,
+			0
 		));
 
 		$owner->sendMessage(Text::getMessage("island_created"));
@@ -78,7 +79,8 @@ class IslandFactory {
 				One::getInstance()->getManager()->getTier($file->get("tier")),
 				$file->get("count"),
 				$file->get("objective"),
-				$file->get("isPublic")
+				$file->get("isPublic"),
+				$file->get("pts")
 			), true);
 		}
 	}
