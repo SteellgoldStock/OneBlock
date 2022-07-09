@@ -24,8 +24,8 @@ class IslandAdminCommand extends BaseSubCommand {
 			return;
 		}
 
-		if (!Server::getInstance()->isOp($sender->getName())) {
-			$sender->sendMessage("§cYou must be an operator to use this command.");
+		if (!Server::getInstance()->isOp($sender->getName()) or !$sender->hasPermission("oneblock.admin")) {
+			$sender->sendMessage("§cYou must be an operator/have permission §foneblock.admin §cto use this command.");
 			return;
 		}
 
