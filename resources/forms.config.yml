@@ -1,0 +1,6 @@
+taskBossBarInterval: 10
+
+leader_form:
+  title: "Gestion de propriété"
+  label: "§cSi§f l'ile §c{ISLAND_ID} §fest chargée, une fois les modifications appliquées, les membres seront déconnectés, et l'île sera déchargée."
+  new_owner: "Nouveau propriétaire"
