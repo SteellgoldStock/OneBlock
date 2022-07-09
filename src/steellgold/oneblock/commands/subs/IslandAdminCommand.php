@@ -37,10 +37,10 @@ class IslandAdminCommand extends BaseSubCommand {
 			"Interaction d'§c§lOP",
 			"Administrez les îles",
 			[
-				new MenuOption("Changer de compte"),
-				new MenuOption("Supprimer une île"),
-				new MenuOption("Se téléporter à une île"),
-				new MenuOption("Gestion des niveaux")
+				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["leader"]),
+				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["teleport"]),
+				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["delete"]),
+				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["tiers"])
 			],
 			function (Player $player, int $selectedOption) : void {
 				$player->sendForm($this->openSearch(match ($selectedOption) {
@@ -55,9 +55,9 @@ class IslandAdminCommand extends BaseSubCommand {
 
 	public function openSearch(string $option) : CustomForm {
 		return new CustomForm(
-			"Chercher un propriétaire d'île",
+			One::getInstance()->getFormConfig()->get("search_form")["title"],
 			[
-				new Input("start_with","Qui commence par?","Jean")
+				new Input("start_with",One::getInstance()->getFormConfig()->get("search_form")["start_with"],One::getInstance()->getFormConfig()->get("search_form")["start_with_placeholder"])
 			],
 			function (Player $player, CustomFormResponse $response) use ($option) : void {
 				$player->sendForm($this->getList($response->getString("start_with"), $option));
@@ -100,7 +100,7 @@ class IslandAdminCommand extends BaseSubCommand {
 			"Gestion des propriétaires",
 			[
 				new Label("label",str_replace("{ISLAND_ID}", $island, One::getInstance()->getFormConfig()->get("leader_form")["label"])),
-				new Input("new_owner",One::getInstance()->getFormConfig()->get("leader_form")["new_owner"],$player->getName())
+				new Input("new_owner",One::getInstance()->getFormConfig()->get("leader_form")["new_owner"])
 			],
 			function (Player $player, CustomFormResponse $response): void {
 				var_dump($response->getString("label"));

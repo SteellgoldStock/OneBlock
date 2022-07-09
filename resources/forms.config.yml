@@ -9,3 +9,8 @@ leader_form:
   title: "Gestion de propriété"
   label: "§cSi§f l'ile §c{ISLAND_ID} §fest chargée, une fois les modifications appliquées, les membres seront déconnectés, et l'île sera déchargée."
   new_owner: "Nouveau propriétaire"
+
+search_form:
+  title: "Chercher un propriétaire d'île"
+  start_with: "Qui commence par"
+  start_with_placeholder: "Xx_PlayerDuRPG011013Zzz_Xx"
