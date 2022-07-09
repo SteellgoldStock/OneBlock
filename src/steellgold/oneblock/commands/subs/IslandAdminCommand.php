@@ -8,9 +8,12 @@ use dktapps\pmforms\CustomFormResponse;
 use dktapps\pmforms\element\Dropdown;
 use dktapps\pmforms\element\Input;
 use dktapps\pmforms\element\Label;
+use dktapps\pmforms\element\Slider;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
+use dktapps\pmforms\ModalForm;
 use pocketmine\command\CommandSender;
+use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use pocketmine\utils\Config;
@@ -91,8 +94,8 @@ class IslandAdminCommand extends BaseSubCommand {
 				match ($option) {
 					"leader" => $player->sendForm($this->openEditLeaderForm($players[$selectedOption])),
 					"delete" => $player->sendForm($this->openDeleteForm($players[$selectedOption])),
-					// "teleport" => $player->sendForm($this->openTeleportForm($players[$selectedOption])),
-					// "tiers" => $player->sendForm($this->openTiersForm($players[$selectedOption])),
+					"teleport" => $this->teleport($player, $players[$selectedOption]),
+					"tiers" => $player->sendForm($this->openTiersForm($players[$selectedOption])),
 					default => $player->sendMessage("§cAn error occurred.")
 				};
 			}
@@ -167,6 +170,100 @@ class IslandAdminCommand extends BaseSubCommand {
 						)
 					);
 				}
+			}
+		);
+	}
+
+	public function openDeleteForm(string $islandId): ModalForm {
+		return new ModalForm(
+			One::getInstance()->getFormConfig()->get("delete_form")["title"],
+			str_replace("{ISLAND_ID}",$islandId,One::getInstance()->getFormConfig()->get("delete_form")["message"]),
+			function (Player $player, bool $choice) use ($islandId): void {
+				$players = One::getInstance()->getManager()->player_data;
+				$island = One::getInstance()->getManager()->getIsland($islandId);
+				$island->removeBossbarFromAll();
+
+				if($island !== null) {
+					foreach ($island->getMembers() as $member => $rankID) {
+						$msess = One::getInstance()->getManager()->getSession($member);
+						if ($msess !== null) {
+							$msess->setIsland(null);
+							$msess->setIsInIsland(false);
+							$msess->setIsInVisit(false);
+						} else {
+							$players->set($member, null);
+							$players->save();
+						}
+					}
+
+					if(One::getInstance()->getServer()->getWorldManager()->isWorldLoaded($islandId)) One::getInstance()->getServer()->getWorldManager()->unloadWorld(Server::getInstance()->getWorldManager()->getWorldByName($islandId));
+
+					unlink(One::getInstance()->getDataFolder() . "islands/" . $islandId . ".json");
+					One::getInstance()->getManager()->close("islands", $islandId);
+				}else{
+					foreach ($players->getAll() as $player => $island) {
+						if ($island == $islandId) {
+							$players->set($player, null);
+						}
+					}
+					$players->save();
+				}
+
+				$player->sendMessage("§cSuppression de l'île §e" . $islandId . "§c terminée.");
+			},
+			One::getInstance()->getFormConfig()->get("delete_form")["yes"],
+			One::getInstance()->getFormConfig()->get("delete_form")["no"]
+		);
+	}
+
+	private function teleport(Player $player, string $selectedOption) {
+		if (Server::getInstance()->getWorldManager()->isWorldLoaded($selectedOption)) {
+			$player->setGamemode(GameMode::fromString(One::getInstance()->getFormConfig()->get("teleport_mode")) ?? GameMode::CREATIVE());
+			$player->teleport(Server::getInstance()->getWorldManager()->getWorldByName($selectedOption)->getSpawnLocation());
+			return;
+		}
+
+		if(!is_dir(One::getInstance()->getDataFolder() . "islands/" . $selectedOption)) {
+			$player->sendMessage(One::getInstance()->getConfig()->get("messages")["prefix"]["error"] . "§cCette île n'existe pas.");
+			return;
+		}
+
+		Server::getInstance()->getWorldManager()->loadWorld($selectedOption);
+		$player->setGamemode(GameMode::fromString(One::getInstance()->getFormConfig()->get("teleport_mode")) ?? GameMode::CREATIVE());
+		$player->teleport(Server::getInstance()->getWorldManager()->getWorldByName($selectedOption)->getSpawnLocation());
+	}
+
+	public function openTiersForm(string $islandId) : CustomForm {
+		$label = One::getInstance()->getFormConfig()->get("tiers_form")["label"];
+		foreach (One::getInstance()->getIslandConfig()->get("tiers") as $tier => $info) {
+			$label .= str_replace(["{TIER_ID}", "{TIER_NAME}", "{BLOCKS}"],[$tier, $info["name"],$info["breakToUp"]], One::getInstance()->getFormConfig()->get("tiers_form")["label_line"]);
+		}
+
+		return new CustomForm(
+			One::getInstance()->getFormConfig()->get("tiers_form")["title"],
+			[
+				new Label("label", $label),
+				new Slider("tier","Choisissez le niveau", min(array_keys(One::getInstance()->getIslandConfig()->get("tiers"))), max(array_keys(One::getInstance()->getIslandConfig()->get("tiers"))))
+			],
+			function (Player $player, CustomFormResponse $response) use ($islandId) : void {
+				if (One::getInstance()->getIslandConfig()->get("tiers")[(int) $response->getFloat("tier")] === null) {
+					$player->sendMessage(One::getInstance()->getConfig()->get("messages")["prefix"]["error"] . "§cCe niveau n'existe pas.");
+					return;
+				}
+
+				$island = One::getInstance()->getManager()->getIsland($islandId);
+				if ($island === null) {
+					$file = new Config(One::getInstance()->getDataFolder() . "islands/" . $islandId . ".json",Config::JSON);
+					$file->set("tier", (int) $response->getFloat("tier"));
+					$file->save();
+
+					$player->sendMessage("§aVous avez changé le niveau de cette île à " . One::getInstance()->getManager()->getTier((int) $response->getFloat("tier"))->getName());
+					return;
+				}
+
+				$player->sendMessage("§aVous avez changé le niveau de cette île à " . One::getInstance()->getManager()->getTier((int) $response->getFloat("tier"))->getName());
+				$island->setTier(One::getInstance()->getManager()->getTier((int) $response->getFloat("tier")));
+				$island->save();
 			}
 		);
 	}

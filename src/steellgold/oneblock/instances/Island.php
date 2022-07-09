@@ -124,7 +124,7 @@ class Island {
 			return true;
 		}
 
-		return isset($this->members[$name]);
+		return key_exists($name, $this->members);
 	}
 
 	public function addVisitor(string $player): void {
@@ -261,6 +261,10 @@ class Island {
 		self::$bar->removePlayer($player);
 	}
 
+	public function removeBossbarFromAll(): void {
+		self::$bar->removeAllPlayers();
+	}
+
 	public function haveBossbar(Player $player): bool {
 		return in_array($player, self::$bar->getPlayers());
 	}
@@ -279,11 +283,13 @@ class Island {
 				} else {
 					if (!$this->haveBossbar($p)) $this->addBossbar($p);
 				}
-			}
 
-			self::$bar->setTitle(str_replace("{OWNER}", $this->getOwner(), One::getInstance()->getConfig()->get("messages")["bb-title"]));
-			self::$bar->setSubTitle(str_replace(["{COUNT}", "{TIER_NAME}", "{MAX}"], [$this->getObjective(), $this->getTier()->getName(), $this->getTier()->getBreakToUp()], One::getInstance()->getConfig()->get("messages")["bb-subtitle"]));
-			self::$bar->setPercentage($this->getObjective() / $this->getTier()->getBreakToUp());
+				self::$bar->removePlayer($p);
+				self::$bar->setTitle(str_replace("{OWNER}", $this->getOwner(), One::getInstance()->getConfig()->get("messages")["bb-title"]));
+				self::$bar->setSubTitle(str_replace(["{COUNT}", "{TIER_NAME}", "{MAX}"], [$this->getObjective(), $this->getTier()->getName(), $this->getTier()->getBreakToUp()], One::getInstance()->getConfig()->get("messages")["bb-subtitle"]));
+				self::$bar->setPercentage($this->getObjective() / $this->getTier()->getBreakToUp());
+				self::$bar->addPlayer($p);
+			}
 		}
 	}
 
@@ -292,8 +298,8 @@ class Island {
 	private function sendSuccess(Player $player, Tier $tier, Tier $oldTier): void {
 		$config = One::getInstance()->getIslandConfig()->get("tier_up");
 
-		$find = ["{UPPER}", "{TIER_NAME}", "{OLD_TIER_NAME}"];
-		$replace = [$player->getName(), $tier->getId(), $oldTier->getName()];
+		$find = ["{UPPER}", "{TIER_NAME}", "{TIER_LEVEL}", "{OLD_TIER_NAME}"];
+		$replace = [$player->getName(), $tier->getName(), $tier->getId(), $oldTier->getName()];
 
 		switch ($config["type"]) {
 			case "title":

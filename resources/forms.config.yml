@@ -23,5 +23,16 @@ leader_form:
   message_new_owner: "Le propriétaire de l'île est passé à §f{NEW_OWNER}§a. (ancien propriétaire: §f{OLD_OWNER}§a)"
   message_success: "Vous avez changé le propriétaire de l'île §f{ISLAND_ID} §aà §f{NEW_OWNER}§a, le message de changement de grade a été envoyé au §f{COUNT_PING} membres §aconnectées actuellements"
 
+delete_form:
+  title: "Suppression d'île"
+  message: "Êtes-vous sûr de vouloir supprimer l'île §f{ISLAND_ID}§a ? cette action est §cirréversible§f!"
+  yes: "Oui"
+  no: "Non"
+
+tiers_form:
+  title: "Gérer le niveau"
+  label: "Tiers disponibles:"
+  label_line: "\n- ({TIER_ID}) {TIER_NAME}: {BLOCKS} blocs à casser"
+
 # Choose gamemode
-teleport_mode: 1 # 0 = survival, 1 = creative, 2 = adventure, 3 = spectator
+teleport_mode: "creative" # survival, creative, adventure, spectator

@@ -94,15 +94,18 @@ class Session {
 		return $this->island !== null;
 	}
 
+	/**
+	 * @throws JsonException
+	 */
 	public function closeSession(): void {
 		One::getInstance()->getLogger()->info("Closing session for player " . $this->player->getName());
 		One::getInstance()->getManager()->close("sessions", $this->player->getName());
 
 		if ($this->island !== null) {
-			$members = count(array_keys($this->island->getMembers()));
+			$members = count($this->island->getMembers());
 			$i = 0;
-			foreach ($this->island->getMembers() as $member) {
-				if (!Server::getInstance()->getPlayerByPrefix($member) instanceof Player) {
+			foreach ($this->island->getMembers() as $member => $rank) {
+				if (!Server::getInstance()->getPlayerExact($member) instanceof Player) {
 					$i++;
 				}
 			}
