@@ -26,6 +26,7 @@ class One extends PluginBase {
 	public Manager $manager;
 
 	public Config $islandConfig;
+
 	public Config $formConfig;
 
 	public function getIslandConfig(): Config {

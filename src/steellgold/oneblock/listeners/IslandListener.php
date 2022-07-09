@@ -104,7 +104,6 @@ class IslandListener implements Listener {
 		if (!str_starts_with($event->getPlayer()->getWorld()->getFolderName(), "island-")) return;
 		$pos = $event->getBlock()->getPosition();
 		$xyz = $pos->getFloorX() . ":" . $pos->getFloorY() . ":" . $pos->getFloorZ();
-		var_dump($xyz);
 
 		$island = IslandFactory::getIsland($event->getPlayer()->getWorld());
 		if ($island == null) return;
@@ -158,7 +157,7 @@ class IslandListener implements Listener {
 		$xyz = $pos->getFloorX() . ":" . $pos->getFloorY() . ":" . $pos->getFloorZ();
 		$idmeta = "{$event->getBlock()->getId()}:{$event->getBlock()->getMeta()}";
 
-		if($island->existBlockPoint($xyz)){
+		if ($island->existBlockPoint($xyz)) {
 			$island->removeBlockPoint($xyz);
 			$island->removePoints($this->blocks[$idmeta]);
 			$player->sendTip(str_replace("{PTS_LOST}", $this->blocks[$idmeta], One::getInstance()->getConfig()->get("messages")["points-lost-tip"]));

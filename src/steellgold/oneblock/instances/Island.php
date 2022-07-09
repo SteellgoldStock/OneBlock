@@ -94,7 +94,7 @@ class Island {
 
 	public function setRank(string $player, int $rank, bool $updateSession = true, bool $saveDirectly = true): void {
 		$this->members[$player] = $rank;
-		if($saveDirectly) {
+		if ($saveDirectly) {
 			$this->save();
 		}
 
