@@ -43,61 +43,68 @@ class IslandAdminCommand extends BaseSubCommand {
 				new MenuOption("Gestion des niveaux")
 			],
 			function (Player $player, int $selectedOption) : void {
-				if ($selectedOption == 0) {
-					$player->sendForm($this->openList("leader"));
-				}
+				$player->sendForm($this->openSearch(match ($selectedOption) {
+					0 => "leader",
+					1 => "delete",
+					2 => "teleport",
+					3 => "tiers"
+				}));
 			}
 		);
 	}
 
-	public function openList(string $option) : MenuForm {
+	public function openSearch(string $option) : CustomForm {
+		return new CustomForm(
+			"Chercher un propriétaire d'île",
+			[
+				new Input("start_with","Qui commence par?","Jean")
+			],
+			function (Player $player, CustomFormResponse $response) use ($option) : void {
+				$player->sendForm($this->getList($response->getString("start_with"), $option));
+			}
+		);
+	}
 
+	// create function that list player, characters star with "aaa"
+	public function getList(string $startWith, string $option) : MenuForm|CustomForm {
 		$files = scandir(One::getInstance()->getDataFolder() . "islands/");
 		unset($files[0], $files[1]);
 		$files = array_values($files);
 
 		$buttons = [];
-		$islands = [];
+		$players = [];
 		$i = 0;
-		foreach ($files as $file) {
-			$name = str_replace(".json", "", $file);
-			$file = new Config(One::getInstance()->getDataFolder() . "islands/" . $file, Config::JSON);
-			$islands[$i] = $name;
-			$buttons[] = new MenuOption($file->get("owner"));
-			$i++;
+		foreach ($files as $fileName) {
+			$file = new Config(One::getInstance()->getDataFolder() . "islands/" . $fileName, Config::JSON);
+			if (str_starts_with($file->get("owner"), $startWith)) {
+				$buttons[] = new MenuOption($file->get("owner"));
+				$players[$i] = str_replace(".json", "", $fileName);
+				$i++;
+			}
 		}
 
 		return new MenuForm(
-			"Iles",
-			"Choisissez une île",
+			"Liste des îles",
+			"Selectioner une île",
 			$buttons,
-			function (Player $player, int $selectedOption) use ($option, $islands) : void {
-				switch ($option) {
-					case "leader":
-						var_dump($islands[$selectedOption]);
-						$player->sendForm($this->openEditLeaderForm($player, $islands[$selectedOption]));
-						break;
-					case "delete":
-						break;
-					case "teleport":
-						break;
-					case "levels":
-						break;
+			function (Player $player, int $selectedOption) use ($players, $option) : void {
+				if ($option == "leader") {
+					$player->sendForm($this->openEditLeaderForm($players[$selectedOption]));
 				}
 			}
 		);
 	}
 
-	public function openEditLeaderForm(Player $player, string $island) : CustomForm {
+	public function openEditLeaderForm(string $island) : CustomForm {
 		return new CustomForm(
 			"Gestion des propriétaires",
 			[
-				new Label("label","§cSi§f l'ile §c" . $island . " §fest chargée, une fois les modifications appliquées, les membres seront déconnectés, et l'île sera déchargée."),
-				new Input("new_leader","Nouveau propriétaire",$player->getName())
+				new Label("label",str_replace("{ISLAND_ID}", $island, One::getInstance()->getFormConfig()->get("leader_form")["label"])),
+				new Input("new_owner",One::getInstance()->getFormConfig()->get("leader_form")["new_owner"],$player->getName())
 			],
 			function (Player $player, CustomFormResponse $response): void {
-				var_dump($response["label"]);
-				var_dump($response["new_leader"]);
+				var_dump($response->getString("label"));
+				var_dump($response->getString("new_owner"));
 			}
 		);
 	}
