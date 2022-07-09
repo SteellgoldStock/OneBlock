@@ -338,8 +338,8 @@ class Island {
 		return $this->pts;
 	}
 
-	public function addBlockPoint(string $xyz, string $idmeta): void {
-		$this->blocksPoints[$xyz] = $idmeta;
+	public function addBlockPoint(string $xyz, string $data): void {
+		$this->blocksPoints[$xyz] = $data;
 	}
 
 	public function removeBlockPoint(string $xyz): void {
