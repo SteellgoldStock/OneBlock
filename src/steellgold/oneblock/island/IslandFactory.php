@@ -13,7 +13,6 @@ use steellgold\oneblock\island\generator\OneBlockPreset;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 use steellgold\oneblock\task\ChestPlaceTask;
-use steellgold\oneblock\utils\RankIds;
 
 class IslandFactory {
 
@@ -29,7 +28,7 @@ class IslandFactory {
 		One::getInstance()->getManager()->addIsland(new Island(
 			$identifier,
 			$owner->getName(),
-			[$owner->getName() => RankIds::LEADER],
+			[$owner->getName() => 3],
 			[],
 			[
 				"X" => $spawn["x"],
