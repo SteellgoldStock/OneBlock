@@ -274,9 +274,7 @@ class Island {
 				if (!str_starts_with($p->getWorld()->getFolderName(), "island-")) {
 					$this->removeBossbar($p);
 				} else {
-					if (!$this->haveBossbar($p)) {
-						$this->addBossbar($p);
-					}
+					if (!$this->haveBossbar($p)) $this->addBossbar($p);
 				}
 			}
 
