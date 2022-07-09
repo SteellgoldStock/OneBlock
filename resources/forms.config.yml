@@ -1,4 +1,9 @@
-taskBossBarInterval: 10
+
+home_form:
+  leader: "Changer de propriétaire"
+  teleport: "Se téléporter à une ile"
+  delete: "Supprimer une ile"
+  tiers: "Gestion du niveau"
 
 leader_form:
   title: "Gestion de propriété"
