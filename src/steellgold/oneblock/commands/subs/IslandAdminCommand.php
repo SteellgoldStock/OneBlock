@@ -39,8 +39,8 @@ class IslandAdminCommand extends BaseSubCommand {
 			One::getInstance()->getFormConfig()->get("home_form")["label"],
 			[
 				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["leader"]),
-				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["teleport"]),
 				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["delete"]),
+				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["teleport"]),
 				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["tiers"])
 			],
 			function (Player $player, int $selectedOption): void {
