@@ -44,6 +44,13 @@ class Island {
 		$this->init();
 	}
 
+	/**
+	 * @param string $owner
+	 */
+	public function setOwner(string $owner): void {
+		$this->owner = $owner;
+	}
+
 	/** @var BossBar */
 	public static BossBar $bar;
 
