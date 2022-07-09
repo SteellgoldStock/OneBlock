@@ -350,10 +350,6 @@ class Island {
 		return key_exists($xyz, $this->blocksPoints);
 	}
 
-	public function getBlockPoints(): array {
-		return $this->blocksPoints;
-	}
-
 	/**
 	 * @param Config $island
 	 * @return void
