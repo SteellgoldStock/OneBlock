@@ -3,3 +3,7 @@ author: Steellgold
 version: 1.0
 api: 4.0.0
 main: steellgold\oneblock\One
+
+permissions:
+  oneblock.admin:
+    default: op
