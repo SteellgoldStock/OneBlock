@@ -109,18 +109,10 @@ class IslandAdminCommand extends BaseSubCommand {
 
 		unset($ranks[0], $ranks[3]);
 
-		$islandInstance = One::getInstance()->getManager()->getIsland($islandId);
-		if ($islandInstance == null) {
-			$members = "\nLes membres de l'île sont: §a";
-			$islandConfigFile = new Config(One::getInstance()->getDataFolder() . "islands/" . $islandId . ".json", Config::JSON);
-			foreach ($islandConfigFile->get("members") as $member => $rank) {
-				$members .= $member . "§f, §a";
-			}
-		}else{
-			$members = "\nLes membres de l'île sont: §a";
-			foreach ($islandInstance->getMembers() as $member => $rank) {
-				$members .= $member . "§f, §a";
-			}
+		$members = "\nLes membres de l'île sont: §a";
+		$islandConfigFile = new Config(One::getInstance()->getDataFolder() . "islands/" . $islandId . ".json", Config::JSON);
+		foreach ($islandConfigFile->get("members") as $member => $rank) {
+			$members .= $member . "§f, §a";
 		}
 
 		return new CustomForm(
