@@ -5,7 +5,6 @@ namespace steellgold\oneblock\commands\subs;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use steellgold\oneblock\instances\Rank;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 
