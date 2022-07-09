@@ -221,7 +221,10 @@ class Island {
 		$this->isPublic = $isPublic;
 	}
 
-	public function delete() {
+	/**
+	 * @throws JsonException
+	 */
+	public function delete(): void {
 		$players = One::getInstance()->getManager()->player_data;
 		foreach ($this->getMembers() as $member => $rankID) {
 			$msess = One::getInstance()->getManager()->getSession($member);
