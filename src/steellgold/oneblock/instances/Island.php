@@ -372,7 +372,7 @@ class Island {
 		foreach ($this->getMembers() as $member => $rank) {
 			$player = One::getInstance()->getServer()->getPlayerExact($member);
 			if ($player instanceof Player) {
-				$player->sendMessage(One::getInstance()->getConfig()->get("messages")["prefixs"]["success"] . $message);
+				$player->sendMessage(One::getInstance()->getConfig()->get("messages")["prefix"]["success"] . $message);
 				$i++;
 			}
 		}
