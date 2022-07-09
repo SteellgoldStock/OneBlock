@@ -151,7 +151,7 @@ class IslandAdminCommand extends BaseSubCommand {
 					}, true, false);
 					$island->setRank($response->getString("new_owner"), 3);
 
-					$player->sendMessage(str_replace(["{COUNT_PING}", "{ISLAND_ID}", "{NEW_OWNER}"],
+					$player->sendMessage(One::getInstance()->getConfig()->get("messages")["prefix"]["success"] . str_replace(["{COUNT_PING}", "{ISLAND_ID}", "{NEW_OWNER}"],
 							[
 								$island->broadcast(
 									str_replace(
