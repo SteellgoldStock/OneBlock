@@ -240,7 +240,7 @@ class Island {
 		One::getInstance()->getManager()->close("islands", $this->id);
 	}
 
-	public function isMember(string $player) {
+	public function isMember(string $player): bool {
 		return key_exists($player, $this->members);
 	}
 
