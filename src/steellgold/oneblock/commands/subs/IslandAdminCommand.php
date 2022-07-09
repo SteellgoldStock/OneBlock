@@ -172,6 +172,6 @@ class IslandAdminCommand extends BaseSubCommand {
 	}
 
 	protected function prepare(): void {
-		// TODO: Implement prepare() method.
+		$this->setPermission("oneblock.admin");
 	}
 }
