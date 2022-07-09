@@ -14,6 +14,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use pocketmine\utils\Config;
+use pocketmine\world\format\Chunk;
 use steellgold\oneblock\One;
 use steellgold\oneblock\provider\Text;
 
@@ -34,7 +35,7 @@ class IslandAdminCommand extends BaseSubCommand {
 	}
 
 	// Home Form
-	public function getHomeForm() : MenuForm {
+	public function getHomeForm(): MenuForm {
 		return new MenuForm(
 			One::getInstance()->getFormConfig()->get("home_form")["title"],
 			One::getInstance()->getFormConfig()->get("home_form")["label"],
@@ -44,7 +45,7 @@ class IslandAdminCommand extends BaseSubCommand {
 				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["delete"]),
 				new MenuOption(One::getInstance()->getFormConfig()->get("home_form")["tiers"])
 			],
-			function (Player $player, int $selectedOption) : void {
+			function (Player $player, int $selectedOption): void {
 				$player->sendForm($this->openSearch(match ($selectedOption) {
 					0 => "leader",
 					1 => "delete",
@@ -55,19 +56,19 @@ class IslandAdminCommand extends BaseSubCommand {
 		);
 	}
 
-	public function openSearch(string $option) : CustomForm {
+	public function openSearch(string $option): CustomForm {
 		return new CustomForm(
 			One::getInstance()->getFormConfig()->get("search_form")["title"],
 			[
-				new Input("start_with",One::getInstance()->getFormConfig()->get("search_form")["start_with"],One::getInstance()->getFormConfig()->get("search_form")["start_with_placeholder"])
+				new Input("start_with", One::getInstance()->getFormConfig()->get("search_form")["start_with"], One::getInstance()->getFormConfig()->get("search_form")["start_with_placeholder"])
 			],
-			function (Player $player, CustomFormResponse $response) use ($option) : void {
+			function (Player $player, CustomFormResponse $response) use ($option): void {
 				$player->sendForm($this->getList($response->getString("start_with"), $option));
 			}
 		);
 	}
 
-	public function getList(string $startWith, string $option) : MenuForm|CustomForm {
+	public function getList(string $startWith, string $option): MenuForm|CustomForm {
 		$files = scandir(One::getInstance()->getDataFolder() . "islands/");
 		unset($files[0], $files[1]);
 		$files = array_values($files);
@@ -86,9 +87,9 @@ class IslandAdminCommand extends BaseSubCommand {
 
 		return new MenuForm(
 			One::getInstance()->getFormConfig()->get("search_form")["title_select"],
-			str_replace(["{COUNT}","{START_WITH}"], [count($players), $startWith], One::getInstance()->getFormConfig()->get("search_form")[count($players) >= 1 ? "message_founds" : "message_error"]),
+			str_replace(["{COUNT}", "{START_WITH}"], [count($players), $startWith], One::getInstance()->getFormConfig()->get("search_form")[count($players) >= 1 ? "message_founds" : "message_error"]),
 			$buttons,
-			function (Player $player, int $selectedOption) use ($players, $option) : void {
+			function (Player $player, int $selectedOption) use ($players, $option): void {
 				if ($option == "leader") {
 					$player->sendForm($this->openEditLeaderForm($players[$selectedOption]));
 				}
@@ -96,7 +97,7 @@ class IslandAdminCommand extends BaseSubCommand {
 		);
 	}
 
-	public function openEditLeaderForm(string $islandId) : CustomForm {
+	public function openEditLeaderForm(string $islandId): CustomForm {
 		$ranks = [];
 		$i = 0;
 		foreach (One::getInstance()->getManager()->getRanks() as $rank) {
@@ -106,18 +107,26 @@ class IslandAdminCommand extends BaseSubCommand {
 
 		unset($ranks[0], $ranks[3]);
 
-		$members = "\nLes membres de l'île sont: §a";
-		$islandConfigFile = new Config(One::getInstance()->getDataFolder() . "islands/" . $islandId . ".json", Config::JSON);
-		foreach ($islandConfigFile->get("members") as $member => $rank) {
-			$members .= $member . "§f, §a";
+		$islandInstance = One::getInstance()->getManager()->getIsland($islandId);
+		if ($islandInstance == null) {
+			$members = "\nLes membres de l'île sont: §a";
+			$islandConfigFile = new Config(One::getInstance()->getDataFolder() . "islands/" . $islandId . ".json", Config::JSON);
+			foreach ($islandConfigFile->get("members") as $member => $rank) {
+				$members .= $member . "§f, §a";
+			}
+		}else{
+			$members = "\nLes membres de l'île sont: §a";
+			foreach ($islandInstance->getMembers() as $member => $rank) {
+				$members .= $member . "§f, §a";
+			}
 		}
 
 		return new CustomForm(
 			One::getInstance()->getFormConfig()->get("leader_form")["title"],
 			[
-				new Label("label",str_replace("{ISLAND_ID}", $islandId, One::getInstance()->getFormConfig()->get("leader_form")["label"]).$members),
-				new Input("new_owner",One::getInstance()->getFormConfig()->get("leader_form")["new_owner"]),
-				new Dropdown("new_rank",One::getInstance()->getFormConfig()->get("leader_form")["new_rank"],array_values($ranks),0)
+				new Label("label", str_replace("{ISLAND_ID}", $islandId, One::getInstance()->getFormConfig()->get("leader_form")["label"]) . $members),
+				new Input("new_owner", One::getInstance()->getFormConfig()->get("leader_form")["new_owner"]),
+				new Dropdown("new_rank", One::getInstance()->getFormConfig()->get("leader_form")["new_rank"], array_values($ranks), 0)
 			],
 			function (Player $player, CustomFormResponse $response) use ($islandId, $islandConfigFile): void {
 				if (!key_exists($response->getString("new_owner"), $islandConfigFile->get("members"))) {
@@ -127,6 +136,7 @@ class IslandAdminCommand extends BaseSubCommand {
 
 				$island = One::getInstance()->getManager()->getIsland($islandId);
 				if ($island == null) {
+					var_dump("aaa");
 					$members = [];
 					foreach ($islandConfigFile->get("members") as $member => $rank) {
 						$members[$member] = $rank;
@@ -138,12 +148,30 @@ class IslandAdminCommand extends BaseSubCommand {
 
 					$islandConfigFile->set("members", $members);
 					$islandConfigFile->save();
-				}else{
-					$session = One::getInstance()->getManager()->getSession($player);
-
-					$island->setRank($session->getIsland()->getOwner(), $response->getInt("new_rank"));
-					$island->setRank($response->getString("new_owner"), 3);
+				} else {
+					$oldOwnner = $island->getOwner();
 					$island->setOwner($response->getString("new_owner"));
+					$island->setRank($oldOwnner, match ($response->getInt("new_rank")) {
+						0 => 1,
+						1 => 2
+					}, true, false);
+					$island->setRank($response->getString("new_owner"), 3);
+
+					$player->sendMessage(str_replace(["{COUNT_PING}", "{ISLAND_ID}", "{NEW_OWNER}"],
+							[
+								$island->broadcast(
+									str_replace(
+										["{NEW_OWNER}", "{OLD_OWNER}"],
+										[$response->getString("new_owner"), $oldOwnner],
+										One::getInstance()->getFormConfig()->get("leader_form")["message_new_owner"]
+									)
+								),
+								$islandId,
+								$response->getString("new_owner")
+							],
+							One::getInstance()->getFormConfig()->get("leader_form")["message_success"]
+						)
+					);
 				}
 			}
 		);

@@ -92,9 +92,11 @@ class Island {
 		return One::getInstance()->getManager()->ranks[$id];
 	}
 
-	public function setRank(string $player, int $rank, bool $updateSession = true): void {
+	public function setRank(string $player, int $rank, bool $updateSession = true, bool $saveDirectly = true): void {
 		$this->members[$player] = $rank;
-		$this->save();
+		if($saveDirectly) {
+			$this->save();
+		}
 
 		if ($updateSession) {
 			$p = Server::getInstance()->getPlayerByPrefix($player);
@@ -366,5 +368,17 @@ class Island {
 		$island->set("pts", $this->pts);
 		$island->set("blocksPoints", $this->blocksPoints);
 		$island->save();
+	}
+
+	public function broadcast(string $message): int {
+		$i = 0;
+		foreach ($this->getMembers() as $member => $rank) {
+			$player = One::getInstance()->getServer()->getPlayerExact($member);
+			if ($player instanceof Player) {
+				$player->sendMessage(One::getInstance()->getConfig()->get("messages")["prefixs"]["success"] . $message);
+				$i++;
+			}
+		}
+		return $i;
 	}
 }
