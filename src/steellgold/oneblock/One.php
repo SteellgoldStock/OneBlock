@@ -3,6 +3,8 @@
 namespace steellgold\oneblock;
 
 use CortexPE\Commando\PacketHooker;
+use pocketmine\permission\Permission;
+use pocketmine\permission\PermissionManager;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\world\generator\GeneratorManager;
@@ -48,6 +50,8 @@ class One extends PluginBase {
 		self::$instance = $this;
 		$this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
 		$this->formConfig = new Config($this->getDataFolder() . "forms.config.yml", Config::YAML);
+
+		PermissionManager::getInstance()->addPermission(new Permission("oneblock.admin"));
 	}
 
 	/**
