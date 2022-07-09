@@ -34,10 +34,10 @@ class IslandDeleteCommand extends BaseSubCommand {
 			return;
 		}
 
-		$sender->sendForm(self::getForm());
+		$sender->sendForm($this->getForm());
 	}
 
-	public static function getForm(): MenuForm {
+	public function getForm(): MenuForm {
 		$config = One::getInstance()->getConfig()->get("messages");
 		return new MenuForm(
 			$config["island_delete_form_title"],
