@@ -38,10 +38,7 @@ class IslandListener implements Listener {
 
 	private array $blocks;
 
-	private Config $blocksData;
-
 	public function __construct() {
-		$this->blocksData = new Config(One::getInstance()->getDataFolder() . "blocks.yml", Config::JSON);
 		foreach (One::getInstance()->getIslandConfig()->get("points") as $block => $points) {
 			$this->blocks[$block] = $points;
 		}
