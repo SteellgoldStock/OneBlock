@@ -88,11 +88,11 @@ class IslandAdminCommand extends BaseSubCommand {
 			str_replace(["{COUNT}", "{START_WITH}"], [count($players), $startWith], One::getInstance()->getFormConfig()->get("search_form")[count($players) >= 1 ? "message_founds" : "message_error"]),
 			$buttons,
 			function (Player $player, int $selectedOption) use ($players, $option): void {
-				match ($selectedOption) {
-					0 => $player->sendForm($this->openEditLeaderForm($players[$selectedOption])),
-					1 => $player->sendForm($this->openDeleteForm($players[$selectedOption])),
-					// 2 => $player->sendForm($this->openTeleportForm($players[$selectedOption])),
-					// 3 => $player->sendForm($this->openTiersForm($players[$selectedOption])),
+				match ($option) {
+					"leader" => $player->sendForm($this->openEditLeaderForm($players[$selectedOption])),
+					"delete" => $player->sendForm($this->openDeleteForm($players[$selectedOption])),
+					// "teleport" => $player->sendForm($this->openTeleportForm($players[$selectedOption])),
+					// "tiers" => $player->sendForm($this->openTiersForm($players[$selectedOption])),
 					default => $player->sendMessage("§cAn error occurred.")
 				};
 			}
