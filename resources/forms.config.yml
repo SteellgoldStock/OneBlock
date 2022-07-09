@@ -1,16 +1,23 @@
 
 home_form:
+  title: "Interaction d'§c§lOP"
+  label: "Administrez les îles"
   leader: "Changer de propriétaire"
   teleport: "Se téléporter à une ile"
   delete: "Supprimer une ile"
   tiers: "Gestion du niveau"
 
+search_form:
+  title: "Chercher un propriétaire d'île"
+  title_select: "Selectioner une île"
+  start_with: "Qui commence par"
+  start_with_placeholder: "Xx_PlayerDuRPG011013Zzz_Xx"
+  message_founds: "Il y a {COUNT} propriétaires d'îles qui commencent par {START_WITH}"
+  message_error: "§cIl n'y a pas de propriétaire d'île commençant par §f{START_WITH}§c."
+
 leader_form:
   title: "Gestion de propriété"
   label: "§cSi§f l'ile §c{ISLAND_ID} §fest chargée, une fois les modifications appliquées, les membres seront déconnectés, et l'île sera déchargée."
   new_owner: "Nouveau propriétaire"
-
-search_form:
-  title: "Chercher un propriétaire d'île"
-  start_with: "Qui commence par"
-  start_with_placeholder: "Xx_PlayerDuRPG011013Zzz_Xx"
+  new_rank: "Nouveau grade à l'ancien propriétaire"
+  message_success: "Vous avez changé le propriétaire de l'île §f{ISLAND_ID} §aà §f{NEW_OWNER}"
