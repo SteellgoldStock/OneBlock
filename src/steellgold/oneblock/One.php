@@ -24,9 +24,14 @@ class One extends PluginBase {
 	public Manager $manager;
 
 	public Config $islandConfig;
+	public Config $formConfig;
 
 	public function getIslandConfig(): Config {
 		return $this->islandConfig;
+	}
+
+	public function getFormConfig(): Config {
+		return $this->formConfig;
 	}
 
 	public function getManager(): Manager {
@@ -36,11 +41,13 @@ class One extends PluginBase {
 	protected function onLoad(): void {
 		if (!is_dir($this->getDataFolder() . "islands")) mkdir($this->getDataFolder() . "islands");
 		if (!file_exists($this->getDataFolder() . "config.yml")) $this->saveResource("config.yml", true);
+		if (!file_exists($this->getDataFolder() . "forms.config.yml")) $this->saveResource("forms.config.yml", true);
 		if (!file_exists($this->getDataFolder() . "island.yml")) $this->saveResource("island.yml", true);
 		GeneratorManager::getInstance()->addGenerator(OneBlockPreset::class, "OneBlock", fn() => null, true);
 
 		self::$instance = $this;
 		$this->islandConfig = new Config($this->getDataFolder() . "island.yml", Config::YAML);
+		$this->formConfig = new Config($this->getDataFolder() . "forms.config.yml", Config::YAML);
 	}
 
 	/**
