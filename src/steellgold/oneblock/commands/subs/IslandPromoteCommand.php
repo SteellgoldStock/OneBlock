@@ -16,7 +16,7 @@ class IslandPromoteCommand extends BaseSubCommand {
 			return;
 		}
 
-		if (!isset($args["target"])) {
+		if (!$args["target"]) {
 			$sender->sendMessage("§c/island promote <player>");
 			return;
 		}

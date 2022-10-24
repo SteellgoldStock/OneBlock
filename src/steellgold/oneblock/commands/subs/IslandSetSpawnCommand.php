@@ -15,6 +15,8 @@ class IslandSetSpawnCommand extends BaseSubCommand {
 			return;
 		}
 
+		if (!str_starts_with($sender->getWorld()->getFolderName(), "island-")) return;
+
 		$session = One::getInstance()->getManager()->getSession($sender->getName());
 		if (!$session->getIsland()->getRank($sender->getName())->hasPermission("setspawn")) {
 			foreach (One::getInstance()->getManager()->getRanks() as $rankId => $rank) {
